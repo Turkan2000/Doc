@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DLP - Rəqəmsal Logistika Platforması</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #333; min-height: 100vh; }
+    .hidden { display: none !important; }
+
+    /* ========== LOGIN PAGE ========== */
+    .login-page .header {
+      background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      padding: 16px 40px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo-section { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 48px; height: 48px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 18px;
+    }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-text span:first-child { font-weight: 700; font-size: 18px; color: #111; }
+    .logo-text span:last-child { font-size: 12px; color: #64748b; }
+    .nav { display: flex; align-items: center; gap: 28px; }
+    .nav a { text-decoration: none; color: #475569; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+    .nav a:hover { color: #2563eb; }
+    .nav a .nav-chevron { width: 12px; height: 12px; opacity: 0.7; }
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .lang-selector { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 14px; color: #475569; }
+    .lang-selector:hover { color: #2563eb; }
+    .lang-selector .globe-icon { width: 18px; height: 18px; color: #64748b; }
+    .lang-selector .lang-chevron { width: 12px; height: 12px; opacity: 0.7; }
+    .btn-login-header { background: #2563eb; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; }
+    .btn-login-header:hover { background: #1d4ed8; }
+    .main { max-width: 1100px; margin: 60px auto; padding: 0 24px; }
+    .card {
+      background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; min-height: 480px;
+    }
+    .card-left { padding: 48px 40px; display: flex; flex-direction: column; justify-content: center; }
+    .welcome-title { font-size: 28px; font-weight: 700; color: #111; line-height: 1.3; margin-bottom: 8px; }
+    .welcome-title .highlight { color: #2563eb; }
+    .welcome-desc { font-size: 15px; color: #64748b; line-height: 1.6; }
+    .card-right { padding: 48px 40px; border-left: 1px solid #e2e8f0; }
+    .form-title { font-size: 18px; font-weight: 600; color: #111; margin-bottom: 24px; text-align: center; }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; font-weight: 500; color: #475569; margin-bottom: 8px; }
+    .input-row { display: flex; gap: 0; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
+    .input-row:focus-within { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+    .select-wrapper { flex: 0 0 120px; }
+    .select-wrapper select {
+      width: 100%; padding: 12px 36px 12px 14px; border: none; border-right: 1px solid #e2e8f0;
+      font-size: 14px; color: #475569; background: #fff; cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+    }
+    .input-wrapper { flex: 1; }
+    .input-wrapper input {
+      width: 100%; padding: 12px 14px; border: none; font-size: 14px;
+    }
+    .input-wrapper input:focus { outline: none; }
+    .warning-box {
+      background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 14px 16px; margin: 24px 0;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .warning-icon { flex-shrink: 0; width: 24px; height: 24px; background: #f59e0b; color: #fff; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+    .warning-text { font-size: 13px; color: #92400e; line-height: 1.5; }
+    .btn-group { display: flex; flex-direction: column; gap: 12px; }
+    .btn-primary {
+      background: #38bdf8; color: #fff; border: none; padding: 14px 20px; border-radius: 8px;
+      font-weight: 600; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+    }
+    .btn-primary:hover { background: #0ea5e9; }
+    .btn-secondary {
+      background: #fff; color: #111; border: 2px solid #2563eb; padding: 12px 20px; border-radius: 8px;
+      font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+    }
+    .btn-secondary:hover { background: #eff6ff; }
+    .btn-outline { background: #fff; color: #111; border: 2px solid #2563eb; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100%; }
+    .btn-outline:hover { background: #eff6ff; }
+    .digital-icon { width: 8px; height: 8px; background: #2563eb; border-radius: 50%; flex-shrink: 0; }
+
+    /* ========== DASHBOARD (Şəxsi kabinet) ========== */
+    .dashboard-page { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 260px; background: #fff; box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+      padding: 24px 0; flex-shrink: 0; display: flex; flex-direction: column;
+    }
+    .sidebar-logo { padding: 0 24px 24px; border-bottom: 1px solid #e2e8f0; margin-bottom: 16px; }
+    .sidebar-logo .logo { width: 40px; height: 40px; font-size: 14px; }
+    .sidebar-logo .logo-text span:first-child { font-size: 16px; }
+    .sidebar-nav { padding: 0 12px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px;
+      color: #475569; text-decoration: none; font-size: 14px; font-weight: 500; margin-bottom: 4px;
+    }
+    .nav-item:hover { background: #f1f5f9; color: #2563eb; }
+    .nav-item.active { background: #eff6ff; color: #2563eb; }
+    .nav-item .icon { width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .nav-item .icon svg { width: 18px; height: 18px; }
+    .nav-item.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+    .nav-section { margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; }
+    .nav-section-title { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; padding: 0 16px 8px; }
+    .nav-parent {
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px;
+      color: #475569; font-size: 14px; font-weight: 500; margin-bottom: 4px; cursor: pointer;
+      background: none; border: none; width: 100%; text-align: left; font-family: inherit;
+    }
+    .nav-parent:hover { background: #f1f5f9; color: #2563eb; }
+    .nav-parent.expanded { background: #f1f5f9; color: #2563eb; }
+    .nav-parent .icon { width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .nav-parent .icon svg { width: 18px; height: 18px; }
+    .nav-parent .chevron { margin-left: auto; transition: transform 0.2s; }
+    .nav-parent.expanded .chevron { transform: rotate(90deg); }
+    .nav-sub-wrap { overflow: hidden; }
+    .nav-sub-wrap.collapsed { display: none; }
+    .nav-sub-item {
+      display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 48px; border-radius: 8px;
+      color: #475569; text-decoration: none; font-size: 14px; font-weight: 500; margin-bottom: 4px;
+    }
+    .nav-sub-item:hover { background: #f1f5f9; color: #2563eb; }
+    .nav-sub-item.active { background: #eff6ff; color: #2563eb; }
+    .nav-sub-item .icon { width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .nav-sub-item .icon svg { width: 18px; height: 18px; }
+    .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .top-bar {
+      background: #fff; padding: 16px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .top-bar .logo-section .logo { width: 36px; height: 36px; font-size: 14px; }
+    .top-bar .logo-text span:first-child { font-size: 14px; }
+    .top-bar-right { display: flex; align-items: center; gap: 12px; }
+    .top-bar-right .top-bar-divider { width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px; }
+    .icon-btn { width: 36px; height: 36px; min-width: 36px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+    .icon-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .icon-btn svg { width: 18px; height: 18px; color: #475569; }
+    .user-profile-card { display: flex; align-items: center; gap: 12px; padding: 8px 14px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; flex-shrink: 0; }
+    .user-profile-initials { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; background: #2563eb; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; }
+    .user-profile-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .user-profile-name { font-size: 13px; font-weight: 600; color: #1e293b; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+    .content-area {
+      flex: 1; padding: 32px 40px; overflow-y: auto;
+    }
+    .page-title { font-size: 24px; font-weight: 700; color: #111; margin-bottom: 8px; }
+    .page-desc { font-size: 14px; color: #64748b; margin-bottom: 24px; }
+    .section-card {
+      background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 24px; margin-bottom: 20px;
+    }
+    .section-card h2 { font-size: 18px; font-weight: 600; color: #111; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0; }
+    .combo-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; overflow: hidden; }
+    .combo-card-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+    .combo-card-header:hover { background: #f1f5f9; }
+    .combo-card-header h2 { margin: 0; padding: 0; border: none; font-size: 16px; font-weight: 600; color: #334155; }
+    .combo-card-header .chevron { transition: transform 0.2s; }
+    .combo-card-header.expanded .chevron { transform: rotate(180deg); }
+    .combo-card-body { padding: 20px 24px; display: none; border-top: 1px solid #e2e8f0; margin-top: 0; }
+    .combo-card-body.expanded { display: block; }
+    .section-card p { font-size: 14px; color: #64748b; line-height: 1.6; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .tab { padding: 10px 20px; border-radius: 8px; border: none; background: #f1f5f9; color: #475569; font-weight: 500; cursor: pointer; font-size: 14px; }
+    .tab.active { background: #374151; color: #fff; }
+    .tab:hover:not(.active) { background: #e2e8f0; }
+    .table-wrap { overflow-x: auto; }
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; color: #64748b; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+    .data-table td { padding: 16px; font-size: 14px; color: #374151; border-bottom: 1px solid #e2e8f0; }
+    .no-data { padding: 48px; text-align: center; color: #94a3b8; font-size: 14px; }
+    .btn-logout { background: #dc2626; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; height: 36px; display: inline-flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .btn-logout:hover { background: #b91c1c; }
+    .content-view { display: block; }
+    .badge { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+    .badge.success { background: #dcfce7; color: #166534; }
+    .texniki-tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; }
+    .texniki-tab { padding: 12px 20px; border: none; background: none; color: #64748b; font-weight: 600; font-size: 13px; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+    .texniki-tab:hover { color: #2563eb; }
+    .texniki-tab.active { color: #2563eb; border-bottom-color: #2563eb; }
+    .filter-bar { margin-bottom: 16px; }
+    .btn-filter { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #475569; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .btn-filter:hover { background: #f8fafc; border-color: #2563eb; color: #2563eb; }
+    .table-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .table-section-title { font-size: 16px; font-weight: 600; color: #111; margin: 0; }
+    .record-count { font-size: 13px; color: #64748b; padding: 4px 12px; background: #f1f5f9; border-radius: 20px; font-weight: 500; }
+    .texniki-table-card { padding: 0; overflow: hidden; }
+    .texniki-table th { width: auto; }
+    .texniki-table td { vertical-align: middle; }
+    .badge-qerar { display: inline-block; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+    .badge-reinspect { background: #dbeafe; color: #1d4ed8; }
+    .badge-qüvvə { background: #fee2e2; color: #b91c1c; }
+    .badge-saz { background: #dcfce7; color: #166534; }
+    .badge-nasaz { background: #fee2e2; color: #b91c1c; }
+    .btn-eye { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #e2e8f0; background: #f8fafc; cursor: pointer; margin-left: 8px; vertical-align: middle; display: inline-flex; align-items: center; justify-content: center; color: #64748b; }
+    .btn-eye:hover { background: #e2e8f0; }
+    .btn-more { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #e2e8f0; background: #f8fafc; cursor: pointer; vertical-align: middle; display: inline-flex; align-items: center; justify-content: center; color: #64748b; font-size: 18px; line-height: 1; }
+    .btn-more:hover { background: #e2e8f0; }
+    .btn-export { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #475569; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .btn-export:hover { background: #f8fafc; border-color: #2563eb; color: #2563eb; }
+    .pagination { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 24px; padding: 16px 0; }
+    .pagination-btn { padding: 8px 16px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; color: #475569; font-size: 14px; cursor: pointer; }
+    .pagination-btn:hover { background: #f1f5f9; }
+    .pagination-page { padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; }
+    .pagination-page.active { background: #2563eb; color: #fff; }
+    .btn-add { background: #2563eb; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; }
+    .btn-add:hover { background: #1d4ed8; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .modal { background: #fff; border-radius: 12px; padding: 32px; max-width: 480px; width: 90%; max-height: 90vh; overflow-y: auto; }
+    .modal h2 { font-size: 20px; margin-bottom: 24px; }
+    .modal .form-group { margin-bottom: 16px; }
+    .modal .form-label { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; display: block; }
+    .modal .form-input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+    .modal-actions { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; }
+    .modal-actions button { padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .modal-actions .btn-save { background: #2563eb; color: #fff; border: none; }
+    .modal-actions .btn-cancel { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+    .texniki-baslat-card { margin-bottom: 24px; padding: 20px 24px; }
+    .search-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .search-row .form-input { min-width: 320px; width: 100%; max-width: 400px; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+    .search-row .form-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+    .search-row .form-input.input-error { border-color: #dc2626; background: #fef2f2; }
+    .search-row .form-input.input-error:focus { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2); }
+    .search-input-wrap { display: flex; flex-direction: column; gap: 6px; min-width: 200px; max-width: 100%; }
+    .nv-error-msg { font-size: 13px; color: #dc2626; font-weight: 500; }
+    .surucu-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .surucu-fields .form-group { margin-bottom: 0; }
+    .surucu-fields .form-input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; min-width: 0; }
+    .surucu-search-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .surucu-search-row .form-group { margin-bottom: 0; flex: 1; min-width: 120px; }
+    .surucu-search-row .form-input { width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+    .surucu-search-row .form-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+    .surucu-search-row .form-group-btn { flex: 0 0 auto; }
+    .surucu-search-row .form-label-invisible { visibility: hidden; }
+    .modal-yeni-muraciet { max-width: 580px; padding: 28px 32px; }
+    .modal-yeni-title { font-size: 22px; font-weight: 700; color: #111; margin-bottom: 24px; }
+    .modal-yeni-card {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+      padding: 20px 24px; margin-bottom: 20px;
+    }
+    .modal-yeni-card:last-of-type { margin-bottom: 24px; }
+    .tibbi-surucu-card { margin-bottom: 16px !important; }
+    .modal-yeni-card-title { font-size: 15px; font-weight: 600; color: #334155; margin-bottom: 14px; }
+    .modal-yeni-card .nv-result-grid { margin-top: 16px; }
+    .modal-yeni-actions { margin-top: 8px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+    .tibbi-form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px 16px; }
+    .tibbi-form-grid .tibbi-form-full { grid-column: 1 / -1; }
+    .tibbi-form-grid .form-group { margin-bottom: 0; }
+    .tibbi-form-grid .form-label { font-size: 12px; margin-bottom: 4px; }
+    .tibbi-form-grid .form-input { padding: 8px 12px; font-size: 13px; }
+    .tibbi-surucu-card { padding: 14px 20px; }
+    .tibbi-surucu-card .modal-yeni-card-title { font-size: 14px; margin-bottom: 10px; }
+    .btn-sorgu-gonder { background: #16a34a; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; }
+    .btn-sorgu-gonder:hover { background: #15803d; }
+    .btn-search { background: #2563eb; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; flex-shrink: 0; }
+    .btn-search:hover { background: #1d4ed8; }
+    .nv-result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 20px; padding: 20px; background: #f8fafc; border-radius: 8px; }
+    .nv-result-item { font-size: 13px; }
+    .nv-result-item .param-name { font-weight: 600; color: #64748b; margin-bottom: 4px; }
+    .nv-result-item .param-value { color: #111; }
+    .search-compact { display: inline-flex; gap: 8px; align-items: center; }
+    .search-compact input { width: 180px; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; }
+    .is-yeri-list { display: flex; flex-direction: column; gap: 10px; }
+    .is-yeri-option { padding: 14px 20px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #374151; font-size: 14px; font-weight: 500; text-align: left; cursor: pointer; transition: all 0.2s; }
+    .is-yeri-option:hover { border-color: #2563eb; background: #eff6ff; color: #2563eb; }
+    .texniki-tab-content { display: none; }
+    .texniki-tab-content.active { display: block; }
+    .texniki-baslat-tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; }
+    .texniki-baslat-tab { padding: 12px 20px; border: none; background: none; color: #64748b; font-weight: 600; font-size: 14px; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+    .texniki-baslat-tab:hover { color: #2563eb; }
+    .texniki-baslat-tab.active { color: #2563eb; border-bottom-color: #2563eb; }
+    .texniki-baslat-tab-content { display: none; }
+    .texniki-baslat-tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+  <!-- ========== LOGIN SƏHİFƏSİ ========== -->
+  <div id="loginPage" class="login-page">
+    <header class="header">
+      <div class="logo-section">
+        <div class="logo">dlp</div>
+        <div class="logo-text">
+          <span>Digital Logistics Platform</span>
+          <span>Rəqəmsal Logistika Platforması</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#">Ticarət bələdçisi<svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></a>
+        <a href="#">Sənədlərim</a>
+        <a href="#">Rezervasiya</a>
+        <a href="#">Statistika</a>
+        <a href="#">Resurslar<svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></a>
+        <a href="#">Haqqımızda<svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></a>
+      </nav>
+      <div class="header-right">
+        <div class="lang-selector">
+          <svg class="globe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          AZ
+          <svg class="lang-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <button class="btn-login-header">Giriş / Qeydiyyat</button>
+      </div>
+    </header>
+    <main class="main">
+      <div class="card">
+        <div class="card-left">
+          <h1 class="welcome-title">
+            Rəqəmsal Nəqliyyat Logistika Platformasına <span class="highlight">Xoş Gəlmisiniz.</span>
+          </h1>
+          <p class="welcome-desc">
+            Qeydiyyatı tamamlamaq üçün məlumatları daxil edin və ya daha sonra əlavə edə bilərsiniz.
+          </p>
+        </div>
+        <div class="card-right">
+          <h2 class="form-title">Əlaqə nömrənizi qeyd edin və ya digital logindan istifadə edin.</h2>
+          <form id="loginForm">
+            <div class="form-group">
+              <label class="form-label">Əlaqə nömrəsi</label>
+              <div class="input-row">
+                <div class="select-wrapper">
+                  <select id="countryCode">
+                    <option value="">Seçin</option>
+                    <option value="+994">+994 (AZ)</option>
+                    <option value="+90">+90 (TR)</option>
+                    <option value="+7">+7 (RU)</option>
+                    <option value="+1">+1 (US)</option>
+                  </select>
+                </div>
+                <div class="input-wrapper">
+                  <input type="tel" id="mobileNumber" placeholder="Mobil nömrə" maxlength="15">
+                </div>
+              </div>
+            </div>
+            <div class="warning-box">
+              <div class="warning-icon">!</div>
+              <p class="warning-text">
+                <strong>Diqqət!</strong> OTP ilə giriş yalnız xarici ölkə vətəndaşlarının mobil nömrələri üçün nəzərdə tutulub. Azərbaycan vətəndaşları digital login vasitəsilə daxil olmalıdır.
+              </p>
+            </div>
+            <div class="btn-group">
+              <button type="submit" class="btn-primary">Davam et →</button>
+              <button type="button" class="btn-secondary" id="btnDigitalLogin">
+                <span class="digital-icon"></span>
+                Digital Login •
+              </button>
+              <button type="button" class="btn-outline">Qeydiyyatdan keç</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========== ŞƏXSİ KABİNET (Girişdən sonra) ========== -->
+  <div id="dashboardPage" class="dashboard-page hidden">
+    <aside class="sidebar">
+      <div class="sidebar-logo logo-section">
+        <div class="logo">dlp</div>
+        <div class="logo-text">
+          <span>Digital Logistics Platform</span>
+          <span>Rəqəmsal Logistika Platforması</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item disabled"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span> Dashboard</a>
+        <a href="#" class="nav-item disabled"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span> Məktublar</a>
+        <a href="#" class="nav-item disabled"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span> Sənədlərim</a>
+        <div class="nav-section">
+          <div class="nav-texniki-group">
+            <button type="button" class="nav-parent" id="navTexnikiParent" aria-expanded="false">
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+              <span>Reysqabağı texniki müayinə məntəqəsi</span>
+              <span class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </button>
+            <div class="nav-sub-wrap collapsed" id="navTexnikiSub">
+              <a href="#" class="nav-sub-item" data-view="texnikiBaslat">
+                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Yoxlamanı başlat
+              </a>
+              <a href="#" class="nav-sub-item" data-view="texniki">
+                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Reysqabağı texniki yoxlamadan keçmiş nəqliyyat vasitələri
+              </a>
+            </div>
+          </div>
+          <div class="nav-texniki-group">
+            <button type="button" class="nav-parent" id="navTibbiParent" aria-expanded="false">
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+              <span>Reysqabağı Tibbi müayinə məntəqəsi</span>
+              <span class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </button>
+            <div class="nav-sub-wrap collapsed" id="navTibbiSub">
+              <a href="#" class="nav-sub-item" data-view="tibbiSorqu">
+                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span> Reysqabağı Tibbi müayinə sorğusu
+              </a>
+              <a href="#" class="nav-sub-item" data-view="tibbiGonderilenler">
+                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span> Göndərilən tibbi müayinə müraciətləri
+              </a>
+            </div>
+          </div>
+          <a href="#" class="nav-item" data-view="surucu">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Sürücü
+          </a>
+        </div>
+      </nav>
+    </aside>
+    <div class="main-area">
+      <div class="top-bar">
+        <div class="logo-section">
+          <div class="logo">dlp</div>
+          <div class="logo-text">
+            <span>Digital Logistics Platform</span>
+          </div>
+        </div>
+        <div class="top-bar-right">
+          <button class="icon-btn" title="Yenilə"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+          <span class="top-bar-divider"></span>
+          <div class="user-profile-card" id="userProfileCard">
+            <div class="user-profile-initials" id="userProfileInitials">TM</div>
+            <div class="user-profile-info">
+              <span class="user-profile-name" id="userProfileName">TÜRKAN MƏSİMOVA</span>
+            </div>
+          </div>
+          <span class="top-bar-divider"></span>
+          <button class="btn-logout" onclick="logout()">Çıxış</button>
+        </div>
+      </div>
+      <div class="content-area" id="contentArea">
+        <div id="viewDefault" class="content-view hidden">
+          <h1 class="page-title">Nəqliyyat sənədlərimin siyahısı</h1>
+          <p class="page-desc">Müraciətlərinizlə bağlı əməliyyatlar</p>
+          <div class="tabs">
+            <button class="tab active">Bütün sənədlər</button>
+            <button class="tab">Daxil olan sənədlər</button>
+            <button class="tab">Göndərilən sənədlər</button>
+            <button class="tab">Qaralama</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Sənədin nömrəsi</th>
+                  <th>Tarix</th>
+                  <th>Daşıyıcı</th>
+                  <th>Yükü alan</th>
+                  <th>Sənədin növü</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="5" class="no-data">Məlumat yoxdur</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="viewTexnikiBaslat" class="content-view hidden">
+          <h1 class="page-title">Texniki yoxlamanı başlat</h1>
+          <p class="page-desc"><span id="texnikiBaslatIsYeri" style="font-weight:600;color:#2563eb;"></span></p>
+          <div class="texniki-baslat-tabs">
+            <button class="texniki-baslat-tab active" data-baslat-tab="yeni">Yeni müraciət yaratmaq</button>
+            <button class="texniki-baslat-tab" data-baslat-tab="gonderilenler">Müraciət göndərilənlər</button>
+          </div>
+          <div id="baslatYeni" class="texniki-baslat-tab-content active">
+            <div class="section-card">
+              <p class="page-desc">Yeni texniki yoxlama müraciəti yaratmaq üçün düyməyə basın.</p>
+              <button type="button" class="btn-sorgu-gonder" id="btnYeniMuracietAc">Yeni müraciət</button>
+            </div>
+          </div>
+          <div id="baslatGonderilenler" class="texniki-baslat-tab-content">
+            <div class="section-card">
+              <h2>Göndərilmiş müraciətlər</h2>
+              <table class="data-table">
+                <thead><tr><th>No</th><th>Tarix</th><th>N/V nişanı</th><th>Sürücü</th><th>Status</th></tr></thead>
+                <tbody id="muracietGonderilenlerBody">
+                  <tr><td colspan="5" class="no-data">Hələ müraciət göndərilməyib</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div id="viewTexniki" class="content-view">
+          <h2 class="table-section-title" style="margin-bottom:16px;">Reysqabağı texniki yoxlamadan keçmiş nəqliyyat vasitələri</h2>
+          <div class="texniki-tabs">
+            <button class="texniki-tab active" data-texniki-tab="all">BÜTÜN NƏTİCƏLƏR</button>
+            <button class="texniki-tab" data-texniki-tab="saz">SAZ</button>
+            <button class="texniki-tab" data-texniki-tab="nasaz">NASAZ</button>
+          </div>
+          <div id="texnikiTabAll" class="texniki-tab-content active">
+            <div class="filter-bar" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <div class="search-compact">
+                <input type="text" id="texnikiSearchAll" placeholder="Nişan, VÖEN..." title="Axtarış">
+                <button type="button" class="btn-search" id="btnTexnikiAxtarAll" style="padding:6px 12px;font-size:12px;">Axtar</button>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn-filter"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filterlər</button>
+                <button class="btn-export"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Çıxarış</button>
+              </div>
+            </div>
+            <div class="table-header-row">
+              <h2 class="table-section-title">Reysqabağı texniki yoxlamadan keçmiş nəqliyyat vasitələrinin siyahısı</h2>
+              <span class="record-count" id="texnikiRecordCount">10 məlumat</span>
+            </div>
+            <div class="section-card texniki-table-card">
+              <table class="data-table texniki-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Avtonəqliyyat vasitəsinin dövlət qeydiyyat nişanı</th>
+                    <th>Daşıyıcının VÖEN-i</th>
+                    <th>Reysqabağı texniki yoxlamanın aparıldığı tarix</th>
+                    <th>Reysqabağı texniki yoxlamanı keçirən şəxs</th>
+                    <th>Reysqabağı texniki yoxlamanın nəticəsi</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="texnikiTableBody">
+                  <tr data-tab="saz">
+                    <td>1</td>
+                    <td>90NH921</td>
+                    <td>1234567891</td>
+                    <td>27.12.2024, 10:53</td>
+                    <td>ELMIRA TALYBOVA</td>
+                    <td><span class="badge-qerar badge-saz">Saz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="saz">
+                    <td>2</td>
+                    <td>90JS160</td>
+                    <td>9876543210</td>
+                    <td>19.12.2024, 10:21</td>
+                    <td>FUAD SALMANOV MUXTAR OĞLU</td>
+                    <td><span class="badge-qerar badge-saz">Saz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="saz">
+                    <td>3</td>
+                    <td>90JS160</td>
+                    <td>9876543210</td>
+                    <td>13.12.2024, 10:11</td>
+                    <td>ANAR MUSTAFA SABİR</td>
+                    <td><span class="badge-qerar badge-saz">Saz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="saz">
+                    <td>4</td>
+                    <td>90AB123</td>
+                    <td>1122334455</td>
+                    <td>10.12.2024, 09:30</td>
+                    <td>ELMIRA TALYBOVA</td>
+                    <td><span class="badge-qerar badge-saz">Saz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="saz">
+                    <td>5</td>
+                    <td>10AA777</td>
+                    <td>5566778899</td>
+                    <td>05.12.2024, 14:22</td>
+                    <td>FUAD SALMANOV MUXTAR OĞLU</td>
+                    <td><span class="badge-qerar badge-saz">Saz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="saz">
+                    <td>6</td>
+                    <td>99BB456</td>
+                    <td>1234567891</td>
+                    <td>01.12.2024, 11:15</td>
+                    <td>ANAR MUSTAFA SABİR</td>
+                    <td><span class="badge-qerar badge-saz">Saz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="saz">
+                    <td>7</td>
+                    <td>77CC789</td>
+                    <td>9988776655</td>
+                    <td>28.11.2024, 16:45</td>
+                    <td>ELMIRA TALYBOVA</td>
+                    <td><span class="badge-qerar badge-saz">Saz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="nasaz">
+                    <td>8</td>
+                    <td>12AB345</td>
+                    <td>1112223334</td>
+                    <td>25.11.2024, 09:00</td>
+                    <td>FUAD SALMANOV MUXTAR OĞLU</td>
+                    <td><span class="badge-qerar badge-nasaz">Nasaz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="nasaz">
+                    <td>9</td>
+                    <td>34CD567</td>
+                    <td>5556667778</td>
+                    <td>20.11.2024, 14:30</td>
+                    <td>ANAR MUSTAFA SABİR</td>
+                    <td><span class="badge-qerar badge-nasaz">Nasaz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                  <tr data-tab="nasaz">
+                    <td>10</td>
+                    <td>78EF901</td>
+                    <td>9998887776</td>
+                    <td>15.11.2024, 11:45</td>
+                    <td>ELMIRA TALYBOVA</td>
+                    <td><span class="badge-qerar badge-nasaz">Nasaz</span></td>
+                    <td><button class="btn-more" title="Əməliyyatlar">⋯</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="texnikiTabSaz" class="texniki-tab-content">
+            <div class="filter-bar" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <div class="search-compact">
+                <input type="text" id="texnikiSearchSaz" placeholder="Nişan, VÖEN..." title="Axtarış">
+                <button type="button" class="btn-search" id="btnTexnikiAxtarSaz" style="padding:6px 12px;font-size:12px;">Axtar</button>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn-filter"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filterlər</button>
+                <button class="btn-export"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Çıxarış</button>
+              </div>
+            </div>
+            <div class="table-header-row">
+              <h2 class="table-section-title">Reysqabağı texniki yoxlamadan keçmiş nəqliyyat vasitələrinin siyahısı</h2>
+              <span class="record-count" id="texnikiRecordCountSaz">7 məlumat</span>
+            </div>
+            <div class="section-card texniki-table-card">
+              <table class="data-table texniki-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Avtonəqliyyat vasitəsinin dövlət qeydiyyat nişanı</th>
+                    <th>Daşıyıcının VÖEN-i</th>
+                    <th>Reysqabağı texniki yoxlamanın aparıldığı tarix</th>
+                    <th>Reysqabağı texniki yoxlamanı keçirən şəxs</th>
+                    <th>Reysqabağı texniki yoxlamanın nəticəsi</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="texnikiTableBodySaz"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="texnikiTabNasaz" class="texniki-tab-content">
+            <div class="filter-bar" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <div class="search-compact">
+                <input type="text" id="texnikiSearchNasaz" placeholder="Nişan, VÖEN..." title="Axtarış">
+                <button type="button" class="btn-search" id="btnTexnikiAxtarNasaz" style="padding:6px 12px;font-size:12px;">Axtar</button>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn-filter"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filterlər</button>
+                <button class="btn-export"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Çıxarış</button>
+              </div>
+            </div>
+            <div class="table-header-row">
+              <h2 class="table-section-title">Reysqabağı texniki yoxlamadan keçmiş nəqliyyat vasitələrinin siyahısı</h2>
+              <span class="record-count" id="texnikiRecordCountNasaz">3 məlumat</span>
+            </div>
+            <div class="section-card texniki-table-card">
+              <table class="data-table texniki-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Avtonəqliyyat vasitəsinin dövlət qeydiyyat nişanı</th>
+                    <th>Daşıyıcının VÖEN-i</th>
+                    <th>Reysqabağı texniki yoxlamanın aparıldığı tarix</th>
+                    <th>Reysqabağı texniki yoxlamanı keçirən şəxs</th>
+                    <th>Reysqabağı texniki yoxlamanın nəticəsi</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="texnikiTableBodyNasaz"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="pagination">
+            <button class="pagination-btn">← Əvvəlki</button>
+            <span class="pagination-page active">1</span>
+            <button class="pagination-btn">Növbəti →</button>
+          </div>
+        </div>
+        <div id="viewTibbiSorqu" class="content-view hidden">
+          <h1 class="page-title">Reysqabağı Tibbi müayinə sorğusu</h1>
+          <p class="page-desc">Tibbi müayinə sorğusu göndərin</p>
+          <div id="tibbiYeni" class="texniki-baslat-tab-content active">
+            <div class="section-card modal-yeni-card">
+              <h3 class="modal-yeni-card-title">Sürücü axtarışı</h3>
+              <p class="page-desc" style="margin-bottom:14px;font-size:13px;">FIN kod və ya seriya nömrəsi ilə axtarın</p>
+              <div class="surucu-search-row">
+                <div class="form-group">
+                  <label class="form-label">FIN kod</label>
+                  <input type="text" id="tibbiSurucuFin" class="form-input" placeholder="FIN" maxlength="11">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Seriya nömrəsi</label>
+                  <input type="text" id="tibbiSurucuSeriya" class="form-input" placeholder="Seriya nömrəsi">
+                </div>
+                <div class="form-group form-group-btn">
+                  <label class="form-label form-label-invisible">Axtar</label>
+                  <button type="button" class="btn-search" id="btnTibbiSurucuAxtar">Axtar</button>
+                </div>
+              </div>
+              <div id="tibbiSurucuResultArea" class="nv-result-grid hidden" style="margin-top:16px;"></div>
+              <div class="modal-actions modal-yeni-actions" style="margin-top:14px;padding-top:14px;">
+                <button type="button" class="btn-cancel" id="btnTibbiSorquLəğv">Təmizlə</button>
+                <button type="button" class="btn-sorgu-gonder" id="btnTibbiSorquGonder">Sorğunu göndər</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="viewTibbiGonderilenler" class="content-view hidden">
+          <h1 class="page-title">Göndərilən tibbi müayinə müraciətləri</h1>
+          <p class="page-desc">Göndərdiyiniz tibbi müayinə müraciətlərinin siyahısı</p>
+          <div class="section-card">
+            <table class="data-table">
+              <thead><tr><th>No</th><th>Tarix</th><th>Sürücü</th><th>FIN</th><th>Status</th></tr></thead>
+              <tbody id="tibbiGonderilenlerBody">
+                <tr><td colspan="5" class="no-data">Hələ müraciət göndərilməyib</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="viewSurucu" class="content-view hidden">
+          <h1 class="page-title">Sürücü</h1>
+          <p class="page-desc">Sürücü məlumatları</p>
+          <div class="section-card">
+            <h2>Sürücülər siyahısı</h2>
+            <table class="data-table">
+              <thead><tr><th>Ad Soyad</th><th>FIN</th><th>Vəsiqə</th><th>Kateqoriya</th><th>Təşkilat</th></tr></thead>
+              <tbody>
+                <tr><td>Əliyev Əli Ələddin oğlu</td><td>12345678901</td><td>AA1234567</td><td>CE</td><td>Veysəloğlu MMC</td></tr>
+                <tr><td>Həsənova Aygün</td><td>98765432101</td><td>BB9876543</td><td>C</td><td>Logistika MMC</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalYeniMuraciet" class="modal-overlay hidden">
+    <div class="modal modal-yeni-muraciet">
+      <h2 class="modal-yeni-title">Yeni müraciət</h2>
+      <div class="modal-yeni-card">
+        <h3 class="modal-yeni-card-title">Nəqliyyat vasitəsi axtarışı</h3>
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <input type="text" id="dlpVasiteQeydiyyatNomresi" class="form-input" placeholder="N/V qeydiyyat nişanı">
+            <span id="nvFormatError" class="nv-error-msg hidden">Nəqliyyat vasitəsinin nömrəsi düzgün deyil</span>
+          </div>
+          <button type="button" class="btn-search" id="btnNvAxtar">Axtar</button>
+        </div>
+        <div id="nvResultArea" class="nv-result-grid hidden">
+          <div class="nv-result-item"><span class="param-name">N/V-nin dövlət nömrə nişanı</span><div class="param-value" id="resDlpNvDovletNomreNisani">—</div></div>
+          <div class="nv-result-item"><span class="param-name">N/V-nin tipi</span><div class="param-value" id="resDlpNvTipi">—</div></div>
+          <div class="nv-result-item"><span class="param-name">N/V-nin markası</span><div class="param-value" id="resDlpNvMarkasi">—</div></div>
+          <div class="nv-result-item"><span class="param-name">N/V-nin modeli</span><div class="param-value" id="resDlpNvModeli">—</div></div>
+          <div class="nv-result-item"><span class="param-name">İstehsal ili</span><div class="param-value" id="resDlpNvIstesalIli">—</div></div>
+        </div>
+      </div>
+      <div class="modal-yeni-card">
+        <h3 class="modal-yeni-card-title">Sürücü məlumatları</h3>
+        <div class="surucu-search-row">
+          <div class="form-group">
+            <label class="form-label">FIN</label>
+            <input type="text" id="surucuFin" class="form-input" placeholder="FIN" maxlength="11">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Seriya nömrəsi</label>
+            <input type="text" id="surucuSeriya" class="form-input" placeholder="Seriya nömrəsi">
+          </div>
+          <div class="form-group form-group-btn">
+            <label class="form-label form-label-invisible">Axtar</label>
+            <button type="button" class="btn-search" id="btnSurucuAxtar">Axtar</button>
+          </div>
+        </div>
+        <div id="surucuResultArea" class="nv-result-grid hidden">
+          <div class="nv-result-item"><span class="param-name">Ad soyad</span><div class="param-value" id="resSurucuAdSoyad">—</div></div>
+          <div class="nv-result-item"><span class="param-name">Ata adı</span><div class="param-value" id="resSurucuAtaAdi">—</div></div>
+          <div class="nv-result-item"><span class="param-name">Doğum tarixi</span><div class="param-value" id="resSurucuDogumTarixi">—</div></div>
+        </div>
+      </div>
+      <div class="modal-actions modal-yeni-actions">
+        <button type="button" class="btn-cancel" id="modalYeniMuracietClose">Ləğv et</button>
+        <button type="button" class="btn-sorgu-gonder" id="btnSorguGonder">Sorğunu göndər</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalSuccess" class="modal-overlay hidden">
+    <div class="modal" style="max-width:400px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;">✓</div>
+      <h2 style="color:#16a34a;">Müraciətiniz uğurla göndərildi</h2>
+      <button type="button" class="btn-search" style="margin-top:20px;" id="modalSuccessClose">Bağla</button>
+    </div>
+  </div>
+
+  <div id="modalIsYeriSec" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>İş yeri seçin</h2>
+      <p class="page-desc" style="margin-bottom:20px;">Texniki yoxlamanı başlatmaq üçün iş yerini seçin</p>
+      <div class="is-yeri-list">
+        <button type="button" class="is-yeri-option" data-isyeri="avex">Avex Logistika MMC</button>
+        <button type="button" class="is-yeri-option" data-isyeri="baki">Bakı Nəqliyyat Xidməti MMC</button>
+        <button type="button" class="is-yeri-option" data-isyeri="trans">Trans-Azərbaycan MMC</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalTexniki" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>Texniki yoxlama əlavə et</h2>
+      <form id="formTexnikiElave">
+        <div class="form-group">
+          <label class="form-label">N/V-nin nömrə nişanı</label>
+          <input type="text" class="form-input" name="dlpNvNomreNisani" placeholder="Məs: 10-AA-777">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sürücünün FIN-i</label>
+          <input type="text" class="form-input" name="dlpSurucuFin" placeholder="Məs: 12345678901" maxlength="11">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Şəxsiyyət vesiqəsinin nömrəsi</label>
+          <input type="text" class="form-input" name="dlpSexsiyyetVesiqesiNomresi" placeholder="Məs: 12345678">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Texniki yoxlama iş yeri adı</label>
+          <input type="text" class="form-input" name="dlpMuayineMenteqesiKodu" placeholder="Məs: Veysəloğlu MMC">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sürücünün sorğu/müraciət identifikatoru</label>
+          <input type="text" class="form-input" name="dlpMuracietId" placeholder="Məs: MR-2026-001234">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="modalTexnikiClose">Ləğv et</button>
+          <button type="submit" class="btn-save">Əlavə et</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    var mockUser = { name: 'TÜRKAN MƏSİMOVA', initials: 'TM' };
+    function doLogin() {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('dashboardPage').classList.remove('hidden');
+      document.getElementById('userProfileInitials').textContent = mockUser.initials;
+      document.getElementById('userProfileName').textContent = mockUser.name;
+      sessionStorage.setItem('dlp_logged', '1');
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const number = document.getElementById('mobileNumber').value.trim();
+      if (number) {
+        doLogin();
+      } else {
+        alert('Ən azı bir rəqəm daxil edin.');
+      }
+    });
+
+    document.getElementById('btnDigitalLogin').addEventListener('click', function() {
+      doLogin();
+    });
+
+    function logout() {
+      sessionStorage.removeItem('dlp_logged');
+      document.getElementById('loginPage').classList.remove('hidden');
+      document.getElementById('dashboardPage').classList.add('hidden');
+      document.getElementById('mobileNumber').value = '';
+    }
+
+    if (sessionStorage.getItem('dlp_logged')) {
+      doLogin();
+    }
+
+    var isYeriNames = { avex: 'Avex Logistika MMC', baki: 'Bakı Nəqliyyat Xidməti MMC', trans: 'Trans-Azərbaycan MMC' };
+    var secilenIsYeri = sessionStorage.getItem('dlp_secilenIsYeri') || null;
+
+    function getApiHeaders() {
+      var h = { 'Content-Type': 'application/json' };
+      if (secilenIsYeri) {
+        h['X-Workplace-Id'] = secilenIsYeri;
+        h['isYeriKodu'] = secilenIsYeri;
+      }
+      return h;
+    }
+
+    document.getElementById('navTexnikiParent').addEventListener('click', function() {
+      var sub = document.getElementById('navTexnikiSub');
+      sub.classList.toggle('collapsed');
+      this.classList.toggle('expanded');
+      this.setAttribute('aria-expanded', !sub.classList.contains('collapsed'));
+    });
+    document.getElementById('navTibbiParent').addEventListener('click', function() {
+      var sub = document.getElementById('navTibbiSub');
+      sub.classList.toggle('collapsed');
+      this.classList.toggle('expanded');
+      this.setAttribute('aria-expanded', !sub.classList.contains('collapsed'));
+    });
+
+    function showView(view) {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.nav-sub-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('modalIsYeriSec').classList.add('hidden');
+      if (view === 'texnikiBaslat') {
+        document.querySelectorAll('.content-view').forEach(v => v.classList.add('hidden'));
+        document.getElementById('modalIsYeriSec').classList.remove('hidden');
+        return;
+      }
+      if (view === 'texniki' || view === 'texnikiBaslat') {
+        document.getElementById('navTexnikiParent').classList.add('expanded');
+        document.getElementById('navTexnikiParent').setAttribute('aria-expanded', 'true');
+        document.getElementById('navTexnikiSub').classList.remove('collapsed');
+      }
+      if (view === 'tibbiSorqu' || view === 'tibbiGonderilenler') {
+        document.getElementById('navTibbiParent').classList.add('expanded');
+        document.getElementById('navTibbiParent').setAttribute('aria-expanded', 'true');
+        document.getElementById('navTibbiSub').classList.remove('collapsed');
+      }
+      document.querySelectorAll('.content-view').forEach(v => v.classList.add('hidden'));
+      var id = view === 'default' ? 'viewDefault' : 'view' + view.charAt(0).toUpperCase() + view.slice(1);
+      var target = document.getElementById(id);
+      if (target) target.classList.remove('hidden');
+    }
+
+    document.querySelectorAll('.nav-item[data-view], .nav-sub-item[data-view]').forEach(function(item) {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        var view = this.getAttribute('data-view');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.querySelectorAll('.nav-sub-item').forEach(n => n.classList.remove('active'));
+        this.classList.add('active');
+        showView(view);
+      });
+    });
+
+    (function initNavState() {
+      var v = document.getElementById('viewTexniki');
+      if (v && !v.classList.contains('hidden')) {
+        document.getElementById('navTexnikiParent').classList.add('expanded');
+        document.getElementById('navTexnikiParent').setAttribute('aria-expanded', 'true');
+        document.getElementById('navTexnikiSub').classList.remove('collapsed');
+        document.querySelectorAll('.nav-sub-item[data-view="texniki"]').forEach(function(n) { n.classList.add('active'); });
+      }
+    })();
+
+    document.querySelectorAll('.is-yeri-option').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        secilenIsYeri = this.getAttribute('data-isyeri');
+        sessionStorage.setItem('dlp_secilenIsYeri', secilenIsYeri);
+        document.getElementById('modalIsYeriSec').classList.add('hidden');
+        document.querySelectorAll('.content-view').forEach(v => v.classList.add('hidden'));
+        document.getElementById('viewTexnikiBaslat').classList.remove('hidden');
+        document.getElementById('texnikiBaslatIsYeri').textContent = isYeriNames[secilenIsYeri];
+      });
+    });
+
+    (function() {
+      var mockNvData = {
+        '90NH921': { dlpNvDovletNomreNisani: '90NH921', dlpNvTipi: 'Yük avtomobili', dlpNvMarkasi: 'Mercedes-Benz', dlpNvModeli: 'Actros', dlpNvIstesalIli: 2020 },
+        '90JS160': { dlpNvDovletNomreNisani: '90JS160', dlpNvTipi: 'Yük avtomobili', dlpNvMarkasi: 'MAN', dlpNvModeli: 'TGX', dlpNvIstesalIli: 2019 },
+        '90AB123': { dlpNvDovletNomreNisani: '90AB123', dlpNvTipi: 'Avtobus', dlpNvMarkasi: 'Neoplan', dlpNvModeli: 'Tourliner', dlpNvIstesalIli: 2021 },
+        '10AA777': { dlpNvDovletNomreNisani: '10AA777', dlpNvTipi: 'Yük avtomobili', dlpNvMarkasi: 'Scania', dlpNvModeli: 'R450', dlpNvIstesalIli: 2018 },
+        '99BB456': { dlpNvDovletNomreNisani: '99BB456', dlpNvTipi: 'Yük avtomobili', dlpNvMarkasi: 'Volvo', dlpNvModeli: 'FH16', dlpNvIstesalIli: 2022 },
+        '77CC789': { dlpNvDovletNomreNisani: '77CC789', dlpNvTipi: 'Yük avtomobili', dlpNvMarkasi: 'DAF', dlpNvModeli: 'XF', dlpNvIstesalIli: 2020 },
+        '12AB345': { dlpNvDovletNomreNisani: '12AB345', dlpNvTipi: 'Yük avtomobili', dlpNvMarkasi: 'Iveco', dlpNvModeli: 'Stralis', dlpNvIstesalIli: 2017 },
+        '34CD567': { dlpNvDovletNomreNisani: '34CD567', dlpNvTipi: 'Avtobus', dlpNvMarkasi: 'Setra', dlpNvModeli: 'S516', dlpNvIstesalIli: 2016 },
+        '78EF901': { dlpNvDovletNomreNisani: '78EF901', dlpNvTipi: 'Yük avtomobili', dlpNvMarkasi: 'Renault', dlpNvModeli: 'T Range', dlpNvIstesalIli: 2019 },
+        '99DY675': { dlpNvDovletNomreNisani: '99DY675', dlpNvTipi: 'Yük avtomobili', dlpNvMarkasi: 'Mercedes-Benz', dlpNvModeli: 'Actros 2663', dlpNvIstesalIli: 2023 }
+      };
+      var inp = document.getElementById('dlpVasiteQeydiyyatNomresi');
+      var mockTipi = ['Yük avtomobili', 'Avtobus', 'Yük avtomobili', 'Avtobus'];
+      var mockMarka = ['Mercedes-Benz', 'MAN', 'Scania', 'Volvo', 'DAF', 'Iveco', 'Neoplan', 'Setra', 'Renault'];
+      var mockModel = ['Actros', 'TGX', 'R450', 'FH16', 'XF', 'Stralis', 'Tourliner', 'S516', 'T Range', 'Actros 2663'];
+      function getMockForPlate(plate) {
+        if (mockNvData[plate]) return mockNvData[plate];
+        var h = 0; for (var i = 0; i < plate.length; i++) h = (h * 31 + plate.charCodeAt(i)) | 0;
+        var idx = Math.abs(h);
+        return {
+          dlpNvDovletNomreNisani: plate,
+          dlpNvTipi: mockTipi[idx % mockTipi.length],
+          dlpNvMarkasi: mockMarka[idx % mockMarka.length],
+          dlpNvModeli: mockModel[idx % mockModel.length],
+          dlpNvIstesalIli: 2016 + (idx % 9)
+        };
+      }
+      function hasSpaces(val) { return /\s/.test(val.trim()); }
+      var DLP_API_BASE = 'https://dlp.gov.az/api/v1';
+      function fetchNvMelumatlari(q, onSuccess, onError) {
+        var url = DLP_API_BASE + '/vehicleDetails?dlpVasiteQeydiyyatNomresi=' + encodeURIComponent(q);
+        fetch(url, { method: 'GET', headers: getApiHeaders() })
+          .then(function(r) { return r.ok ? r.json() : Promise.reject(r); })
+          .then(onSuccess)
+          .catch(onError);
+      }
+      document.getElementById('btnNvAxtar').addEventListener('click', function() {
+        var raw = inp.value.trim();
+        var q = raw.toUpperCase().replace(/\s/g, '');
+        var res = document.getElementById('nvResultArea');
+        var errEl = document.getElementById('nvFormatError');
+        inp.classList.remove('input-error');
+        errEl.classList.add('hidden');
+        if (!raw) { alert('N/V qeydiyyat nişanı daxil edin.'); return; }
+        if (hasSpaces(raw)) {
+          inp.classList.add('input-error');
+          errEl.classList.remove('hidden');
+          inp.focus();
+          return;
+        }
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = 'Yüklənir...';
+        function showData(data) {
+          document.getElementById('resDlpNvDovletNomreNisani').textContent = data.dlpNvDovletNomreNisani || '—';
+          document.getElementById('resDlpNvTipi').textContent = data.dlpNvTipi || '—';
+          document.getElementById('resDlpNvMarkasi').textContent = data.dlpNvMarkasi || '—';
+          document.getElementById('resDlpNvModeli').textContent = data.dlpNvModeli || '—';
+          document.getElementById('resDlpNvIstesalIli').textContent = data.dlpNvIstesalIli != null ? data.dlpNvIstesalIli : '—';
+          res.classList.remove('hidden');
+        }
+        function done() { btn.disabled = false; btn.textContent = 'Axtar'; }
+        fetchNvMelumatlari(q,
+          function(data) { showData(data); done(); },
+          function() {
+            showData(getMockForPlate(q));
+            done();
+          }
+        );
+      });
+      inp.addEventListener('input', function() {
+        this.classList.remove('input-error');
+        document.getElementById('nvFormatError').classList.add('hidden');
+      });
+
+      var mockSurucuData = {
+        '12345678901': { adSoyad: 'Əliyev Əli Ələddin oğlu', ataAdi: 'Ələddin', dogumTarixi: '15.03.1985', suruculukVesiqesi: 'AA1234567', kateqoriya: 'CE', teskilatAdi: 'Veysəloğlu MMC' },
+        '98765432101': { adSoyad: 'Həsənova Aygün Fərid qızı', ataAdi: 'Fərid', dogumTarixi: '22.07.1990', suruculukVesiqesi: 'BB9876543', kateqoriya: 'C', teskilatAdi: 'Logistika MMC' },
+        '11122233344': { adSoyad: 'Məmmədov Fuad Rəşid oğlu', ataAdi: 'Rəşid', dogumTarixi: '08.11.1988', suruculukVesiqesi: 'CC1112233', kateqoriya: 'CE', teskilatAdi: 'Trans-Azərbaycan MMC' },
+        'AA1234567': { adSoyad: 'Əliyev Əli Ələddin oğlu', ataAdi: 'Ələddin', dogumTarixi: '15.03.1985', suruculukVesiqesi: 'AA1234567', kateqoriya: 'CE', teskilatAdi: 'Veysəloğlu MMC' },
+        'BB9876543': { adSoyad: 'Həsənova Aygün Fərid qızı', ataAdi: 'Fərid', dogumTarixi: '22.07.1990', suruculukVesiqesi: 'BB9876543', kateqoriya: 'C', teskilatAdi: 'Logistika MMC' }
+      };
+      var mockSurucuPool = [
+        { adSoyad: 'Qurbanov Səxavət Əhməd oğlu', ataAdi: 'Əhməd', dogumTarixi: '12.05.1982', suruculukVesiqesi: 'DD5556677', kateqoriya: 'CE', teskilatAdi: 'Avex Logistika MMC' },
+        { adSoyad: 'Salmanov Fuad Muxtar oğlu', ataAdi: 'Muxtar', dogumTarixi: '19.09.1979', suruculukVesiqesi: 'EE7788990', kateqoriya: 'C', teskilatAdi: 'Bakı Nəqliyyat Xidməti MMC' },
+        { adSoyad: 'Mustafayev Anar Sabir oğlu', ataAdi: 'Sabir', dogumTarixi: '03.01.1992', suruculukVesiqesi: 'FF9900112', kateqoriya: 'CE', teskilatAdi: 'Veysəloğlu MMC' },
+        { adSoyad: 'Talybova Elmira Rəşad qızı', ataAdi: 'Rəşad', dogumTarixi: '28.06.1987', suruculukVesiqesi: 'GG1122334', kateqoriya: 'D', teskilatAdi: 'Logistika MMC' }
+      ];
+      document.getElementById('btnSurucuAxtar').addEventListener('click', function() {
+        var fin = (document.getElementById('surucuFin').value || '').trim();
+        var seriya = (document.getElementById('surucuSeriya').value || '').trim().toUpperCase();
+        var res = document.getElementById('surucuResultArea');
+        if (!fin && !seriya) { alert('FIN və ya seriya nömrəsi daxil edin.'); return; }
+        var key = fin || seriya;
+        var data = mockSurucuData[key] || null;
+        if (!data) {
+          var h = 0; for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) | 0;
+          data = mockSurucuPool[Math.abs(h) % mockSurucuPool.length];
+          data = { adSoyad: data.adSoyad, ataAdi: data.ataAdi, dogumTarixi: data.dogumTarixi };
+        }
+        document.getElementById('resSurucuAdSoyad').textContent = data.adSoyad;
+        document.getElementById('resSurucuAtaAdi').textContent = data.ataAdi;
+        document.getElementById('resSurucuDogumTarixi').textContent = data.dogumTarixi;
+        res.classList.remove('hidden');
+      });
+      document.getElementById('surucuFin').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('btnSurucuAxtar').click(); });
+      document.getElementById('surucuSeriya').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('btnSurucuAxtar').click(); });
+
+      document.getElementById('btnYeniMuracietAc').addEventListener('click', function() {
+        document.getElementById('modalYeniMuraciet').classList.remove('hidden');
+      });
+      document.getElementById('modalYeniMuracietClose').addEventListener('click', function() {
+        document.getElementById('modalYeniMuraciet').classList.add('hidden');
+      });
+      document.getElementById('btnSorguGonder').addEventListener('click', function() {
+        document.getElementById('modalYeniMuraciet').classList.add('hidden');
+        document.getElementById('modalSuccess').classList.remove('hidden');
+        var tbody = document.getElementById('muracietGonderilenlerBody');
+        var nv = document.getElementById('dlpVasiteQeydiyyatNomresi').value.trim() || '—';
+        var ad = document.getElementById('resSurucuAdSoyad').textContent;
+        if (tbody.querySelector('.no-data')) {
+          tbody.innerHTML = '';
+        }
+        var now = new Date();
+        var dateStr = now.getDate() + '.' + (now.getMonth()+1) + '.' + now.getFullYear() + ', ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+        var no = tbody.querySelectorAll('tr').length + 1;
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + no + '</td><td>' + dateStr + '</td><td>' + nv + '</td><td>' + ad + '</td><td><span class="badge success">Göndərildi</span></td>';
+        tbody.appendChild(tr);
+      });
+      document.getElementById('modalSuccessClose').addEventListener('click', function() {
+        document.getElementById('modalSuccess').classList.add('hidden');
+      });
+
+      var tibbiLastSurucuData = null;
+      document.getElementById('btnTibbiSurucuAxtar').addEventListener('click', function() {
+        var fin = (document.getElementById('tibbiSurucuFin').value || '').trim();
+        var seriya = (document.getElementById('tibbiSurucuSeriya').value || '').trim().toUpperCase();
+        var resArea = document.getElementById('tibbiSurucuResultArea');
+        if (!fin && !seriya) { alert('FIN və ya seriya nömrəsi daxil edin.'); return; }
+        var key = fin || seriya;
+        var data = mockSurucuData[key] || null;
+        if (!data) {
+          var h = 0; for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) | 0;
+          data = mockSurucuPool[Math.abs(h) % mockSurucuPool.length];
+        }
+        tibbiLastSurucuData = data;
+        resArea.innerHTML = '<div class="nv-result-item"><span class="param-name">Ad soyad</span><div class="param-value">' + (data.adSoyad || '—') + '</div></div><div class="nv-result-item"><span class="param-name">Ata adı</span><div class="param-value">' + (data.ataAdi || '—') + '</div></div><div class="nv-result-item"><span class="param-name">Doğum tarixi</span><div class="param-value">' + (data.dogumTarixi || '—') + '</div></div><div class="nv-result-item"><span class="param-name">Sürücülük vəsiqəsi</span><div class="param-value">' + (data.suruculukVesiqesi || '—') + '</div></div><div class="nv-result-item"><span class="param-name">Kateqoriya</span><div class="param-value">' + (data.kateqoriya || '—') + '</div></div><div class="nv-result-item"><span class="param-name">Təşkilat</span><div class="param-value">' + (data.teskilatAdi || '—') + '</div></div>';
+        resArea.classList.remove('hidden');
+      });
+      document.getElementById('tibbiSurucuFin').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('btnTibbiSurucuAxtar').click(); });
+      document.getElementById('tibbiSurucuSeriya').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('btnTibbiSurucuAxtar').click(); });
+      document.getElementById('btnTibbiSorquLəğv').addEventListener('click', function() {
+        document.getElementById('tibbiSurucuFin').value = '';
+        document.getElementById('tibbiSurucuSeriya').value = '';
+        tibbiLastSurucuData = null;
+        document.getElementById('tibbiSurucuResultArea').innerHTML = '';
+        document.getElementById('tibbiSurucuResultArea').classList.add('hidden');
+      });
+      document.getElementById('btnTibbiSorquGonder').addEventListener('click', function() {
+        var ad = tibbiLastSurucuData ? (tibbiLastSurucuData.adSoyad || '').trim() : '';
+        var fin = document.getElementById('tibbiSurucuFin').value.trim();
+        if (!ad) { alert('Əvvəlcə FIN və ya seriya nömrəsi ilə sürücü axtarın.'); return; }
+        document.getElementById('modalSuccess').classList.remove('hidden');
+        var tbody = document.getElementById('tibbiGonderilenlerBody');
+        if (tbody.querySelector('.no-data')) tbody.innerHTML = '';
+        var now = new Date();
+        var dateStr = now.getDate() + '.' + (now.getMonth()+1) + '.' + now.getFullYear() + ', ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+        var no = tbody.querySelectorAll('tr').length + 1;
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + no + '</td><td>' + dateStr + '</td><td>' + ad + '</td><td>' + (fin || '—') + '</td><td><span class="badge success">Göndərildi</span></td>';
+        tbody.appendChild(tr);
+        document.getElementById('btnTibbiSorquLəğv').click();
+      });
+
+      document.querySelectorAll('.texniki-baslat-tab[data-baslat-tab]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.texniki-baslat-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          var tab = this.getAttribute('data-baslat-tab');
+          document.querySelectorAll('.texniki-baslat-tab-content').forEach(c => c.classList.remove('active'));
+          document.getElementById('baslat' + (tab === 'gonderilenler' ? 'Gonderilenler' : 'Yeni')).classList.add('active');
+          if (tab === 'yeni') {
+            document.getElementById('modalIsYeriSec').classList.remove('hidden');
+          }
+        });
+      });
+
+      function filterTexnikiTable(tbodyId, searchInputId, countElId) {
+        var q = (document.getElementById(searchInputId).value || '').trim().toUpperCase();
+        var rows = document.querySelectorAll('#' + tbodyId + ' tr');
+        var visible = 0;
+        rows.forEach(function(tr) {
+          var nisan = (tr.cells[1] && tr.cells[1].textContent || '').toUpperCase();
+          var voen = (tr.cells[2] && tr.cells[2].textContent || '').replace(/\s/g, '');
+          var match = !q || nisan.indexOf(q) >= 0 || voen.indexOf(q) >= 0;
+          tr.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+        var ce = document.getElementById(countElId);
+        if (ce) ce.textContent = visible + ' məlumat';
+      }
+      document.getElementById('btnTexnikiAxtarAll').addEventListener('click', function() {
+        filterTexnikiTable('texnikiTableBody', 'texnikiSearchAll', 'texnikiRecordCount');
+      });
+      document.getElementById('btnTexnikiAxtarSaz').addEventListener('click', function() {
+        filterTexnikiTable('texnikiTableBodySaz', 'texnikiSearchSaz', 'texnikiRecordCountSaz');
+      });
+      document.getElementById('btnTexnikiAxtarNasaz').addEventListener('click', function() {
+        filterTexnikiTable('texnikiTableBodyNasaz', 'texnikiSearchNasaz', 'texnikiRecordCountNasaz');
+      });
+      document.getElementById('texnikiSearchAll').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('btnTexnikiAxtarAll').click(); });
+      document.getElementById('texnikiSearchSaz').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('btnTexnikiAxtarSaz').click(); });
+      document.getElementById('texnikiSearchNasaz').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('btnTexnikiAxtarNasaz').click(); });
+
+      document.querySelectorAll('.texniki-tab[data-texniki-tab]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.texniki-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          var tab = this.getAttribute('data-texniki-tab');
+          document.querySelectorAll('.texniki-tab-content').forEach(c => c.classList.remove('active'));
+          document.getElementById('texnikiTab' + (tab === 'all' ? 'All' : tab === 'saz' ? 'Saz' : 'Nasaz')).classList.add('active');
+          if (tab === 'saz' || tab === 'nasaz') {
+            var src = document.querySelectorAll('#texnikiTableBody tr[data-tab="' + tab + '"]');
+            var tgt = document.getElementById('texnikiTableBody' + (tab === 'saz' ? 'Saz' : 'Nasaz'));
+            tgt.innerHTML = '';
+            var no = 1;
+            src.forEach(function(tr) {
+              var clone = tr.cloneNode(true);
+              clone.querySelector('td:first-child').textContent = no++;
+              tgt.appendChild(clone);
+            });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
