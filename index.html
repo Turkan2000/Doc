@@ -445,30 +445,925 @@
       height: auto;
     }
 
-    /* Mockup Tab Styles */
-    .mockup-container {
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      overflow: hidden;
-      background: #f8fafc;
+    /* =========================================
+       UI / MOCKUPS EMBEDDED SYSTEM STYLES
+       ========================================= */
+    .screen-view {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
     }
-    .mockup-toolbar {
+
+    .screen-view.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .navbar {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-container {
+      padding: 0.9rem 1.25rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 10px 16px;
-      background: #f1f5f9;
-      border-bottom: 1px solid var(--line);
-      font-size: 13.5px;
+      justify-content: space-between;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0284c7;
+      flex-shrink: 0;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-stats {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .stat-item {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    .stat-item strong {
+      color: #0369a1;
+      font-weight: 700;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 38px;
+      padding: 0 1.25rem;
+      font-size: 0.875rem;
       font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-clear {
+      background-color: #ffffff;
+      color: #0284c7;
+      border-color: #bae6fd;
+    }
+
+    .btn-clear:hover {
+      background-color: #f0f9ff;
+      border-color: #7dd3fc;
+    }
+
+    .btn-nav-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      height: 34px;
+      padding: 0 14px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      line-height: 1;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      vertical-align: middle;
+    }
+
+    .btn-nav-back:hover {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0284c7;
+    }
+
+    /* Portal Hero */
+    .portal-hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%);
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 2.25rem 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .portal-hero h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #0c4a6e;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    .portal-hero p {
+      font-size: 0.95rem;
+      color: #64748b;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Modules Grid */
+    .portal-modules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .portal-modules-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .module-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .module-card:hover {
+      border-color: #7dd3fc;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .module-card.featured {
+      border-color: #bae6fd;
+      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+    }
+
+    .module-card.disabled {
+      opacity: 0.65;
+      background: #f8fafc;
+      border-color: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .module-card.disabled:hover {
+      border-color: #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transform: none;
+    }
+
+    .module-header {
+      margin-bottom: 1rem;
+    }
+
+    .module-tag {
+      font-size: 0.725rem;
+      font-weight: 700;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .module-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .module-desc {
+      font-size: 0.875rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+
+    .module-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .module-stat {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .module-stat strong {
+      color: #0284c7;
+    }
+
+    /* Portal Stats Banner */
+    .portal-stats-banner {
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .stat-box {
+      text-align: center;
+    }
+
+    .stat-box .num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0284c7;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-box .lbl {
+      font-size: 0.775rem;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Screen 2 Layout */
+    .mockup-main-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mockup-page-header {
+      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid #bae6fd;
+    }
+
+    .mockup-page-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0c4a6e;
+      margin-bottom: 0.25rem;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    .mockup-page-header p {
+      color: #64748b;
+      font-size: 0.875rem;
+      margin: 0;
+    }
+
+    /* Filter Card */
+    .filter-card {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #bae6fd;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .filter-card-header {
+      background: #f0f9ff;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #bae6fd;
+    }
+
+    .filter-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0369a1;
+    }
+
+    .filter-card-body {
+      padding: 1.5rem;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem 1.5rem;
+    }
+
+    @media (max-width: 992px) {
+      .filter-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: relative;
+    }
+
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .form-control {
+      width: 100%;
+      height: 40px;
+      padding: 0.5rem 0.85rem;
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      color: #0f172a;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:hover {
+      border-color: #93c5fd;
+    }
+
+    .form-control:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+
+    select.form-control {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230284c7' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 14px;
+      padding-right: 2rem;
+    }
+
+    .date-range-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .date-range-group .form-control {
+      font-size: 0.825rem;
+      padding: 0.4rem 0.5rem;
+    }
+
+    /* Autocomplete Dropdown List */
+    .autocomplete-list {
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+      border-radius: 6px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      max-height: 240px;
+      overflow-y: auto;
+      z-index: 50;
+      display: none;
+    }
+
+    .autocomplete-list.show {
+      display: block;
+    }
+
+    .autocomplete-item {
+      padding: 9px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.85rem;
+    }
+
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
+    .autocomplete-item:hover {
+      background-color: #e0f2fe;
+    }
+
+    .autocomplete-item .person-name {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .autocomplete-item .person-name mark {
+      background: #bae6fd;
+      color: #0369a1;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    .autocomplete-item .badge-type {
+      font-size: 0.725rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    /* Action Buttons & Quick Dates */
+    .filter-actions-bar {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .quick-dates {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .quick-date-label {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .quick-pill {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.775rem;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .quick-pill:hover {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0369a1;
+    }
+
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Active Filters Display */
+    .active-filters-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0.75rem 1rem;
+      background: #ffffff;
+      border-radius: 6px;
+      border: 1px solid #bae6fd;
+      font-size: 0.825rem;
+    }
+
+    .active-filter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    /* Results Table */
+    .results-card {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .results-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+    }
+
+    .results-count-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .results-count-title .count-badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .results-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tool-btn:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    .custom-table thead th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.775rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      white-space: nowrap;
+    }
+
+    .custom-table tbody tr {
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .custom-table tbody tr:hover {
+      background-color: #f0f9ff;
+    }
+
+    .custom-table tbody td {
+      padding: 12px 16px;
+      color: #1e293b;
+      vertical-align: middle;
+    }
+
+    .entity-title {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .badge-legal {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .badge-physical {
+      display: inline-block;
+      background: #f0fdf4;
+      color: #15803d;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .badge-property {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #f1f5f9;
       color: #334155;
     }
-    .mockup-iframe {
-      width: 100%;
-      height: 920px;
-      border: none;
-      display: block;
+
+    .voen-code {
+      font-family: monospace;
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #334155;
+      font-size: 0.8rem;
+    }
+
+    .btn-action-view {
       background: #ffffff;
+      border: 1px solid #bae6fd;
+      color: #0284c7;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.775rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-action-view:hover {
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    /* Empty state */
+    .empty-state {
+      padding: 3rem 1.5rem;
+      text-align: center;
+      display: none;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .empty-state h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.25rem;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    .empty-state p {
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Pagination Styles */
+    .pagination-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.25rem;
+      border-top: 1px solid #cbd5e1;
+      background: #ffffff;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .pagination-info {
+      font-size: 0.825rem;
+      color: #64748b;
+    }
+
+    .pagination-info strong {
+      color: #0f172a;
+    }
+
+    .pagination-nav {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .page-btn {
+      min-width: 32px;
+      height: 32px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #0f172a;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0284c7;
+    }
+
+    .page-btn.active {
+      background: #0284c7;
+      border-color: #0284c7;
+      color: #ffffff;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: #cbd5e1;
+      background: #f8fafc;
+    }
+
+    .page-ellipsis {
+      padding: 0 4px;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* Detail Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 580px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+      overflow: hidden;
+      border: 1px solid #bae6fd;
+    }
+
+    .modal-header {
+      background: #f0f9ff;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #bae6fd;
+    }
+
+    .modal-header h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0369a1;
+      margin: 0;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      color: #64748b;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close-btn:hover {
+      color: #0f172a;
+    }
+
+    .modal-body {
+      padding: 1.25rem;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      background: #f8fafc;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .detail-label {
+      font-size: 0.725rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+
+    .detail-value {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .modal-footer {
+      padding: 1rem 1.25rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
     }
   </style>
 </head>
@@ -2213,17 +3108,363 @@
     </main>
 
     <!-- =========================================================
-         SRS TAB PANE 5: UI / MOCKUPS (EN SONUNCU)
+         SRS TAB PANE 5: UI / MOCKUPS (TAM İNTERAKTİV DAXİLİ PROTOTİP)
          ========================================================= -->
     <main class="srs-pane" id="mainPane-mockup">
-      <div class="mockup-container">
-        <div class="mockup-toolbar">
-          <span>İnteraktiv Axtarış və Reyestr Prototipi (Mockup)</span>
-          <a href="search_mockup.html" target="_blank" class="btn-print" style="text-decoration: none; padding: 5px 12px; font-size: 12.5px;">
-            Ayrı pəncərədə tam ekran aç ↗
-          </a>
+      <!-- Mockup Top Toolbar with Open in New Window Button -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding: 10px 16px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px;">
+        <span style="font-size: 14px; font-weight: 700; color: #0369a1;">İnteraktiv Axtarış və Reyestr Prototipi (Mockup)</span>
+        <a href="search_mockup.html" target="_blank" class="btn-print" style="text-decoration: none; padding: 6px 14px; font-size: 13px;">
+          Ayrı pəncərədə tam ekran aç ↗
+        </a>
+      </div>
+
+      <!-- Top Navigation Bar for Mockup -->
+      <nav class="navbar">
+        <div class="navbar-container">
+          <div class="brand-group" onclick="showMockupScreen('welcome')">
+            <div class="brand-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </div>
+            <div class="brand-text">
+              <h1 style="font-size: 1.05rem; font-weight: 700; color: #0369a1; margin: 0; border: none; padding: 0; background: none;">Vahid Reyestr və Məlumat Portalı</h1>
+            </div>
+          </div>
+          
+          <div class="nav-actions">
+            <div class="nav-stats">
+              <div class="stat-item">Fiziki Şəxslər: <strong id="statPhysicalCount">250</strong></div>
+              <div class="stat-item">Hüquqi Şəxslər: <strong id="statLegalCount">250</strong></div>
+              <div class="stat-item">Ümumi: <strong id="statTotalCount">500</strong></div>
+            </div>
+            <button id="navBackBtn" class="btn-nav-back" style="display: none;" onclick="showMockupScreen('welcome')">
+              Əsas Səhifə
+            </button>
+          </div>
         </div>
-        <iframe src="search_mockup.html" class="mockup-iframe" title="Axtarış Mockup İnterfeysi"></iframe>
+      </nav>
+
+      <!-- SCREEN 1: WELCOME & ENTRANCE PORTAL -->
+      <div id="screenWelcome" class="screen-view active">
+        <div class="mockup-main-layout">
+          
+          <!-- Hero Banner -->
+          <section class="portal-hero">
+            <h2>Vahid Reyestr və Məlumat Portalı</h2>
+            <p>Fiziki və hüquqi şəxslərin vahid dövlət reyestri, təşkilati-hüquqi formaları, əmlak uçotu və vergi qeydiyyatı məlumatlarının axtarışı.</p>
+          </section>
+
+          <!-- Services & Modules -->
+          <section class="portal-modules-grid">
+            <!-- Module 1: Search & Filter -->
+            <div class="module-card featured">
+              <div class="module-header">
+                <span class="module-tag">Əsas Xidmət</span>
+                <h3 class="module-title">Qabaqcıl Axtarış və Reyestr</h3>
+                <p class="module-desc">Ad, soyad, VÖEN, şəxs növü, təşkilati forma (MMC, ASC, QSC), əmlak növü və tarixlər üzrə filtrləmə.</p>
+              </div>
+              <div class="module-footer">
+                <span class="module-stat">Baza: <strong>500 qeyd</strong></span>
+                <button class="btn btn-primary" onclick="showMockupScreen('search')">Daxil ol</button>
+              </div>
+            </div>
+
+            <!-- Module 2: Legal Entities (Disabled) -->
+            <div class="module-card disabled">
+              <div class="module-header">
+                <span class="module-tag" style="background: #e2e8f0; color: #64748b;">Hüquqi Şəxslər • Deaktiv</span>
+                <h3 class="module-title" style="color: #64748b;">Hüquqi Şəxslərin Uçotu</h3>
+                <p class="module-desc">MMC, ASC və QSC təşkilati-hüquqi formasına malik kommersiya və qeyri-kommersiya təşkilatları.</p>
+              </div>
+              <div class="module-footer">
+                <span class="module-stat">Qeydiyyat: <strong>250 şirkət</strong></span>
+                <button class="btn btn-clear" disabled style="opacity: 0.5; cursor: not-allowed;">Deaktiv</button>
+              </div>
+            </div>
+
+            <!-- Module 3: Physical Persons (Disabled) -->
+            <div class="module-card disabled">
+              <div class="module-header">
+                <span class="module-tag" style="background: #e2e8f0; color: #64748b;">Fiziki Şəxslər • Deaktiv</span>
+                <h3 class="module-title" style="color: #64748b;">Fiziki Şəxslərin Reyestri</h3>
+                <p class="module-desc">Fərdi sahibkarlar, fiziki şəxslər və onların mülkiyyətində olan daşınar/daşınmaz əmlak məlumatları.</p>
+              </div>
+              <div class="module-footer">
+                <span class="module-stat">Qeydiyyat: <strong>250 şəxs</strong></span>
+                <button class="btn btn-clear" disabled style="opacity: 0.5; cursor: not-allowed;">Deaktiv</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- System Stats Banner -->
+          <section class="portal-stats-banner">
+            <div class="stat-box">
+              <div class="num" id="portalStatTotal">500</div>
+              <div class="lbl">Ümumi Reyestr Qeydi</div>
+            </div>
+            <div class="stat-box">
+              <div class="num" id="portalStatLegal">250</div>
+              <div class="lbl">Hüquqi Şəxs (MMC/ASC/QSC)</div>
+            </div>
+            <div class="stat-box">
+              <div class="num" id="portalStatPhysical">250</div>
+              <div class="lbl">Fiziki Şəxs</div>
+            </div>
+            <div class="stat-box">
+              <div class="num" id="portalStatImmovable">250</div>
+              <div class="lbl">Daşınmaz Əmlak</div>
+            </div>
+            <div class="stat-box">
+              <div class="num" id="portalStatMovable">250</div>
+              <div class="lbl">Daşınar Əmlak</div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- SCREEN 2: SEARCH & FILTER SYSTEM -->
+      <div id="screenSearch" class="screen-view">
+        <div class="mockup-main-layout">
+          
+          <!-- Page Header -->
+          <header class="mockup-page-header">
+            <h2>Məlumatların Axtarışı və Reyestri</h2>
+            <p>Fiziki və hüquqi şəxslərin əmlak və qeydiyyat məlumatları üzrə axtarış</p>
+          </header>
+
+          <!-- Search & Filter Card -->
+          <section class="filter-card">
+            <div class="filter-card-header">
+              <div class="filter-card-title">Axtarış və Filtrləmə Paneli</div>
+            </div>
+
+            <div class="filter-card-body">
+              <form id="searchFilterForm" onsubmit="event.preventDefault(); applySearchFilters();">
+                <div class="filter-grid">
+
+                  <!-- Ad, soyad, ata adı (Text input + Autocomplete) -->
+                  <div class="form-group">
+                    <label class="form-label" for="fullNameInput">Ad, soyad, ata adı</label>
+                    <input 
+                      type="text" 
+                      id="fullNameInput" 
+                      class="form-control" 
+                      placeholder="Yazmağa başlayın..."
+                      autocomplete="off"
+                      oninput="handleNameAutocomplete(this.value)"
+                    />
+                    <div id="autocompleteList" class="autocomplete-list"></div>
+                  </div>
+
+                  <!-- Şəxs növü (Dropdown: Fiziki şəxs / Hüquqi şəxs) -->
+                  <div class="form-group">
+                    <label class="form-label" for="personTypeSelect">Şəxs növü</label>
+                    <select id="personTypeSelect" class="form-control">
+                      <option value="">Hamısı</option>
+                      <option value="Hüquqi şəxs">Hüquqi şəxs</option>
+                      <option value="Fiziki şəxs">Fiziki şəxs</option>
+                    </select>
+                  </div>
+
+                  <!-- Hüquqi şəxsin təşkilati-hüquqi forması (Enabled Dropdown: MMC, ASC, QSC) -->
+                  <div class="form-group" id="legalFormGroup">
+                    <label class="form-label" for="legalFormSelect">Hüquqi şəxsin təşkilati-hüquqi forması</label>
+                    <select id="legalFormSelect" class="form-control">
+                      <option value="">Hamısı</option>
+                      <option value="MMC">MMC - Məhdud Məsuliyyətli Cəmiyyət</option>
+                      <option value="ASC">ASC - Açıq Səhmdar Cəmiyyəti</option>
+                      <option value="QSC">QSC - Qapalı Səhmdar Cəmiyyəti</option>
+                    </select>
+                  </div>
+
+                  <!-- Tarix aralığı (Başlanğıc və Bitmə tarixi) -->
+                  <div class="form-group">
+                    <label class="form-label">Tarix aralığı</label>
+                    <div class="date-range-group">
+                      <input 
+                        type="date" 
+                        id="startDateInput" 
+                        class="form-control" 
+                        title="Başlanğıc tarixi" 
+                        onfocus="syncDateConstraints()"
+                        onclick="syncDateConstraints()"
+                        onchange="handleStartDateChange(this.value)" 
+                        oninput="handleStartDateChange(this.value)" 
+                      />
+                      <input 
+                        type="date" 
+                        id="endDateInput" 
+                        class="form-control" 
+                        title="Bitmə tarixi" 
+                        onfocus="syncDateConstraints()"
+                        onclick="syncDateConstraints()"
+                        onchange="handleEndDateChange(this.value)" 
+                        oninput="handleEndDateChange(this.value)" 
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Əmlak növü (Dropdown: Daşınar / Daşınmaz) -->
+                  <div class="form-group">
+                    <label class="form-label" for="propertyTypeSelect">Əmlak növü</label>
+                    <select id="propertyTypeSelect" class="form-control">
+                      <option value="">Hamısı</option>
+                      <option value="Daşınar">Daşınar</option>
+                      <option value="Daşınmaz">Daşınmaz</option>
+                    </select>
+                  </div>
+
+                  <!-- VÖEN (Text input + Autocomplete) -->
+                  <div class="form-group">
+                    <label class="form-label" for="voenInput">VÖEN</label>
+                    <input 
+                      type="text" 
+                      id="voenInput" 
+                      class="form-control" 
+                      placeholder="VÖEN daxil edin və ya seçin..." 
+                      maxlength="12"
+                      autocomplete="off"
+                      oninput="handleVoenAutocomplete(this.value)"
+                    />
+                    <div id="voenAutocompleteList" class="autocomplete-list"></div>
+                  </div>
+
+                </div>
+
+                <!-- Buttons & Quick Dates -->
+                <div class="filter-actions-bar">
+                  <div class="quick-dates">
+                    <span class="quick-date-label">Cəld tarixlər:</span>
+                    <button type="button" class="quick-pill" onclick="setQuickDate('today')">Bugün</button>
+                    <button type="button" class="quick-pill" onclick="setQuickDate('month')">Son 30 gün</button>
+                    <button type="button" class="quick-pill" onclick="setQuickDate('year')">Bu il</button>
+                    <button type="button" class="quick-pill" onclick="setQuickDate('all')">Hamısı</button>
+                  </div>
+
+                  <div class="action-buttons">
+                    <button type="button" class="btn btn-clear" onclick="clearAllFilters()">Filteri təmizlə</button>
+                    <button type="submit" class="btn btn-primary">Axtar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Active Filter Badges -->
+          <div id="activeFiltersContainer" class="active-filters-container" style="display: none;">
+            <span style="font-weight: 700; color: #0369a1;">Aktiv filtrlər:</span>
+            <div id="activeFilterBadges" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+          </div>
+
+          <!-- Results Section -->
+          <section class="results-card">
+            <div class="results-header">
+              <div class="results-count-title">
+                <span>Tapılan məlumatlar</span>
+                <span class="count-badge" id="resultsCounter">500 nəticə</span>
+              </div>
+
+              <div class="results-tools">
+                <button class="tool-btn" onclick="exportData('csv')">CSV İxrac</button>
+                <button class="tool-btn" onclick="window.print()">Çap et</button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="custom-table" id="resultsTable">
+                <thead>
+                  <tr>
+                    <th>№</th>
+                    <th>Ad, Soyad / Şirkət Adı</th>
+                    <th>Şəxs Növü</th>
+                    <th>Təşkilati Forma</th>
+                    <th>VÖEN</th>
+                    <th>Əmlak Növü</th>
+                    <th>Qeydiyyat Tarixi</th>
+                    <th style="text-align: center;">Əməliyyat</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div id="paginationContainer" class="pagination-container" style="display: none;">
+              <div class="pagination-info" id="paginationInfo">
+                Göstərilir: <strong id="pageRangeText">1-30</strong> / <span id="pageTotalText">0 nəticə</span>
+              </div>
+              <div class="pagination-nav" id="paginationNav">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+
+            <!-- Initial Prompt State (Before searching) -->
+            <div id="initialState" class="empty-state" style="display: block;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem; color: #0284c7;">🔍</div>
+              <h3 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">Axtarış aparmaq üçün filterləri daxil edin</h3>
+              <p style="font-size: 0.85rem; color: #64748b; max-width: 520px; margin: 0 auto;">
+                Məlumatları əldə etmək üçün yuxarıdakı parametrləri daxil edin və <strong>"Axtar"</strong> düyməsini sıxın.
+              </p>
+            </div>
+
+            <!-- Empty State (No records found after search) -->
+            <div id="emptyState" class="empty-state">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem; color: #f59e0b;">⚠️</div>
+              <h3>Məlumat tapılmadı</h3>
+              <p>Daxil edilmiş filter parametrlərinə uyğun heç bir qeydiyyat aşkar edilmədi.</p>
+              <button class="btn btn-clear" onclick="clearAllFilters()">Filtrləri sıfırla</button>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- Detail Modal -->
+      <div id="detailModal" class="modal-backdrop" onclick="closeDetailModal(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Qeydiyyat Detalları</h3>
+            <button class="modal-close-btn" onclick="closeDetailModal()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-grid">
+              <div class="detail-item">
+                <span class="detail-label">Ad / Şirkət</span>
+                <span class="detail-value" id="modalName">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Şəxs Növü</span>
+                <span class="detail-value" id="modalType">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Təşkilati Forma</span>
+                <span class="detail-value" id="modalLegalForm">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">VÖEN</span>
+                <span class="detail-value" id="modalVoen">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Əmlak Növü</span>
+                <span class="detail-value" id="modalPropertyType">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Qeydiyyat Tarixi</span>
+                <span class="detail-value" id="modalDate">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-clear" onclick="closeDetailModal()">Bağla</button>
+            <button class="btn btn-primary" onclick="alert('Çıxarış generasiya edilir...');">Çıxarış Yüklə</button>
+          </div>
+        </div>
       </div>
     </main>
   </div>
@@ -2293,6 +3534,712 @@
         block.innerHTML = highlightQuery(escapeHtml(raw));
       }
     });
+
+    // =========================================================
+    // MOCKUP CLIENT-SIDE LOGIC & 500-RECORD DATABASE GENERATOR
+    // =========================================================
+    function generate500Database() {
+      const db = [];
+
+      db.push({
+        id: 1,
+        fullName: "SetClapp MMC",
+        personType: "Hüquqi şəxs",
+        legalForm: "MMC",
+        voen: "1405629181",
+        propertyType: "Daşınar",
+        propertyDesc: "İT və proqram təminatı infrastrukturu, server avadanlıqları parkı, Bakı şəh., Binəqədi r-nu",
+        regDate: "2023-04-12"
+      });
+
+      const lastNames = [
+        "Əliyev", "Məmmədov", "Həsənov", "Hüseynov", "Quliyev", "İsmayılov", "Əhmədov", "Rzayev", 
+        "Babayev", "Süleymanov", "Qasımov", "Məhərrəmov", "Cəfərov", "Rüstəmov", "Zeynalov", 
+        "Paşayev", "Ələkbərov", "Vəliyev", "Kərimov", "Məlikov", "Namazov", "Tağıyev", "Səmədova", 
+        "Orucov", "Əsədov", "Bayramov", "Muradov", "Xəlilov", "Abbasov", "Nəbiyev", "Kazımov",
+        "Novruzov", "Mustafayev", "Fərəcov", "Seyidov", "Qəhrəmanov", "Dadaşov", "Qocayev"
+      ];
+
+      const firstNames = [
+        "Rəşad", "Elvin", "Samir", "Tural", "Fərid", "Fuad", "Cavid", "Orxan", "Murad", "Nicat", 
+        "Toğrul", "Anar", "Vüqar", "Rauf", "Emil", "İlqar", "Kamran", "Zaur", "Pərviz", "Eldar",
+        "Aygün", "Leyla", "Nərgiz", "Sevinc", "Zərifə", "Günay", "Dilarə", "Könül", "Nigar", "Aysel",
+        "Fidan", "Şəbnəm", "Gülşən", "Lalə", "Səbinə", "Rəna", "Samirə", "Xədicə"
+      ];
+
+      const patronymics = [
+        "İlham", "Eldar", "Rasim", "Vaqif", "Namiq", "Kamal", "Natiq", "Akif", "Vahid", "Şahin", 
+        "Rauf", "Mehman", "İsmayıl", "Zakir", "Əli", "Həsən", "Əhməd", "Məsud", "Yaqub", "Tahir", 
+        "Nizami", "Səlim", "Cəmil", "Qadir", "Bəxtiyar", "Yusif", "Hafiz", "Sabir", "Mövsüm"
+      ];
+
+      const companyBases = [
+        "Caspian Logistics", "Bakı İnşaat", "Araz Holdinq", "AzərTech Solutions", "Kapital Trans", 
+        "Qarabağ Aqro Sənaye", "Xəzər Enerji", "Global Food Trading", "Şirvan Neft Avadanlıqları", 
+        "İnter Qrup Tikinti", "Nordic Express Logistics", "AzLogistics Solutions", "Gəncə Tekstil Fabriki", 
+        "Silk Way Sky Catering", "Caspian Agrochem", "Baku Steel Construction", "Prime Retail", 
+        "Xəzər Beynəlxalq Sığorta", "AzərMed Pharmaceuticals", "Smart Building Solutions", 
+        "Sumqayıt Polimer Sənaye", "Caspian Sea Shipping", "Qafqaz Mineral Suları", "Azərqaz Layihə Tikinti", 
+        "Delta Logistics Hub", "AvtoServis Qrup", "Silk Road Agro", "Baku Electronics Distribution", 
+        "SOCAR Green Energy Projects", "Azərişıq Podrat Tikinti", "Paşa Trans Logistika", 
+        "Bravo Retail Distribution", "TexnoHub Innovation", "AgroVətən Fermer Təsərrüfatı", 
+        "Abşeron Logistika Mərkəzi", "Mingəçevir İşıq Cihazları", "Naxçıvan Sənaye Kompleksi", 
+        "Şəki İpək və Tekstil", "Lənkəran Çay və Aqro", "Quba Meyvəçilik və Emal", 
+        "Göyçay Şirə və Konserv", "Qarabağ Yenidənqurma İnşaat", "Şuşa Turizm və Otelçilik", 
+        "Füzuli Aqropark Layihəsi", "Zəngilan Ağıllı Şəhər Texnologiyaları", "Kəlbəcər Mineral Sənaye", 
+        "Xocavənd İstehsalat Qrupu", "Qazax Sement və Beton", "Tovuz Aqro İxrac", "Salyan Balıqçılıq Kompleksi"
+      ];
+
+      const legalForms = ["MMC", "ASC", "QSC"];
+
+      const movableAssets = [
+        "Yük avtonəqliyyat parkı (MAN və Mercedes-Benz TIR)",
+        "Minik avtomobili (Mercedes-Benz E-Class, 2024)",
+        "Data mərkəzi server və şəbəkə avadanlıqları",
+        "Kənd təsərrüfatı texnikası (Claas kombayn və traktorlar)",
+        "Dəmiryolu yük sisternləri və vaqonları",
+        "Soyuducu refrijerator nəqliyyat vasitələri",
+        "Tikinti ekskavator və xüsusi yükləyici texnikası",
+        "Kuryer və şəhərdaxili çatdırılma mikroavtobusları",
+        "Dəniz xidmət kateri və naviqasiya vasitəsi",
+        "Elektromobil (Tesla Model Y, 2024)",
+        "Avtomatlaşdırılmış istehsal və qablaşdırma xətti",
+        "Xüsusi tikinti kranı (Liebherr 50t)",
+        "Anbar avtoyükləyici texnikaları (Jungheinrich forklift)",
+        "Tibbi laboratoriya və diaqnostika avadanlıqları"
+      ];
+
+      const immovableAssets = [
+        "Fərdi yaşayış evi və həyətyanı sahə, Bakı şəh., Nəsimi r-nu",
+        "İnzibati ofis binası (4 mərtəbə), Heydər Əliyev pr.",
+        "Logistika və müasir anbar kompleksi (15,000 kv.m), Qaradağ r-nu",
+        "Kənd təsərrüfatı təyinatlı torpaq sahəsi (0.15 ha), Abşeron r-nu",
+        "Qeyri-yaşayış ticarət və kommersiya sahəsi (180 kv.m), Nizami küç.",
+        "Aqropark və istixana kompleksi (5 ha), Ağdam r-nu",
+        "İstehsalat korpusu və laboratoriya binası, Sumqayıt Kimya Sənaye Parkı",
+        "Mənzil (120 kv.m), Port Baku Residence, Səbail r-nu",
+        "Ticarət və supermarket obyekti (2,200 kv.m), Binəqədi r-nu",
+        "Bağ evi və istirahət sahəsi (800 kv.m), Mərdəkan qəs.",
+        "Mühəndislik və layihələndirmə mərkəzi, Bakı Ağ Şəhər",
+        "Restoran və ictimai iaşə kompleksi (350 kv.m), Sahil bağı",
+        "Günəş panelləri stansiyası yardımçı tikililəri, Qobustan r-nu",
+        "Otel və turizm istirahət mərkəzi, Şuşa şəhəri"
+      ];
+
+      function generateRealisticDate(i) {
+        const today = new Date();
+        const formatDate = (d) => d.toISOString().split("T")[0];
+
+        if (i <= 8) return formatDate(today);
+        if (i <= 60) {
+          const daysAgo = 1 + (i % 29);
+          const d = new Date(today);
+          d.setDate(today.getDate() - daysAgo);
+          return formatDate(d);
+        }
+        if (i <= 200) {
+          const daysAgo = 31 + ((i * 3) % 190);
+          const d = new Date(today);
+          d.setDate(today.getDate() - daysAgo);
+          return formatDate(d);
+        }
+        if (i <= 330) {
+          const month = String(1 + (i % 12)).padStart(2, '0');
+          const day = String(1 + ((i * 7) % 28)).padStart(2, '0');
+          return `2025-${month}-${day}`;
+        }
+        if (i <= 430) {
+          const month = String(1 + (i % 12)).padStart(2, '0');
+          const day = String(1 + ((i * 5) % 28)).padStart(2, '0');
+          return `2024-${month}-${day}`;
+        }
+        const year = 2021 + (i % 3);
+        const month = String(1 + (i % 12)).padStart(2, '0');
+        const day = String(1 + ((i * 11) % 28)).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      for (let i = 2; i <= 500; i++) {
+        const isLegal = (i % 2 === 0);
+        let fullName, personType, legalForm, voen, propertyType, propertyDesc, regDate;
+
+        if (isLegal) {
+          personType = "Hüquqi şəxs";
+          legalForm = legalForms[(i % legalForms.length)];
+          const baseName = companyBases[(i % companyBases.length)];
+          const suffixIndex = Math.floor(i / companyBases.length);
+          fullName = suffixIndex > 0 ? `${baseName} ${suffixIndex + 1} ${legalForm}` : `${baseName} ${legalForm}`;
+          
+          const prefix = 10 + (i % 18);
+          const middle = String(100000 + ((i * 739) % 899999));
+          voen = `${prefix}${middle}1`;
+
+          propertyType = (i % 3 === 0) ? "Daşınar" : "Daşınmaz";
+          propertyDesc = propertyType === "Daşınar" 
+            ? movableAssets[i % movableAssets.length] 
+            : immovableAssets[i % immovableAssets.length];
+        } else {
+          personType = "Fiziki şəxs";
+          legalForm = "-";
+          const lName = lastNames[(i * 3) % lastNames.length];
+          const fName = firstNames[(i * 7) % firstNames.length];
+          const pName = patronymics[(i * 5) % patronymics.length];
+          const isFemale = fName.endsWith("a") || fName.endsWith("ə") || fName.endsWith("c") || fName.endsWith("gül") || fName.endsWith("naz");
+          fullName = `${lName} ${fName} ${pName} ${isFemale ? 'qızı' : 'oğlu'}`;
+
+          const prefix = 25 + (i % 20);
+          const middle = String(100000 + ((i * 853) % 899999));
+          voen = `${prefix}${middle}1`;
+
+          propertyType = (i % 2 === 0) ? "Daşınmaz" : "Daşınar";
+          propertyDesc = propertyType === "Daşınmaz" 
+            ? immovableAssets[i % immovableAssets.length] 
+            : movableAssets[i % movableAssets.length];
+        }
+
+        regDate = generateRealisticDate(i);
+
+        db.push({
+          id: i,
+          fullName,
+          personType,
+          legalForm,
+          voen,
+          propertyType,
+          propertyDesc,
+          regDate
+        });
+      }
+
+      return db;
+    }
+
+    const mockDatabase = generate500Database();
+    let currentFilteredData = [];
+    const PAGE_SIZE = 30;
+    let currentPage = 1;
+
+    function showMockupScreen(screenId) {
+      document.querySelectorAll('#mainPane-mockup .screen-view').forEach(el => el.classList.remove('active'));
+      const navBackBtn = document.getElementById('navBackBtn');
+
+      if (screenId === 'search') {
+        document.getElementById('screenSearch').classList.add('active');
+        if (navBackBtn) navBackBtn.style.display = 'inline-flex';
+      } else {
+        document.getElementById('screenWelcome').classList.add('active');
+        if (navBackBtn) navBackBtn.style.display = 'none';
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderTable([], true);
+      updateNavbarStats();
+
+      document.addEventListener("click", (e) => {
+        const autocompleteList = document.getElementById("autocompleteList");
+        const fullNameInput = document.getElementById("fullNameInput");
+        if (autocompleteList && !autocompleteList.contains(e.target) && e.target !== fullNameInput) {
+          autocompleteList.classList.remove("show");
+        }
+
+        const voenAutocompleteList = document.getElementById("voenAutocompleteList");
+        const voenInput = document.getElementById("voenInput");
+        if (voenAutocompleteList && !voenAutocompleteList.contains(e.target) && e.target !== voenInput) {
+          voenAutocompleteList.classList.remove("show");
+        }
+      });
+    });
+
+    function handleNameAutocomplete(query) {
+      const listContainer = document.getElementById("autocompleteList");
+      if (!listContainer) return;
+      const cleanQuery = query.trim().toLowerCase();
+
+      if (!cleanQuery) {
+        listContainer.innerHTML = "";
+        listContainer.classList.remove("show");
+        return;
+      }
+
+      const matches = mockDatabase.filter(item => 
+        item.fullName.toLowerCase().includes(cleanQuery) ||
+        item.voen.includes(cleanQuery)
+      );
+
+      if (matches.length === 0) {
+        listContainer.innerHTML = `
+          <div style="padding: 8px 12px; font-size: 0.8rem; color: #64748b;">
+            Məlumat tapılmadı
+          </div>
+        `;
+        listContainer.classList.add("show");
+        return;
+      }
+
+      listContainer.innerHTML = matches.slice(0, 8).map(item => {
+        const regex = new RegExp(`(${cleanQuery})`, 'gi');
+        const highlightedName = item.fullName.replace(regex, '<mark>$1</mark>');
+
+        return `
+          <div class="autocomplete-item" onclick="selectAutocompleteItem('${escapeJsString(item.fullName)}', '${item.personType}', '${item.legalForm}')">
+            <span class="person-name">${highlightedName}</span>
+            <span class="badge-type">${item.personType}</span>
+          </div>
+        `;
+      }).join('');
+
+      listContainer.classList.add("show");
+    }
+
+    function escapeJsString(str) {
+      return str.replace(/'/g, "\\'");
+    }
+
+    function selectAutocompleteItem(fullName, personType, legalForm) {
+      document.getElementById("fullNameInput").value = fullName;
+      document.getElementById("autocompleteList").classList.remove("show");
+
+      const personTypeSelect = document.getElementById("personTypeSelect");
+      personTypeSelect.value = personType;
+
+      if (legalForm && legalForm !== "-") {
+        document.getElementById("legalFormSelect").value = legalForm;
+      }
+
+      applySearchFilters();
+    }
+
+    function handleVoenAutocomplete(query) {
+      const listContainer = document.getElementById("voenAutocompleteList");
+      if (!listContainer) return;
+      const cleanQuery = query.trim();
+
+      if (!cleanQuery) {
+        listContainer.innerHTML = "";
+        listContainer.classList.remove("show");
+        return;
+      }
+
+      const matches = mockDatabase.filter(item => item.voen.includes(cleanQuery));
+
+      if (matches.length === 0) {
+        listContainer.innerHTML = `
+          <div style="padding: 8px 12px; font-size: 0.8rem; color: #64748b;">
+            VÖEN tapılmadı
+          </div>
+        `;
+        listContainer.classList.add("show");
+        return;
+      }
+
+      listContainer.innerHTML = matches.slice(0, 8).map(item => {
+        const regex = new RegExp(`(${cleanQuery})`, 'gi');
+        const highlightedVoen = item.voen.replace(regex, '<mark>$1</mark>');
+
+        return `
+          <div class="autocomplete-item" onclick="selectVoenAutocompleteItem('${item.voen}')">
+            <div style="display: flex; flex-direction: column;">
+              <span class="person-name" style="font-family: monospace; font-size: 0.875rem;">${highlightedVoen}</span>
+              <span style="font-size: 0.75rem; color: #64748b;">${item.fullName}</span>
+            </div>
+            <span class="badge-type">${item.personType}</span>
+          </div>
+        `;
+      }).join('');
+
+      listContainer.classList.add("show");
+    }
+
+    function selectVoenAutocompleteItem(voen) {
+      document.getElementById("voenInput").value = voen;
+      document.getElementById("voenAutocompleteList").classList.remove("show");
+      applySearchFilters();
+    }
+
+    function syncDateConstraints() {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (!startDateInput || !endDateInput) return;
+
+      if (startDateInput.value) {
+        endDateInput.min = startDateInput.value;
+      } else {
+        endDateInput.removeAttribute("min");
+      }
+
+      if (endDateInput.value) {
+        startDateInput.max = endDateInput.value;
+      } else {
+        startDateInput.removeAttribute("max");
+      }
+    }
+
+    function handleStartDateChange(val) {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (!startDateInput || !endDateInput) return;
+
+      if (val) {
+        endDateInput.min = val;
+        if (endDateInput.value && endDateInput.value < val) {
+          endDateInput.value = val;
+        }
+      } else {
+        endDateInput.removeAttribute("min");
+      }
+    }
+
+    function handleEndDateChange(val) {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (!startDateInput || !endDateInput) return;
+
+      if (val) {
+        if (startDateInput.value && val < startDateInput.value) {
+          endDateInput.value = startDateInput.value;
+          val = startDateInput.value;
+        }
+        startDateInput.max = val;
+      } else {
+        startDateInput.removeAttribute("max");
+      }
+    }
+
+    function setQuickDate(type) {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (!startDateInput || !endDateInput) return;
+      const today = new Date();
+      const formatDate = (d) => d.toISOString().split("T")[0];
+
+      if (type === "today") {
+        const todayStr = formatDate(today);
+        startDateInput.value = todayStr;
+        endDateInput.value = todayStr;
+        endDateInput.min = todayStr;
+        startDateInput.max = todayStr;
+      } else if (type === "month") {
+        const lastMonth = new Date();
+        lastMonth.setDate(today.getDate() - 30);
+        const lastMonthStr = formatDate(lastMonth);
+        const todayStr = formatDate(today);
+        startDateInput.value = lastMonthStr;
+        endDateInput.value = todayStr;
+        endDateInput.min = lastMonthStr;
+        startDateInput.max = todayStr;
+      } else if (type === "year") {
+        const currentYear = today.getFullYear();
+        const startOfYear = `${currentYear}-01-01`;
+        const endOfYear = `${currentYear}-12-31`;
+        startDateInput.value = startOfYear;
+        endDateInput.value = endOfYear;
+        endDateInput.min = startOfYear;
+        startDateInput.max = endOfYear;
+      } else if (type === "all") {
+        startDateInput.value = "";
+        endDateInput.value = "";
+        startDateInput.removeAttribute("max");
+        endDateInput.removeAttribute("min");
+      }
+    }
+
+    function applySearchFilters() {
+      const nameQuery = document.getElementById("fullNameInput").value.trim().toLowerCase();
+      const personType = document.getElementById("personTypeSelect").value;
+      const legalForm = document.getElementById("legalFormSelect").value;
+      const startDate = document.getElementById("startDateInput").value;
+      const endDate = document.getElementById("endDateInput").value;
+      const propertyType = document.getElementById("propertyTypeSelect").value;
+      const voenQuery = document.getElementById("voenInput").value.trim();
+
+      currentFilteredData = mockDatabase.filter(item => {
+        if (nameQuery && !item.fullName.toLowerCase().includes(nameQuery)) {
+          return false;
+        }
+        if (personType && item.personType !== personType) {
+          return false;
+        }
+        if (legalForm && item.legalForm !== legalForm) {
+          return false;
+        }
+        if (voenQuery && !item.voen.includes(voenQuery)) {
+          return false;
+        }
+        if (propertyType && item.propertyType !== propertyType) {
+          return false;
+        }
+        if (startDate && item.regDate < startDate) {
+          return false;
+        }
+        if (endDate && item.regDate > endDate) {
+          return false;
+        }
+        return true;
+      });
+
+      currentPage = 1;
+      renderTable(currentFilteredData);
+      renderActiveFilterBadges({
+        nameQuery,
+        personType,
+        legalForm,
+        startDate,
+        endDate,
+        propertyType,
+        voenQuery
+      });
+    }
+
+    function clearAllFilters() {
+      const form = document.getElementById("searchFilterForm");
+      if (form) form.reset();
+      
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (startDateInput) startDateInput.removeAttribute("max");
+      if (endDateInput) endDateInput.removeAttribute("min");
+
+      const autocompleteList = document.getElementById("autocompleteList");
+      if (autocompleteList) autocompleteList.classList.remove("show");
+      
+      const voenAutocompleteList = document.getElementById("voenAutocompleteList");
+      if (voenAutocompleteList) voenAutocompleteList.classList.remove("show");
+
+      const activeFiltersContainer = document.getElementById("activeFiltersContainer");
+      if (activeFiltersContainer) activeFiltersContainer.style.display = "none";
+      
+      currentPage = 1;
+      currentFilteredData = [];
+      renderTable([], true);
+    }
+
+    function renderTable(data, isInitial = false) {
+      const tbody = document.getElementById("resultsTableBody");
+      const emptyState = document.getElementById("emptyState");
+      const initialState = document.getElementById("initialState");
+      const table = document.getElementById("resultsTable");
+      const counter = document.getElementById("resultsCounter");
+      const paginationContainer = document.getElementById("paginationContainer");
+      const pageRangeText = document.getElementById("pageRangeText");
+      const pageTotalText = document.getElementById("pageTotalText");
+      const paginationNav = document.getElementById("paginationNav");
+
+      if (!tbody || !table || !counter) return;
+
+      if (isInitial) {
+        tbody.innerHTML = "";
+        table.style.display = "none";
+        if (paginationContainer) paginationContainer.style.display = "none";
+        if (initialState) initialState.style.display = "block";
+        if (emptyState) emptyState.classList.remove("show");
+        counter.textContent = "Axtarış gözlənilir";
+        return;
+      }
+
+      if (initialState) initialState.style.display = "none";
+      counter.textContent = `${data.length} nəticə`;
+
+      if (data.length === 0) {
+        tbody.innerHTML = "";
+        table.style.display = "none";
+        if (paginationContainer) paginationContainer.style.display = "none";
+        if (emptyState) emptyState.classList.add("show");
+        return;
+      }
+
+      table.style.display = "table";
+      if (emptyState) emptyState.classList.remove("show");
+
+      const totalPages = Math.ceil(data.length / PAGE_SIZE);
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const endIndex = Math.min(startIndex + PAGE_SIZE, data.length);
+      const pageData = data.slice(startIndex, endIndex);
+
+      tbody.innerHTML = pageData.map((item, index) => {
+        const isLegal = item.personType === "Hüquqi şəxs";
+        const rowNumber = startIndex + index + 1;
+        return `
+          <tr>
+            <td style="color: #64748b;">${rowNumber}</td>
+            <td>
+              <div class="entity-title">${item.fullName}</div>
+            </td>
+            <td>
+              <span class="${isLegal ? 'badge-legal' : 'badge-physical'}">
+                ${item.personType}
+              </span>
+            </td>
+            <td>
+              ${item.legalForm !== '-' 
+                ? `<span style="font-weight: 600; color: #0369a1;">${item.legalForm}</span>` 
+                : `<span style="color: #94a3b8;">-</span>`}
+            </td>
+            <td>
+              <span class="voen-code">${item.voen}</span>
+            </td>
+            <td>
+              <span class="badge-property">${item.propertyType}</span>
+            </td>
+            <td>
+              <span style="color: #334155;">${item.regDate}</span>
+            </td>
+            <td style="text-align: center;">
+              <button class="btn-action-view" onclick="openDetailModal(${item.id})">Bax</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (paginationContainer && pageRangeText && pageTotalText && paginationNav) {
+        if (totalPages > 1) {
+          paginationContainer.style.display = "flex";
+          pageRangeText.textContent = `${startIndex + 1} - ${endIndex}`;
+          pageTotalText.textContent = `${data.length} nəticə (Səhifə ${currentPage} / ${totalPages})`;
+
+          let navHtml = `
+            <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
+              Əvvəlki
+            </button>
+          `;
+
+          for (let p = 1; p <= totalPages; p++) {
+            if (p === 1 || p === totalPages || (p >= currentPage - 1 && p <= currentPage + 1)) {
+              navHtml += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+            } else if (p === currentPage - 2 || p === currentPage + 2) {
+              navHtml += `<span class="page-ellipsis">...</span>`;
+            }
+          }
+
+          navHtml += `
+            <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
+              Növbəti
+            </button>
+          `;
+
+          paginationNav.innerHTML = navHtml;
+        } else {
+          paginationContainer.style.display = "none";
+        }
+      }
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderTable(currentFilteredData);
+      const resultsCard = document.querySelector('.results-card');
+      if (resultsCard) {
+        resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function renderActiveFilterBadges(filters) {
+      const container = document.getElementById("activeFiltersContainer");
+      const badgesWrapper = document.getElementById("activeFilterBadges");
+      if (!container || !badgesWrapper) return;
+      const badges = [];
+
+      if (filters.nameQuery) {
+        badges.push(`<span>Ad: <strong>${filters.nameQuery}</strong></span>`);
+      }
+      if (filters.personType) {
+        badges.push(`<span>Şəxs növü: <strong>${filters.personType}</strong></span>`);
+      }
+      if (filters.legalForm) {
+        badges.push(`<span>Forma: <strong>${filters.legalForm}</strong></span>`);
+      }
+      if (filters.voenQuery) {
+        badges.push(`<span>VÖEN: <strong>${filters.voenQuery}</strong></span>`);
+      }
+      if (filters.propertyType) {
+        badges.push(`<span>Əmlak: <strong>${filters.propertyType}</strong></span>`);
+      }
+      if (filters.startDate || filters.endDate) {
+        badges.push(`<span>Tarix: <strong>${filters.startDate || '...'} - ${filters.endDate || '...'}</strong></span>`);
+      }
+
+      if (badges.length > 0) {
+        badgesWrapper.innerHTML = badges.map(b => `
+          <span class="active-filter-badge">
+            ${b}
+          </span>
+        `).join('');
+        container.style.display = "flex";
+      } else {
+        container.style.display = "none";
+      }
+    }
+
+    function updateNavbarStats() {
+      const phys = mockDatabase.filter(d => d.personType === "Fiziki şəxs").length;
+      const leg = mockDatabase.filter(d => d.personType === "Hüquqi şəxs").length;
+      const immovable = mockDatabase.filter(d => d.propertyType === "Daşınmaz").length;
+      const movable = mockDatabase.filter(d => d.propertyType === "Daşınar").length;
+
+      const sp = document.getElementById("statPhysicalCount");
+      const sl = document.getElementById("statLegalCount");
+      const st = document.getElementById("statTotalCount");
+      if (sp) sp.textContent = phys;
+      if (sl) sl.textContent = leg;
+      if (st) st.textContent = mockDatabase.length;
+
+      if (document.getElementById("portalStatTotal")) {
+        document.getElementById("portalStatTotal").textContent = mockDatabase.length;
+        document.getElementById("portalStatLegal").textContent = leg;
+        document.getElementById("portalStatPhysical").textContent = phys;
+        document.getElementById("portalStatImmovable").textContent = immovable;
+        document.getElementById("portalStatMovable").textContent = movable;
+      }
+    }
+
+    function openDetailModal(id) {
+      const item = mockDatabase.find(d => d.id === id);
+      if (!item) return;
+
+      document.getElementById("modalName").textContent = item.fullName;
+      document.getElementById("modalType").textContent = item.personType;
+      document.getElementById("modalLegalForm").textContent = item.legalForm;
+      document.getElementById("modalVoen").textContent = item.voen;
+      document.getElementById("modalPropertyType").textContent = item.propertyType;
+      document.getElementById("modalDate").textContent = item.regDate;
+
+      const detailModal = document.getElementById("detailModal");
+      if (detailModal) detailModal.classList.add("show");
+    }
+
+    function closeDetailModal(e) {
+      const detailModal = document.getElementById("detailModal");
+      if (!detailModal) return;
+      if (e && e.target !== detailModal && !e.target.classList.contains("modal-close-btn")) {
+        return;
+      }
+      detailModal.classList.remove("show");
+    }
+
+    function exportData(format) {
+      if (currentFilteredData.length === 0) {
+        alert("İxrac ediləcək heç bir məlumat yoxdur!");
+        return;
+      }
+
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "ID,Ad / Şirkət,Şəxs Növü,Təşkilati Forma,VÖEN,Əmlak Növü,Qeydiyyat Tarixi\n";
+
+      currentFilteredData.forEach(row => {
+        csvContent += `"${row.id}","${row.fullName}","${row.personType}","${row.legalForm}","${row.voen}","${row.propertyType}","${row.regDate}"\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `reyestr_ixrac_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   </script>
 </body>
 </html>
