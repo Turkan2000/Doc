@@ -1365,6 +1365,13 @@
       justify-content: flex-end;
       gap: 8px;
     }
+
+    #mainPane-mockup:fullscreen {
+      background: #f8fafc;
+      padding: 24px 32px;
+      overflow-y: auto;
+      max-width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -3111,11 +3118,11 @@
          SRS TAB PANE 5: UI / MOCKUPS (TAM İNTERAKTİV DAXİLİ PROTOTİP)
          ========================================================= -->
     <main class="srs-pane" id="mainPane-mockup">
-      <!-- Mockup Top Toolbar with Open in New Window Button -->
+      <!-- Mockup Top Toolbar -->
       <div class="mockup-top-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding: 10px 16px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px;">
         <span style="font-size: 14px; font-weight: 700; color: #0369a1;">İnteraktiv Axtarış və Reyestr Prototipi (Mockup)</span>
-        <button type="button" onclick="openMockupStandaloneWindow()" class="btn-print" style="cursor: pointer; padding: 6px 14px; font-size: 13px;">
-          Ayrı pəncərədə tam ekran aç ↗
+        <button type="button" onclick="toggleMockupFullscreen()" class="btn-print" style="cursor: pointer; padding: 6px 14px; font-size: 13px;">
+          Tam ekran rejimi ⛶
         </button>
       </div>
 
@@ -4241,86 +4248,22 @@
       document.body.removeChild(link);
     }
 
-    // Opens Mockup directly in a new window/tab without requiring any external file
-    function openMockupStandaloneWindow() {
-      const newWin = window.open('', '_blank');
-      if (!newWin) {
-        alert("Brauzer yeni pəncərənin açılmasına icazə vermədi. Lütfən pop-up icazəsini aktiv edin.");
-        return;
+    function toggleMockupFullscreen() {
+      const elem = document.getElementById('mainPane-mockup');
+      if (!elem) return;
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
       }
-      
-      const styles = document.querySelector('style').innerHTML;
-      const mockupContent = document.getElementById('mainPane-mockup').innerHTML;
-      const scripts = `
-        const mockDatabase = (${generate500Database.toString()})();
-        let currentFilteredData = [];
-        const PAGE_SIZE = 30;
-        let currentPage = 1;
-        ${showMockupScreen.toString()}
-        ${handleNameAutocomplete.toString()}
-        ${escapeJsString.toString()}
-        ${selectAutocompleteItem.toString()}
-        ${handleVoenAutocomplete.toString()}
-        ${selectVoenAutocompleteItem.toString()}
-        ${syncDateConstraints.toString()}
-        ${handleStartDateChange.toString()}
-        ${handleEndDateChange.toString()}
-        ${setQuickDate.toString()}
-        ${applySearchFilters.toString()}
-        ${clearAllFilters.toString()}
-        ${renderTable.toString()}
-        ${goToPage.toString()}
-        ${renderActiveFilterBadges.toString()}
-        ${updateNavbarStats.toString()}
-        ${openDetailModal.toString()}
-        ${closeDetailModal.toString()}
-        ${exportData.toString()}
-        
-        document.addEventListener("DOMContentLoaded", () => {
-          renderTable([], true);
-          updateNavbarStats();
-          document.addEventListener("click", (e) => {
-            const autocompleteList = document.getElementById("autocompleteList");
-            const fullNameInput = document.getElementById("fullNameInput");
-            if (autocompleteList && !autocompleteList.contains(e.target) && e.target !== fullNameInput) {
-              autocompleteList.classList.remove("show");
-            }
-            const voenAutocompleteList = document.getElementById("voenAutocompleteList");
-            const voenInput = document.getElementById("voenInput");
-            if (voenAutocompleteList && !voenAutocompleteList.contains(e.target) && e.target !== voenInput) {
-              voenAutocompleteList.classList.remove("show");
-            }
-          });
-        });
-      `;
-
-      newWin.document.open();
-      newWin.document.write(\`
-        <!DOCTYPE html>
-        <html lang="az">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>Vahid Reyestr və Məlumat Portalı - İnteraktiv Prototip</title>
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-          <style>
-            \${styles}
-            body { padding: 24px 32px; max-width: 1300px; margin: 0 auto; background: #f8fafc; }
-            .srs-pane { display: block !important; }
-            .mockup-top-toolbar { display: none !important; }
-          </style>
-        </head>
-        <body>
-          <div id="mainPane-mockup" class="srs-pane active">
-            \${mockupContent}
-          </div>
-          <script>\${scripts}<\/script>
-        </body>
-        </html>
-      \`);
-      newWin.document.close();
     }
   </script>
 </body>
