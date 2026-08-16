@@ -29,16 +29,16 @@
       line-height: 1.55;
     }
     .page {
-      max-width: 1020px;
+      max-width: 1040px;
       margin: 32px auto 64px;
       background: var(--paper);
       border: 1px solid var(--line);
-      padding: 36px 44px 56px;
-      border-radius: 4px;
+      padding: 36px 40px 56px;
+      border-radius: 6px;
     }
     .doc-title {
-      margin: 0 0 24px;
-      font-size: 23px;
+      margin: 0 0 22px;
+      font-size: 22px;
       font-weight: 800;
       text-align: center;
       color: #0f172a;
@@ -51,11 +51,12 @@
       gap: 6px;
       border-bottom: 2px solid #94a3b8;
       margin: 20px 0 28px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
     .srs-main-tab {
-      padding: 10px 18px;
-      font-size: 14px;
+      padding: 9.5px 15px;
+      font-size: 13.5px;
       font-weight: 700;
       color: #334155;
       background: #e2e8f0;
@@ -68,6 +69,7 @@
       position: relative;
       bottom: -2px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .srs-main-tab:hover {
       background: #cbd5e1;
@@ -1376,21 +1378,39 @@
 </head>
 <body>
   <div class="page">
-    <h1 class="doc-title">Vahid Reyestr və Məlumat Portalı - Proqram Təminatı Tələblərinin Spesifikasiyası (SRS)</h1>
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 6px;">
+      <span style="font-size: 11.5px; font-weight: 500; color: #94a3b8; letter-spacing: 0.3px; user-select: none;">
+        Turkan Masimova
+      </span>
+    </div>
+
+    <h1 class="doc-title" style="margin-top: 2px;">Vahid Reyestr və Məlumat Portalı - Proqram Təminatı Tələblərinin Spesifikasiyası (SRS)</h1>
 
     <!-- Master SRS Tabs Navigation -->
     <nav class="srs-master-nav" aria-label="SRS Bölmələri">
-      <button class="srs-main-tab active" id="mainTabBtn-api" onclick="switchMainTab('api')">Api Documentation</button>
+      <button class="srs-main-tab active" id="mainTabBtn-overview" onclick="switchMainTab('overview')">Document Overview</button>
+      <button class="srs-main-tab" id="mainTabBtn-api" onclick="switchMainTab('api')">Api Documentation</button>
       <button class="srs-main-tab" id="mainTabBtn-usecase" onclick="switchMainTab('usecase')">Use Case</button>
-      <button class="srs-main-tab" id="mainTabBtn-validation" onclick="switchMainTab('validation')">Input Validation Specification</button>
+      <button class="srs-main-tab" id="mainTabBtn-validation" onclick="switchMainTab('validation')">Input Validation</button>
       <button class="srs-main-tab" id="mainTabBtn-workflow" onclick="switchMainTab('workflow')">Workflow</button>
       <button class="srs-main-tab" id="mainTabBtn-mockup" onclick="switchMainTab('mockup')">UI / Mockups</button>
     </nav>
 
     <!-- =========================================================
-         SRS TAB PANE 1: API DOCUMENTATION
+         SRS TAB PANE 1: DOCUMENT OVERVIEW (ƏSAS TAB)
          ========================================================= -->
-    <main class="srs-pane active" id="mainPane-api">
+    <main class="srs-pane active" id="mainPane-overview">
+      <p style="font-size: 15px; line-height: 1.7; color: #1e293b; margin-top: 10px;">Bu sənəd Vahid Reyestr və Məlumat Portalının hazırlanması və inkişafı üçün tələb olunan funksional və texniki tələbləri vahid şəkildə təsvir edir. Sənəd sistemin əsas məqsədini, biznes proseslərini, istifadəçi ssenarilərini və məlumatların əldə edilməsi, emalı, saxlanılması və təqdim olunması ilə bağlı yanaşmanı müəyyənləşdirir.</p>
+
+      <p style="font-size: 15px; line-height: 1.7; color: #1e293b;">Sənəd çərçivəsində DVX və ƏMAS ilə inteqrasiya prosesləri, ilkin məlumatların yüklənməsi və sonrakı məlumat sinxronizasiyası, API servisləri və onların request/response strukturları, error handling və validation qaydaları əhatə olunur. Həmçinin məlumat bazasının strukturu, cədvəllər arasındakı əlaqələr və məlumatların portal daxilində axtarılması və filtrlənməsi üçün nəzərdə tutulan funksionallıqlar təsvir edilir.</p>
+
+      <p style="font-size: 15px; line-height: 1.7; color: #1e293b;">Bundan əlavə, sənəddə əsas Use Case-lər, workflow-lar, input validation qaydaları və UI mockuplar təqdim olunur. Bu bölmələr sistemin həm biznes, həm də texniki tərəfinin vahid şəkildə başa düşülməsini təmin edir.</p>
+    </main>
+
+    <!-- =========================================================
+         SRS TAB PANE 2: API DOCUMENTATION
+         ========================================================= -->
+    <main class="srs-pane" id="mainPane-api">
       
       <!-- Sub Tabs: DVX / ƏMAS -->
       <div class="tabs-header-wrap">
@@ -1437,6 +1457,9 @@
               <a href="#dvx-dump">İlkin məlumatların yüklənməsi - DUMP</a>
             </li>
             <li>
+              <a href="#dvx-security">Təhlükəsizlik və Autentifikasiya</a>
+            </li>
+            <li>
               <a href="#dvx-service-1">Service 01 - GET /taxpayers/changed</a>
             </li>
             <li>
@@ -1477,7 +1500,7 @@
               <td>3</td>
               <td>FİN</td>
               <td>string</td>
-              <td>Fiziki şəxsin 7 simvollu unikal FİN kodu. Hüquqi şəxs üçün boşdur.</td>
+              <td>Fiziki şəxsin Fərdi İdentifikasiya Nömrəsi (FİN). Hüquqi şəxs üçün boşdur.</td>
             </tr>
             <tr>
               <td>4</td>
@@ -1550,6 +1573,69 @@
               <td>Status</td>
               <td>string</td>
               <td>Vergi ödəyicisinin statusu: <code>A</code> (aktiv), <code>C</code> (cancel)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- DVX SECURITY & AUTHENTICATION SECTION -->
+        <h1 id="dvx-security">Təhlükəsizlik və Autentifikasiya</h1>
+        <p>Dövlət Vergi Xidməti (DVX) REST API servisləri ilə qarşılıqlı məlumat mübadiləsi zamanı təhlükəsizliyin təmin edilməsi məqsədilə <strong>OAuth 2.0 (Bearer Token / JWT)</strong> autentifikasiyası və təhlükəsiz <strong>HTTPS</strong> protokolundan istifadə olunur.</p>
+
+        <h2>Autentifikasiya Parametrləri (HTTP Headers)</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>Parametr</th>
+              <th>Yer</th>
+              <th>Tip</th>
+              <th>Məcburi</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>Authorization</code></td>
+              <td>Header</td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Format: <code>Bearer {access_token}</code>. Dövlət təhlükəsizlik şlüzü tərəfindən generasiya edilmiş etibarlı JWT token.</td>
+            </tr>
+            <tr>
+              <td><code>X-Client-Id</code></td>
+              <td>Header</td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Portalın DVX tərəfindən qeydiyyata alınmış unikal müştəri identifikatoru.</td>
+            </tr>
+            <tr>
+              <td><code>Accept</code></td>
+              <td>Header</td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Dəyər: <code>application/json</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Autentifikasiya Status və Xəta Kodları</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>HTTP Status</th>
+              <th>Status Kodu</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>401 Unauthorized</code></td>
+              <td>UNAUTHORIZED</td>
+              <td>Token təqdim edilməyib, etibarsızlıq müddəti bitib və ya imza yanlışdır.</td>
+            </tr>
+            <tr>
+              <td><code>403 Forbidden</code></td>
+              <td>ACCESS_DENIED</td>
+              <td>Müştəri identifikasiyadan keçib, lakin tələb olunan VÖEN məlumatlarını oxumaq hüququ yoxdur.</td>
             </tr>
           </tbody>
         </table>
@@ -1779,7 +1865,7 @@
               <td>3</td>
               <td>FİN</td>
               <td>string</td>
-              <td>Fiziki şəxsin 7 simvollu unikal FİN kodu. Hüquqi şəxs üçün boşdur.</td>
+              <td>Fiziki şəxsin Fərdi İdentifikasiya Nömrəsi (FİN). Hüquqi şəxs üçün boşdur.</td>
             </tr>
             <tr>
               <td>4</td>
@@ -1929,6 +2015,9 @@
               <a href="#emas-dump">İlkin məlumatların formalaşdırılması və ƏMAS sinxronizasiyası</a>
             </li>
             <li>
+              <a href="#emas-security">Təhlükəsizlik və Autentifikasiya</a>
+            </li>
+            <li>
               <a href="#emas-service-1">Service 01 - GET /contracts/changed</a>
             </li>
             <li>
@@ -1938,13 +2027,14 @@
         </nav>
 
         <h1 id="emas-dump">İlkin məlumatların formalaşdırılması və ƏMAS sinxronizasiyası</h1>
-        <p>ƏMAS (Əmək Münasibətləri Alt Sistemi) üzrə məlumatların əldə edilməsi və lokal bazanın əmək müqaviləsi məlumatları ilə formalaşdırılması aşağıdakı mexanizm üzrə həyata keçirilir:</p>
+        <p>ƏMAS üzrə məlumatların əldə edilməsi və lokal bazanın yenilənməsi aşağıdakı ardıcıllıqla həyata keçirilir:</p>
         
         <ol style="margin-left: 20px; color: #2c3645; margin-bottom: 16px;">
-          <li style="margin-bottom: 8px;"><strong>DVX DUMP-ın yüklənməsi:</strong> İlkin mərhələdə DVX tərəfindən təqdim olunan tam DUMP bazası lokal bazaya daxil edilir və fiziki şəxslərin unikal <strong>FİN kodları</strong> müəyyən edilir.</li>
-          <li style="margin-bottom: 8px;"><strong>İlkin müqavilə məlumatlarının əlaqələndirilməsi:</strong> ƏMAS sistemində qeydiyyatda olan əmək müqavilələri nömrələri üzrə işçilərin FİN kodları, müqavilənin cari statusu (muqavileStatus: A və ya C) və əsas iş yeri adı (isYeri) lokal bazada əlaqələndirilir. Əmək müqaviləsi aşkar edilməyən şəxslər üçün muqavileNo: null, muqavileStatus: null və isYeri: "İşləmir" olaraq saxlanılır.</li>
-          <li style="margin-bottom: 8px;"><strong>Dövri dəyişikliklərin əldə edilməsi (Service 01):</strong> Gündəlik olaraq <code>Service 01</code> vasitəsilə statusu dəyişmiş (məsələn, yeni bağlanmış və ya xitam verilmiş) əmək müqaviləsi nömrələrinin siyahısı əldə edilir.</li>
-          <li style="margin-bottom: 8px;"><strong>Müqavilə detallarının yenilənməsi (Service 02):</strong> Dəyişən hər bir müqavilə nömrəsi üzrə <code>Service 02</code> çağırılaraq müqavilənin son detalları (işçinin FİN kodu, cari hüquqi statusu və iş yeri) əldə edilir və lokal bazada dərhal yenilənir.</li>
+          <li style="margin-bottom: 8px;"><strong>İlkin məlumatların hazırlanması:</strong> DVX-dən əldə edilmiş DUMP bazaya yüklənir və fiziki şəxslərin FİN kodları müəyyən edilir.</li>
+          <li style="margin-bottom: 8px;"><strong>ƏMAS məlumatlarının ilkin yüklənməsi:</strong> ƏMAS tərəfindən FİN kodlarına uyğun əmək müqaviləsi nömrəsi, müqavilə statusu və iş yeri məlumatları (CSV, XML və s.) formatda təqdim edilir. Bu məlumatlar FİN kodları ilə əlaqələndirilərək lokal bazaya əlavə olunur. Müqaviləsi olmayan şəxslər üçün <code>muqavileNo</code> və <code>muqavileStatus</code> <code>null</code>, <code>isYeri</code> isə <strong>"İşləmir"</strong> olaraq qeyd edilir.</li>
+          <li style="margin-bottom: 8px;"><strong>Dəyişikliklərin müəyyən edilməsi - Service 01:</strong> Müəyyən edilmiş tarix aralığı üzrə Service 01 çağırılır və həmin dövrdə dəyişmiş əmək müqavilələrinin köhnə müqavilə nömrələri əldə edilir.</li>
+          <li style="margin-bottom: 8px;"><strong>Cari məlumatların əldə edilməsi - Service 02:</strong> Əldə edilmiş köhnə müqavilə nömrələri Service 02-yə göndərilir. Servis həmin müqaviləyə uyğun FİN kodu, yeni müqavilə nömrəsi, status və iş yeri məlumatlarını qaytarır.</li>
+          <li style="margin-bottom: 8px;"><strong>Bazanın yenilənməsi:</strong> FİN kodu əsasında müvafiq şəxs müəyyən edilir və əmək müqaviləsi məlumatları lokal bazada yenilənir. Beləliklə, məsələn, MQ-001 köhnə müqaviləsi MQ-025 yeni müqaviləsi ilə əvəz olunur.</li>
         </ol>
 
         <h2>İlkin ƏMAS məlumat sahələri</h2>
@@ -1971,7 +2061,7 @@
               <td><code>pin</code></td>
               <td>string</td>
               <td>Bəli</td>
-              <td>Müqavilə bağlanan fiziki şəxsin 7 simvollu unikal FİN kodu</td>
+              <td>Müqavilə bağlanan fiziki şəxsin Fərdi İdentifikasiya Nömrəsi (FİN)</td>
             </tr>
             <tr>
               <td>3</td>
@@ -1986,6 +2076,69 @@
               <td>string</td>
               <td>Bəli</td>
               <td>Fiziki şəxsin əsas iş yeri adı. Müqaviləyə xitam verildikdə <code>"İşləmir"</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- ƏMAS SECURITY & AUTHENTICATION SECTION -->
+        <h1 id="emas-security">Təhlükəsizlik və Autentifikasiya</h1>
+        <p>Əmək Münasibətləri Alt Sistemi (ƏMAS) REST API servislərinə sorğuların göndərilməsi zamanı fərdi məlumatların təhlükəsizliyini təmin etmək üçün <strong>OAuth 2.0 (Bearer Token / JWT)</strong> autentifikasiyası və təhlükəsiz <strong>HTTPS</strong> protokolundan istifadə olunur.</p>
+
+        <h2>Autentifikasiya Parametrləri (HTTP Headers)</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>Parametr</th>
+              <th>Yer</th>
+              <th>Tip</th>
+              <th>Məcburi</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>Authorization</code></td>
+              <td>Header</td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Format: <code>Bearer {access_token}</code>. ƏMAS təhlükəsizlik mərkəzi tərəfindən təqdim edilmiş etibarlı JWT token.</td>
+            </tr>
+            <tr>
+              <td><code>X-Client-Id</code></td>
+              <td>Header</td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Portal üçün təyin edilmiş unikal müştəri inteqrasiya identifikatoru.</td>
+            </tr>
+            <tr>
+              <td><code>Accept</code></td>
+              <td>Header</td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Dəyər: <code>application/json</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Autentifikasiya Status və Xəta Kodları</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>HTTP Status</th>
+              <th>Status Kodu</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>401 Unauthorized</code></td>
+              <td>UNAUTHORIZED</td>
+              <td>Token təqdim edilməyib, etibarsızlıq müddəti bitib və ya imza yanlışdır.</td>
+            </tr>
+            <tr>
+              <td><code>403 Forbidden</code></td>
+              <td>ACCESS_DENIED</td>
+              <td>Müştəri identifikasiyadan keçib, lakin əmək müqaviləsi məlumatlarını oxumaq icazəsi yoxdur.</td>
             </tr>
           </tbody>
         </table>
@@ -2211,7 +2364,7 @@
               <td>2</td>
               <td><code>pin</code></td>
               <td>string</td>
-              <td>Müqavilə bağlanan işçinin 7 simvollu FİN kodu</td>
+              <td>Müqavilə bağlanan işçinin Fərdi İdentifikasiya Nömrəsi (FİN)</td>
             </tr>
             <tr>
               <td>3</td>
@@ -2286,8 +2439,8 @@
           <td class="col-data">
             <ol class="flow-list">
               <li>İstifadəçi Əsas Səhifədə (Qarşılama ekranında) "Qabaqcıl Axtarış və Reyestr" modulunda "Daxil ol" düyməsini seçir.</li>
-              <li>Sistem "Məlumatların Axtarışı və Reyestri" ekranına keçid edir, yuxarı paneldə "Əsas Səhifə" düyməsini aktivləşdirir və Axtarış və Filtrləmə Panelini göstərir.</li>
-              <li>İstifadəçi tələb olunan axtarış və filter parametrlərini daxil edir:
+              <li>Sistem "Məlumatların Axtarışı və Reyestri" ekranına keçid edir.</li>
+              <li>İstifadəçi lazım olan filtrləri tətbiq edir:
                 <ul class="nested-list">
                   <li>Ad, soyad, ata adı / Şirkət adı (yazarkən interaktiv avtotamamlama / autocomplete təklif siyahısı açılır)</li>
                   <li>Şəxs növü - Hamısı / Fiziki şəxs / Hüquqi şəxs</li>
@@ -2295,7 +2448,6 @@
                   <li>Tarix aralığı - Başlanğıc tarixi və Bitmə tarixi</li>
                   <li>Əmlak növü - Hamısı / Daşınar / Daşınmaz</li>
                   <li>VÖEN (daxil edərkən interaktiv VÖEN avtotamamlama siyahısı açılır)</li>
-                  <li>FİN</li>
                 </ul>
               </li>
               <li>İstifadəçi "Axtar" düyməsini seçir.</li>
@@ -2361,7 +2513,6 @@
               <p class="subflow-desc">İstifadəçi sahələrə yanlış formatda məlumat daxil etdikdə sistem axtarışın icrasına icazə vermir və müvafiq xəta mesajlarını göstərir:</p>
               <ul class="nested-list" style="margin-top: 4px; margin-bottom: 0;">
                 <li>VÖEN yanlış daxil edildikdə: <em>"VÖEN 10 rəqəmdən ibarət olmalıdır."</em></li>
-                <li>FİN yanlış daxil edildikdə: <em>"FİN kod 5, 6 və ya 7 simvoldan ibarət olmalıdır."</em></li>
                 <li>Tarix aralığı yanlış daxil edildikdə: <em>"Başlanğıc tarixi bitmə tarixindən böyük ola bilməz."</em></li>
               </ul>
             </div>
@@ -2430,12 +2581,6 @@
             <td>Optional</td>
             <td>Yalnız rəqəmlərdən ibarət olmalıdır. Dəqiq 10 simvol uzunluğunda olmalıdır. Autocomplete dəstəklənir.</td>
             <td><em>"VÖEN 10 rəqəmdən ibarət olmalıdır."</em></td>
-          <tr>
-            <td><strong>FİN</strong></td>
-            <td>String</td>
-            <td>Optional</td>
-            <td>5, 6 və ya 7 simvol uzunluğunda olmalıdır. Yalnız latın hərfləri və rəqəmlər qəbul edilir. Boşluq və xüsusi simvollar qadağandır.</td>
-            <td><em>"FİN kod 5, 6 və ya 7 simvoldan ibarət olmalıdır."</em></td>
           </tr>
           <tr>
             <td><strong>Əmlak növü</strong></td>
@@ -2457,6 +2602,41 @@
             <td>Optional</td>
             <td>Təqvim formatına uyğun olmalıdır. Başlanğıc tarixi seçildikdə, bitmə tarixi başlanğıc tarixindən sonrakı və ya eyni tarix olmalıdır.</td>
             <td><em>"Bitmə tarixi başlanğıc tarixindən kiçik ola bilməz."</em></td>
+          </tr>
+          <tr>
+            <td><strong>Cəld tarixlər (Bugün, Son 30 gün, Bu il, Hamısı)</strong></td>
+            <td>Button / Quick Pill</td>
+            <td>Optional</td>
+            <td>Seçildikdə tarix xanalarını avtomatik doldurur: "Bugün" (cari gün), "Son 30 gün" (son 30 günlük interval), "Bu il" (cari ilin 01 yanvar - 31 dekabr aralığı), "Hamısı" (tarix filtrlərini sıfırlayır).</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><strong>Bax düyməsi (Cədvəl əməliyyatı)</strong></td>
+            <td>Action Button</td>
+            <td>N/A</td>
+            <td>Nəticələr cədvəlində hər qeydin qarşısında yerləşir. Klikləndikdə müvafiq fiziki və ya hüquqi şəxsin "Qeydiyyat Detalları" modal pəncərəsini açır.</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><strong>CSV İxrac</strong></td>
+            <td>Action Button</td>
+            <td>N/A</td>
+            <td>Axtarış nəticəsində tapılmış cari qeydləri UTF-8 kodlaşdırması ilə .csv faylı formatında kompüterə yükləyir. Nəticə olmadıqda ixraca icazə verilmir.</td>
+            <td><em>"İxrac ediləcək heç bir məlumat yoxdur!"</em></td>
+          </tr>
+          <tr>
+            <td><strong>Çap et</strong></td>
+            <td>Action Button</td>
+            <td>N/A</td>
+            <td>Aktiv axtarış nəticələrini brauzerin sistem çap dialoquna (Print Dialog) yönləndirir və fiziki çap və ya PDF formatında saxlama imkanı yaradır.</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><strong>Əsas Səhifə (Naviqasiya düyməsi)</strong></td>
+            <td>Nav Button</td>
+            <td>N/A</td>
+            <td>Yuxarı naviqasiya panelində yerləşir. Axtarış ekranından ilkin Qarşılama (Dashboard) səhifəsinə qayıtmaq üçün istifadə olunur.</td>
+            <td>-</td>
           </tr>
         </tbody>
       </table>
@@ -3260,7 +3440,7 @@
                       type="text" 
                       id="fullNameInput" 
                       class="form-control" 
-                      placeholder="Yazmağa başlayın..."
+                      placeholder="Ad, soyad, ata adı"
                       autocomplete="off"
                       oninput="handleNameAutocomplete(this.value)"
                     />
