@@ -1,0 +1,4245 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vahid Reyestr və Məlumat Portalı - Proqram Təminatı Tələblərinin Spesifikasiyası (SRS)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --paper: #ffffff;
+      --line: #d8dee6;
+      --text: #1a2332;
+      --th: #e3f2fd;
+      --get: #0d7a3e;
+      --blue: #e3f2fd;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --border-subtle: #cbd5e1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .page {
+      max-width: 1020px;
+      margin: 32px auto 64px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 36px 44px 56px;
+      border-radius: 4px;
+    }
+    .doc-title {
+      margin: 0 0 24px;
+      font-size: 23px;
+      font-weight: 800;
+      text-align: center;
+      color: #0f172a;
+      line-height: 1.35;
+    }
+
+    /* Master SRS Tabs Navigation */
+    .srs-master-nav {
+      display: flex;
+      gap: 6px;
+      border-bottom: 2px solid #94a3b8;
+      margin: 20px 0 28px;
+      flex-wrap: wrap;
+    }
+    .srs-main-tab {
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+      background: #e2e8f0;
+      border: 1px solid #94a3b8;
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      position: relative;
+      bottom: -2px;
+      white-space: nowrap;
+    }
+    .srs-main-tab:hover {
+      background: #cbd5e1;
+      color: #0f172a;
+    }
+    .srs-main-tab.active {
+      background: var(--paper);
+      color: var(--primary);
+      border-color: var(--primary) var(--primary) var(--paper) var(--primary);
+      border-top: 3px solid var(--primary);
+      border-bottom: 2px solid var(--paper);
+    }
+
+    .srs-pane {
+      display: none;
+    }
+    .srs-pane.active {
+      display: block;
+      animation: fadeIn 0.15s ease;
+    }
+
+    /* API Sub Tabs Navigation */
+    .tabs-header-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #cbd5e1;
+      margin: 16px 0 24px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .tabs-nav {
+      display: flex;
+      gap: 6px;
+      margin-bottom: -2px;
+    }
+    .tab-btn {
+      padding: 9px 20px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #475569;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      position: relative;
+      bottom: -2px;
+    }
+    .tab-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .tab-btn.active {
+      background: var(--paper);
+      color: #0284c7;
+      border-color: #0284c7 #0284c7 var(--paper) #0284c7;
+      border-top: 3px solid #0284c7;
+      border-bottom: 2px solid var(--paper);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.15s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0369a1;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .btn-print:hover {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+    }
+
+    /* Print / PDF Output Rules */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .page {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+      }
+      .srs-master-nav, .tabs-header-wrap, .tabs-nav, .btn-print, .mockup-toolbar {
+        display: none !important;
+      }
+      .srs-pane {
+        display: none !important;
+      }
+      .srs-pane.active {
+        display: block !important;
+      }
+      .tab-content {
+        display: none !important;
+      }
+      .tab-content.active {
+        display: block !important;
+      }
+      h1 {
+        background: #e0f2fe !important;
+        border-left: 4px solid #0284c7 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .meta th, .spec th, .uc-table th {
+        background: #e3f2fd !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      pre {
+        background: #f0f9ff !important;
+        border: 1px solid #bbdefb !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        white-space: pre-wrap !important;
+        word-break: break-all !important;
+      }
+      table, pre, .endpoint, .toc, .meta, .workflow-block {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+    }
+
+    .toc {
+      border: 1px solid var(--line);
+      padding: 16px 20px 18px;
+      margin-bottom: 24px;
+      background: #fafbfc;
+    }
+    .toc h2 {
+      margin: 0 0 10px;
+      border: none;
+      padding: 0;
+      font-size: 16px;
+    }
+    .toc ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+    .toc a { color: #1a4f9c; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    h1 {
+      margin: 36px 0 8px;
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--blue);
+      padding: 10px 14px;
+      border-left: 4px solid #0284c7;
+    }
+    h2 {
+      margin: 28px 0 10px;
+      font-size: 16px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 6px;
+      font-weight: 700;
+    }
+    p, li { color: #2c3645; }
+    .meta {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .meta th,
+    .meta td {
+      border: 1px solid var(--line);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 14px;
+    }
+    .meta th {
+      width: 28%;
+      background: var(--th);
+      font-weight: 600;
+    }
+    table.spec {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 8px;
+    }
+    .spec th,
+    .spec td {
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 14px;
+      vertical-align: top;
+    }
+    .spec th { background: var(--th); font-weight: 600; }
+    .endpoint {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border: 1px solid var(--line);
+      background: #f8fafb;
+      padding: 12px 14px;
+      margin: 12px 0;
+      font-family: 'JetBrains Mono', Consolas, "Courier New", monospace;
+      font-size: 13.5px;
+    }
+    .endpoint .urls {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+    .endpoint .url-row {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    .endpoint .url-label {
+      min-width: 78px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      color: #355a8a;
+    }
+    .method {
+      background: var(--get);
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-family: inherit;
+    }
+    pre {
+      background: var(--blue);
+      color: var(--text);
+      border: 1px solid #bbdefb;
+      padding: 14px 16px;
+      overflow: auto;
+      font-size: 13px;
+      font-family: 'JetBrains Mono', Consolas, "Courier New", monospace;
+      margin: 10px 0 0;
+      border-radius: 4px;
+      line-height: 1.5;
+    }
+    code {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .json-key { color: #b71c1c; }
+    .json-val { color: #0d47a1; }
+
+    /* Use Case Table Styles */
+    .doc-header-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #0f172a;
+      text-transform: uppercase;
+      letter-spacing: -0.2px;
+    }
+    .uc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+    .uc-table th, .uc-table td {
+      border: 1px solid var(--line);
+      padding: 10px 14px;
+      vertical-align: top;
+      font-size: 13.5px;
+    }
+    .col-header {
+      background-color: var(--th);
+      font-weight: 700;
+      width: 22%;
+      color: #1e293b;
+      white-space: nowrap;
+    }
+    .col-data {
+      color: #0f172a;
+    }
+    .flow-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .flow-list li {
+      margin-bottom: 6px;
+    }
+    .flow-list li:last-child {
+      margin-bottom: 0;
+    }
+    .nested-list {
+      list-style-type: disc;
+      padding-left: 22px;
+      margin: 6px 0 8px;
+    }
+    .nested-list li {
+      margin-bottom: 3px;
+      color: #334155;
+    }
+    .subflow-block {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 9px 12px;
+      margin-top: 8px;
+    }
+    .subflow-block:first-child {
+      margin-top: 0;
+    }
+    .subflow-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+    .subflow-desc {
+      color: #334155;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    /* Workflow Tab Styles */
+    .workflow-block {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin-bottom: 36px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .workflow-title-box {
+      background: #e2e8f0;
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .workflow-svg-wrap {
+      width: 100%;
+      overflow-x: auto;
+      background: #ffffff;
+      padding: 6px 0;
+    }
+    .workflow-svg {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* =========================================
+       UI / MOCKUPS EMBEDDED SYSTEM STYLES
+       ========================================= */
+    .screen-view {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .screen-view.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .navbar {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-container {
+      padding: 0.9rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0284c7;
+      flex-shrink: 0;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-stats {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .stat-item {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    .stat-item strong {
+      color: #0369a1;
+      font-weight: 700;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 38px;
+      padding: 0 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-clear {
+      background-color: #ffffff;
+      color: #0284c7;
+      border-color: #bae6fd;
+    }
+
+    .btn-clear:hover {
+      background-color: #f0f9ff;
+      border-color: #7dd3fc;
+    }
+
+    .btn-nav-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      height: 34px;
+      padding: 0 14px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      line-height: 1;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      vertical-align: middle;
+    }
+
+    .btn-nav-back:hover {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0284c7;
+    }
+
+    /* Portal Hero */
+    .portal-hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%);
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 2.25rem 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .portal-hero h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #0c4a6e;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    .portal-hero p {
+      font-size: 0.95rem;
+      color: #64748b;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Modules Grid */
+    .portal-modules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .portal-modules-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .module-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .module-card:hover {
+      border-color: #7dd3fc;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .module-card.featured {
+      border-color: #bae6fd;
+      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+    }
+
+    .module-card.disabled {
+      opacity: 0.65;
+      background: #f8fafc;
+      border-color: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .module-card.disabled:hover {
+      border-color: #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transform: none;
+    }
+
+    .module-header {
+      margin-bottom: 1rem;
+    }
+
+    .module-tag {
+      font-size: 0.725rem;
+      font-weight: 700;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .module-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .module-desc {
+      font-size: 0.875rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+
+    .module-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .module-stat {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .module-stat strong {
+      color: #0284c7;
+    }
+
+    /* Portal Stats Banner */
+    .portal-stats-banner {
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .stat-box {
+      text-align: center;
+    }
+
+    .stat-box .num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0284c7;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-box .lbl {
+      font-size: 0.775rem;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Screen 2 Layout */
+    .mockup-main-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mockup-page-header {
+      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid #bae6fd;
+    }
+
+    .mockup-page-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0c4a6e;
+      margin-bottom: 0.25rem;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    .mockup-page-header p {
+      color: #64748b;
+      font-size: 0.875rem;
+      margin: 0;
+    }
+
+    /* Filter Card */
+    .filter-card {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #bae6fd;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .filter-card-header {
+      background: #f0f9ff;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #bae6fd;
+    }
+
+    .filter-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0369a1;
+    }
+
+    .filter-card-body {
+      padding: 1.5rem;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem 1.5rem;
+    }
+
+    @media (max-width: 992px) {
+      .filter-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: relative;
+    }
+
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .form-control {
+      width: 100%;
+      height: 40px;
+      padding: 0.5rem 0.85rem;
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      color: #0f172a;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:hover {
+      border-color: #93c5fd;
+    }
+
+    .form-control:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+
+    select.form-control {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230284c7' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 14px;
+      padding-right: 2rem;
+    }
+
+    .date-range-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .date-range-group .form-control {
+      font-size: 0.825rem;
+      padding: 0.4rem 0.5rem;
+    }
+
+    /* Autocomplete Dropdown List */
+    .autocomplete-list {
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+      border-radius: 6px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      max-height: 240px;
+      overflow-y: auto;
+      z-index: 50;
+      display: none;
+    }
+
+    .autocomplete-list.show {
+      display: block;
+    }
+
+    .autocomplete-item {
+      padding: 9px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.85rem;
+    }
+
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
+    .autocomplete-item:hover {
+      background-color: #e0f2fe;
+    }
+
+    .autocomplete-item .person-name {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .autocomplete-item .person-name mark {
+      background: #bae6fd;
+      color: #0369a1;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    .autocomplete-item .badge-type {
+      font-size: 0.725rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    /* Action Buttons & Quick Dates */
+    .filter-actions-bar {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .quick-dates {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .quick-date-label {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .quick-pill {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.775rem;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .quick-pill:hover {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0369a1;
+    }
+
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Active Filters Display */
+    .active-filters-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0.75rem 1rem;
+      background: #ffffff;
+      border-radius: 6px;
+      border: 1px solid #bae6fd;
+      font-size: 0.825rem;
+    }
+
+    .active-filter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    /* Results Table */
+    .results-card {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .results-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+    }
+
+    .results-count-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .results-count-title .count-badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .results-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tool-btn:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    .custom-table thead th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.775rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      white-space: nowrap;
+    }
+
+    .custom-table tbody tr {
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .custom-table tbody tr:hover {
+      background-color: #f0f9ff;
+    }
+
+    .custom-table tbody td {
+      padding: 12px 16px;
+      color: #1e293b;
+      vertical-align: middle;
+    }
+
+    .entity-title {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .badge-legal {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .badge-physical {
+      display: inline-block;
+      background: #f0fdf4;
+      color: #15803d;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .badge-property {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .voen-code {
+      font-family: monospace;
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #334155;
+      font-size: 0.8rem;
+    }
+
+    .btn-action-view {
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+      color: #0284c7;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.775rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-action-view:hover {
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    /* Empty state */
+    .empty-state {
+      padding: 3rem 1.5rem;
+      text-align: center;
+      display: none;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .empty-state h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.25rem;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    .empty-state p {
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Pagination Styles */
+    .pagination-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.25rem;
+      border-top: 1px solid #cbd5e1;
+      background: #ffffff;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .pagination-info {
+      font-size: 0.825rem;
+      color: #64748b;
+    }
+
+    .pagination-info strong {
+      color: #0f172a;
+    }
+
+    .pagination-nav {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .page-btn {
+      min-width: 32px;
+      height: 32px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #0f172a;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0284c7;
+    }
+
+    .page-btn.active {
+      background: #0284c7;
+      border-color: #0284c7;
+      color: #ffffff;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: #cbd5e1;
+      background: #f8fafc;
+    }
+
+    .page-ellipsis {
+      padding: 0 4px;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* Detail Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 580px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+      overflow: hidden;
+      border: 1px solid #bae6fd;
+    }
+
+    .modal-header {
+      background: #f0f9ff;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #bae6fd;
+    }
+
+    .modal-header h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0369a1;
+      margin: 0;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      color: #64748b;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close-btn:hover {
+      color: #0f172a;
+    }
+
+    .modal-body {
+      padding: 1.25rem;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      background: #f8fafc;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .detail-label {
+      font-size: 0.725rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+
+    .detail-value {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .modal-footer {
+      padding: 1rem 1.25rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1 class="doc-title">Vahid Reyestr və Məlumat Portalı - Proqram Təminatı Tələblərinin Spesifikasiyası (SRS)</h1>
+
+    <!-- Master SRS Tabs Navigation -->
+    <nav class="srs-master-nav" aria-label="SRS Bölmələri">
+      <button class="srs-main-tab active" id="mainTabBtn-api" onclick="switchMainTab('api')">Api Documentation</button>
+      <button class="srs-main-tab" id="mainTabBtn-usecase" onclick="switchMainTab('usecase')">Use Case</button>
+      <button class="srs-main-tab" id="mainTabBtn-validation" onclick="switchMainTab('validation')">Input Validation Specification</button>
+      <button class="srs-main-tab" id="mainTabBtn-workflow" onclick="switchMainTab('workflow')">Workflow</button>
+      <button class="srs-main-tab" id="mainTabBtn-mockup" onclick="switchMainTab('mockup')">UI / Mockups</button>
+    </nav>
+
+    <!-- =========================================================
+         SRS TAB PANE 1: API DOCUMENTATION
+         ========================================================= -->
+    <main class="srs-pane active" id="mainPane-api">
+      
+      <!-- Sub Tabs: DVX / ƏMAS -->
+      <div class="tabs-header-wrap">
+        <div class="tabs-nav">
+          <button class="tab-btn active" id="tabBtn-dvx" onclick="switchApiSubTab('dvx')">DVX ilə inteqrasiya</button>
+          <button class="tab-btn" id="tabBtn-emas" onclick="switchApiSubTab('emas')">ƏMAS ilə inteqrasiya</button>
+        </div>
+        <button class="btn-print" onclick="window.print()" title="Aktiv bölməni PDF kimi saxla">
+          PDF kimi saxla / Çap et
+        </button>
+      </div>
+
+      <!-- -----------------------------------------
+           SUB-TAB 1: DVX İLƏ İNTEQRASİYA
+           ----------------------------------------- -->
+      <div class="tab-content active" id="tabPane-dvx">
+        <table class="meta">
+          <tr>
+            <th>Document Name</th>
+            <td>Dövlət Vergi Xidməti ilə inteqrasiya</td>
+          </tr>
+          <tr>
+            <th>Document Type</th>
+            <td>API spesifikasiyası</td>
+          </tr>
+          <tr>
+            <th>API Name</th>
+            <td>GetChangedVoeNs &amp; GetTaxpayersByVoen</td>
+          </tr>
+          <tr>
+            <th>Version</th>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <th>Date</th>
+            <td>16.08.2026</td>
+          </tr>
+        </table>
+
+        <nav class="toc" aria-label="Mündəricat">
+          <h2>Mündəricat</h2>
+          <ol>
+            <li>
+              <a href="#dvx-dump">İlkin məlumatların yüklənməsi - DUMP</a>
+            </li>
+            <li>
+              <a href="#dvx-service-1">Service 01 - GET /taxpayers/changed</a>
+            </li>
+            <li>
+              <a href="#dvx-service-2">Service 02 - GET /taxpayers/{voen}</a>
+            </li>
+          </ol>
+        </nav>
+
+        <h1 id="dvx-dump">İlkin məlumatların yüklənməsi - DUMP</h1>
+        <p>Məlumatların DVX-dən əldə edilməsi əvvəlcədən təqdim olunan tam məlumat bazası və sonrakı yenilənmələr əsasında həyata keçirilir. İlkin mərhələdə Dövlət Vergi Xidməti (DVX) tələb olunan məlumatları əhatə edən tam məlumat bazasını DUMP şəklində Vahid Reyestr və Məlumat Portalına təqdim edir. DUMP yükləndikdən sonra portalın lokal məlumat bazası formalaşır və gündəlik əməliyyatlar bu lokal baza üzərindən həyata keçirilir.</p>
+        <p>DUMP REST API çağırışı deyil və ilkin mərhələdə bir dəfə təqdim olunur. Məlumatlar razılaşdırılmış formatda (məsələn: XML, CSV, JSON, Parquet və ya SQL Dump faylı şəklində) ötürülə bilər.</p>
+        <p>DUMP-da hər bir qeyd Service 02 vasitəsilə əldə edilən məlumatlarla uyğun olan tələb olunan 15 sahəni ehtiva etməlidir. Bu uyğunluq məlumatların lokal bazaya düzgün yüklənməsi və sonrakı yeniləmələrin düzgün tətbiq olunması üçün vacibdir.</p>
+        <h2>Dump sahələri</h2>
+        <p>Sahə siyahısı Service 02 ilə eynidir.</p>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>N</th>
+              <th>Sahə</th>
+              <th>Tip</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Ödəyici tipi</td>
+              <td>string</td>
+              <td>Ödəyicinin növü: <code>L</code> (hüquqi şəxs), <code>P</code> (fiziki şəxs)</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Ad, soyad, ata adı</td>
+              <td>string</td>
+              <td>Fiziki şəxs üzrə. Hüquqi şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>FİN</td>
+              <td>string</td>
+              <td>Fiziki şəxsin 7 simvollu unikal FİN kodu. Hüquqi şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Hüquqi şəxsin adı</td>
+              <td>string</td>
+              <td>Hüquqi şəxs üzrə. Fiziki şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>VÖEN</td>
+              <td>string</td>
+              <td>Unikal identifikasiya məlumatı</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Hüquqi şəxsin təşkilati-hüquqi forması</td>
+              <td>string</td>
+              <td>Mümkün dəyərlər:<br />ASC<br />QSC<br />MMC<br />Fiziki şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Əmlak növü</td>
+              <td>string</td>
+              <td>Mümkün dəyərlər:<br />Daşınar<br />Daşınmaz</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Ofis mobil nömrələri</td>
+              <td>string</td>
+              <td>Vergüllə ayrılmış mobil nömrələr (məs: <code>0501234567, 0123456789</code>)</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>Qeydiyyat ünvanı</td>
+              <td>string</td>
+              <td>Şəxsin və ya qurumun qeydiyyat ünvanı</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Faktiki ünvan</td>
+              <td>string</td>
+              <td>Qeydiyyat ünvanından fərqlidirsə ayrıca göstərilir. Eynidirsə boşdur.</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Cinsiyyət</td>
+              <td>string</td>
+              <td>Fiziki şəxs üzrə. Hüquqi şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>Doğum tarixi</td>
+              <td>date</td>
+              <td>Fiziki şəxs üzrə. Format: <code>YYYY-MM-DD</code>. Hüquqi şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>Nizamnamə kapitalı</td>
+              <td>number</td>
+              <td>Hüquqi şəxs üzrə. Fiziki şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>Şirkətin yaranma tarixi</td>
+              <td>date</td>
+              <td>Hüquqi və fiziki şəxsin qeydiyyat və ya yaranma tarixi. Format: <code>YYYY-MM-DD</code>.</td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td>Status</td>
+              <td>string</td>
+              <td>Vergi ödəyicisinin statusu: <code>A</code> (aktiv), <code>C</code> (cancel)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h1 id="dvx-service-1">Service 01 - GET /taxpayers/changed</h1>
+        <p>Description: Müəyyən edilmiş tarix aralığında yeni və dəyişmiş VÖEN-lərin əldə edilməsi.</p>
+
+        <h2>Metod</h2>
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <div class="urls">
+            <div class="url-row">
+              <span class="url-label">Test URL</span>
+              <span>https://test.dvx.gov.az/api/v1/taxpayers/changed</span>
+            </div>
+            <div class="url-row">
+              <span class="url-label">Prod URL</span>
+              <span>https://api.dvx.gov.az/api/v1/taxpayers/changed</span>
+            </div>
+          </div>
+        </div>
+
+        <h2>Sorğu parametrləri</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>Ad</th>
+              <th>Yer</th>
+              <th>Tip</th>
+              <th>Məcburi</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>fromDate</code></td>
+              <td>query</td>
+              <td>date</td>
+              <td>Bəli</td>
+              <td>Başlanğıc tarix. Format: <code>YYYY-MM-DD</code></td>
+            </tr>
+            <tr>
+              <td><code>toDate</code></td>
+              <td>query</td>
+              <td>date</td>
+              <td>Bəli</td>
+              <td>Son tarix. Format: <code>YYYY-MM-DD</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Request</h2>
+        <pre>GET /api/v1/taxpayers/changed?fromDate=2026-08-01&amp;toDate=2026-08-02</pre>
+
+        <h2>HTTP Response Codes</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>HTTP</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>Uğurlu. Dəyişən VÖEN siyahısı qaytarılır.</td>
+            </tr>
+            <tr>
+              <td>400</td>
+              <td>Parametr səhvdir və ya <code>fromDate</code> &gt; <code>toDate</code>.</td>
+            </tr>
+            <tr>
+              <td>401</td>
+              <td>Autentifikasiya uğursuzdur.</td>
+            </tr>
+            <tr>
+              <td>500</td>
+              <td>Server xətası.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Response (200)</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>Sahə</th>
+              <th>Tip</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>fromDate</code></td>
+              <td>string</td>
+              <td>Sorğudakı başlanğıc tarix</td>
+            </tr>
+            <tr>
+              <td><code>toDate</code></td>
+              <td>string</td>
+              <td>Sorğudakı son tarix</td>
+            </tr>
+            <tr>
+              <td><code>count</code></td>
+              <td>integer</td>
+              <td>Qaytarılan VÖEN sayı</td>
+            </tr>
+            <tr>
+              <td><code>voens</code></td>
+              <td>array[string]</td>
+              <td>Dəyişən VÖEN-lərin siyahısı</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Response</h2>
+        <pre>{
+  "fromDate": "2026-08-01",
+  "toDate": "2026-08-02",
+  "count": 3,
+  "voens": [
+    "1234567890",
+    "2345678901",
+    "3456789012"
+  ]
+}</pre>
+
+        <h1 id="dvx-service-2">Service 02 - GET /taxpayers/{voen}</h1>
+        <p>Description: VÖEN üzrə cari məlumatların əldə edilməsi.</p>
+
+        <h2>Metod</h2>
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <div class="urls">
+            <div class="url-row">
+              <span class="url-label">Test URL</span>
+              <span>https://test.dvx.gov.az/api/v1/taxpayers/{voen}</span>
+            </div>
+            <div class="url-row">
+              <span class="url-label">Prod URL</span>
+              <span>https://api.dvx.gov.az/api/v1/taxpayers/{voen}</span>
+            </div>
+          </div>
+        </div>
+
+        <h2>Sorğu parametrləri</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>Ad</th>
+              <th>Yer</th>
+              <th>Tip</th>
+              <th>Məcburi</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>voen</code></td>
+              <td>path</td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>10 rəqəmli VÖEN. Nümunə: <code>1234567890</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Request</h2>
+        <pre>GET /api/v1/taxpayers/1234567890</pre>
+
+        <h2>HTTP Response Codes</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>HTTP</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>Uğurlu. VÖEN üzrə cari məlumatlar qaytarılır.</td>
+            </tr>
+            <tr>
+              <td>400</td>
+              <td>VÖEN formatı səhvdir.</td>
+            </tr>
+            <tr>
+              <td>401</td>
+              <td>Autentifikasiya uğursuzdur.</td>
+            </tr>
+            <tr>
+              <td>404</td>
+              <td>Göstərilən VÖEN tapılmadı.</td>
+            </tr>
+            <tr>
+              <td>500</td>
+              <td>Server xətası.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Response (200)</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>N</th>
+              <th>Sahə</th>
+              <th>Tip</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Ödəyici tipi</td>
+              <td>string</td>
+              <td>Ödəyicinin növü: <code>L</code> (hüquqi şəxs), <code>P</code> (fiziki şəxs)</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Ad, soyad, ata adı</td>
+              <td>string</td>
+              <td>Fiziki şəxs üzrə. Hüquqi şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>FİN</td>
+              <td>string</td>
+              <td>Fiziki şəxsin 7 simvollu unikal FİN kodu. Hüquqi şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Hüquqi şəxsin adı</td>
+              <td>string</td>
+              <td>Hüquqi şəxs üzrə. Fiziki şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>VÖEN</td>
+              <td>string</td>
+              <td>Unikal identifikasiya məlumatı</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Hüquqi şəxsin təşkilati-hüquqi forması</td>
+              <td>string</td>
+              <td>Mümkün dəyərlər:<br />ASC<br />QSC<br />MMC<br />Fiziki şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Əmlak növü</td>
+              <td>string</td>
+              <td>Mümkün dəyərlər:<br />Daşınar<br />Daşınmaz</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Ofis mobil nömrələri</td>
+              <td>string</td>
+              <td>Vergüllə ayrılmış mobil nömrələr (məs: <code>0501234567, 0123456789</code>)</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>Qeydiyyat ünvanı</td>
+              <td>string</td>
+              <td>Şəxsin və ya qurumun qeydiyyat ünvanı</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Faktiki ünvan</td>
+              <td>string</td>
+              <td>Qeydiyyat ünvanından fərqlidirsə ayrıca göstərilir. Eynidirsə boşdur.</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Cinsiyyət</td>
+              <td>string</td>
+              <td>Fiziki şəxs üzrə. Hüquqi şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>Doğum tarixi</td>
+              <td>date</td>
+              <td>Fiziki şəxs üzrə. Format: <code>YYYY-MM-DD</code>. Hüquqi şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>Nizamnamə kapitalı</td>
+              <td>number</td>
+              <td>Hüquqi şəxs üzrə. Fiziki şəxs üçün boşdur.</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>Şirkətin yaranma tarixi</td>
+              <td>date</td>
+              <td>Hüquqi və fiziki şəxsin qeydiyyat və ya yaranma tarixi. Format: <code>YYYY-MM-DD</code>.</td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td>Status</td>
+              <td>string</td>
+              <td>Vergi ödəyicisinin statusu: <code>A</code> (aktiv), <code>C</code> (cancel)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Response (hüquqi şəxs)</h2>
+        <pre>{
+  "odeyiciTipi": "L",
+  "adSoyadAtaAdi": null,
+  "fin": null,
+  "huquqiSexsinAdi": "ABC MMC",
+  "voen": "1234567890",
+  "teskilatiHuquqiForma": "MMC",
+  "emlakNovu": "Daşınmaz",
+  "ofisMobilNomreleri": "0501234567, 0123456789",
+  "qeydiyyatUnvani": "Bakı şəhəri, Nəsimi rayonu",
+  "faktikiUnvan": "Bakı şəhəri, Yasamal rayonu",
+  "cinsiyyet": null,
+  "dogumTarixi": null,
+  "nizamnameKapitali": 10000,
+  "sirketinYaranmaTarixi": "2019-03-12",
+  "status": "A"
+}</pre>
+
+        <h2>Response (fiziki şəxs)</h2>
+        <pre>{
+  "odeyiciTipi": "P",
+  "adSoyadAtaAdi": "Əliyev Əli Vəli oğlu",
+  "fin": "5ABC123",
+  "huquqiSexsinAdi": null,
+  "voen": "3456789012",
+  "teskilatiHuquqiForma": null,
+  "emlakNovu": "Daşınar",
+  "ofisMobilNomreleri": "0559876543",
+  "qeydiyyatUnvani": "Sumqayıt şəhəri",
+  "faktikiUnvan": null,
+  "cinsiyyet": "Kişi",
+  "dogumTarixi": "1990-05-20",
+  "nizamnameKapitali": null,
+  "sirketinYaranmaTarixi": "2015-06-10",
+  "status": "A"
+}</pre>
+      </div>
+
+      <!-- -----------------------------------------
+           SUB-TAB 2: ƏMAS İLƏ İNTEQRASİYA
+           ----------------------------------------- -->
+      <div class="tab-content" id="tabPane-emas">
+        <table class="meta">
+          <tr>
+            <th>Document Name</th>
+            <td>ƏMAS ilə inteqrasiya</td>
+          </tr>
+          <tr>
+            <th>Document Type</th>
+            <td>API spesifikasiyası</td>
+          </tr>
+          <tr>
+            <th>API Name</th>
+            <td>GetChangedContracts &amp; GetContractByNumber</td>
+          </tr>
+          <tr>
+            <th>Version</th>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <th>Date</th>
+            <td>16.08.2026</td>
+          </tr>
+        </table>
+
+        <nav class="toc" aria-label="Mündəricat">
+          <h2>Mündəricat</h2>
+          <ol>
+            <li>
+              <a href="#emas-dump">İlkin məlumatların formalaşdırılması və ƏMAS sinxronizasiyası</a>
+            </li>
+            <li>
+              <a href="#emas-service-1">Service 01 - GET /contracts/changed</a>
+            </li>
+            <li>
+              <a href="#emas-service-2">Service 02 - GET /contracts/{muqavileNo}</a>
+            </li>
+          </ol>
+        </nav>
+
+        <h1 id="emas-dump">İlkin məlumatların formalaşdırılması və ƏMAS sinxronizasiyası</h1>
+        <p>ƏMAS (Əmək Münasibətləri Alt Sistemi) üzrə məlumatların əldə edilməsi və lokal bazanın əmək müqaviləsi məlumatları ilə formalaşdırılması aşağıdakı mexanizm üzrə həyata keçirilir:</p>
+        
+        <ol style="margin-left: 20px; color: #2c3645; margin-bottom: 16px;">
+          <li style="margin-bottom: 8px;"><strong>DVX DUMP-ın yüklənməsi:</strong> İlkin mərhələdə DVX tərəfindən təqdim olunan tam DUMP bazası lokal bazaya daxil edilir və fiziki şəxslərin unikal <strong>FİN kodları</strong> müəyyən edilir.</li>
+          <li style="margin-bottom: 8px;"><strong>İlkin müqavilə məlumatlarının əlaqələndirilməsi:</strong> ƏMAS sistemində qeydiyyatda olan əmək müqavilələri nömrələri üzrə işçilərin FİN kodları, müqavilənin cari statusu (muqavileStatus: A və ya C) və əsas iş yeri adı (isYeri) lokal bazada əlaqələndirilir. Əmək müqaviləsi aşkar edilməyən şəxslər üçün muqavileNo: null, muqavileStatus: null və isYeri: "İşləmir" olaraq saxlanılır.</li>
+          <li style="margin-bottom: 8px;"><strong>Dövri dəyişikliklərin əldə edilməsi (Service 01):</strong> Gündəlik olaraq <code>Service 01</code> vasitəsilə statusu dəyişmiş (məsələn, yeni bağlanmış və ya xitam verilmiş) əmək müqaviləsi nömrələrinin siyahısı əldə edilir.</li>
+          <li style="margin-bottom: 8px;"><strong>Müqavilə detallarının yenilənməsi (Service 02):</strong> Dəyişən hər bir müqavilə nömrəsi üzrə <code>Service 02</code> çağırılaraq müqavilənin son detalları (işçinin FİN kodu, cari hüquqi statusu və iş yeri) əldə edilir və lokal bazada dərhal yenilənir.</li>
+        </ol>
+
+        <h2>İlkin ƏMAS məlumat sahələri</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>N</th>
+              <th>Sahə</th>
+              <th>Tip</th>
+              <th>Məcburi</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><code>muqavileNo</code></td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Əmək müqaviləsi bildirişinin unikal nömrəsi. Müqavilə olmadıqda <code>null</code></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><code>pin</code></td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Müqavilə bağlanan fiziki şəxsin 7 simvollu unikal FİN kodu</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><code>muqavileStatus</code></td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Müqavilənin cari statusu: <code>A</code> (Aktiv), <code>C</code> (Cancel / Xitam)</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><code>isYeri</code></td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Fiziki şəxsin əsas iş yeri adı. Müqaviləyə xitam verildikdə <code>"İşləmir"</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- ƏMAS SERVICE 01 -->
+        <h1 id="emas-service-1">Service 01 - GET /contracts/changed</h1>
+        <p>Description: Müəyyən edilmiş tarix aralığında statusu dəyişmiş və yeni əlavə edilmiş əmək müqavilələrinin nömrələrinin əldə edilməsi.</p>
+
+        <h2>Metod</h2>
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <div class="urls">
+            <div class="url-row">
+              <span class="url-label">Test URL</span>
+              <span>https://test.emas.gov.az/api/v1/contracts/changed</span>
+            </div>
+            <div class="url-row">
+              <span class="url-label">Prod URL</span>
+              <span>https://api.emas.gov.az/api/v1/contracts/changed</span>
+            </div>
+          </div>
+        </div>
+
+        <h2>Sorğu parametrləri</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>Ad</th>
+              <th>Yer</th>
+              <th>Tip</th>
+              <th>Məcburi</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>fromDate</code></td>
+              <td>query</td>
+              <td>date</td>
+              <td>Bəli</td>
+              <td>Başlanğıc tarix. Format: <code>YYYY-MM-DD</code></td>
+            </tr>
+            <tr>
+              <td><code>toDate</code></td>
+              <td>query</td>
+              <td>date</td>
+              <td>Bəli</td>
+              <td>Son tarix. Format: <code>YYYY-MM-DD</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Request</h2>
+        <pre>GET /api/v1/contracts/changed?fromDate=2026-08-01&amp;toDate=2026-08-02</pre>
+
+        <h2>HTTP Response Codes</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>HTTP</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>Uğurlu. Dəyişən əmək müqaviləsi nömrələrinin siyahısı qaytarılır.</td>
+            </tr>
+            <tr>
+              <td>400</td>
+              <td>Parametr səhvdir və ya <code>fromDate</code> &gt; <code>toDate</code>.</td>
+            </tr>
+            <tr>
+              <td>401</td>
+              <td>Autentifikasiya uğursuzdur.</td>
+            </tr>
+            <tr>
+              <td>500</td>
+              <td>Server xətası.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Response (200)</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>Sahə</th>
+              <th>Tip</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>fromDate</code></td>
+              <td>string</td>
+              <td>Sorğudakı başlanğıc tarix</td>
+            </tr>
+            <tr>
+              <td><code>toDate</code></td>
+              <td>string</td>
+              <td>Sorğudakı son tarix</td>
+            </tr>
+            <tr>
+              <td><code>count</code></td>
+              <td>integer</td>
+              <td>Qaytarılan müqavilə sayı</td>
+            </tr>
+            <tr>
+              <td><code>contracts</code></td>
+              <td>array[string]</td>
+              <td>Statusu dəyişən və ya yeni əlavə olunan əmək müqaviləsi nömrələrinin siyahısı</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Response</h2>
+        <pre>{
+  "fromDate": "2026-08-01",
+  "toDate": "2026-08-02",
+  "count": 3,
+  "contracts": [
+    "MQ-2024-009812",
+    "MQ-2023-004521",
+    "MQ-2026-000105"
+  ]
+}</pre>
+
+        <!-- ƏMAS SERVICE 02 -->
+        <h1 id="emas-service-2">Service 02 - GET /contracts/{muqavileNo}</h1>
+        <p>Description: Əmək müqaviləsi nömrəsi üzrə işçinin FİN kodu, müqavilənin cari hüquqi statusu və əsas iş yeri məlumatının əldə edilməsi.</p>
+
+        <h2>Metod</h2>
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <div class="urls">
+            <div class="url-row">
+              <span class="url-label">Test URL</span>
+              <span>https://test.emas.gov.az/api/v1/contracts/{muqavileNo}</span>
+            </div>
+            <div class="url-row">
+              <span class="url-label">Prod URL</span>
+              <span>https://api.emas.gov.az/api/v1/contracts/{muqavileNo}</span>
+            </div>
+          </div>
+        </div>
+
+        <h2>Sorğu parametrləri</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>Ad</th>
+              <th>Yer</th>
+              <th>Tip</th>
+              <th>Məcburi</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>muqavileNo</code></td>
+              <td>path</td>
+              <td>string</td>
+              <td>Bəli</td>
+              <td>Əmək müqaviləsi bildirişinin unikal nömrəsi. Nümunə: <code>MQ-2024-009812</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Request</h2>
+        <pre>GET /api/v1/contracts/MQ-2024-009812</pre>
+
+        <h2>HTTP Response Codes</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>HTTP</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>Uğurlu. Müqavilə nömrəsi üzrə FİN, status və iş yeri məlumatı qaytarılır.</td>
+            </tr>
+            <tr>
+              <td>400</td>
+              <td>Müqavilə nömrəsi formatı səhvdir.</td>
+            </tr>
+            <tr>
+              <td>401</td>
+              <td>Autentifikasiya uğursuzdur.</td>
+            </tr>
+            <tr>
+              <td>404</td>
+              <td>Göstərilən müqavilə nömrəsi tapılmadı.</td>
+            </tr>
+            <tr>
+              <td>500</td>
+              <td>Server xətası.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Response (200)</h2>
+        <table class="spec">
+          <thead>
+            <tr>
+              <th>N</th>
+              <th>Sahə</th>
+              <th>Tip</th>
+              <th>Təsvir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><code>muqavileNo</code></td>
+              <td>string</td>
+              <td>Əmək müqaviləsi bildirişinin unikal nömrəsi</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><code>pin</code></td>
+              <td>string</td>
+              <td>Müqavilə bağlanan işçinin 7 simvollu FİN kodu</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><code>muqavileStatus</code></td>
+              <td>string</td>
+              <td>Əmək müqaviləsinin cari hüquqi statusu:<br /><code>A</code> - Aktiv (qüvvədə olan əmək müqaviləsi)<br /><code>C</code> - Cancel / Xitam (xitam verilmiş və ya ləğv edilmiş müqavilə)</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><code>isYeri</code></td>
+              <td>string</td>
+              <td>Fiziki şəxsin əsas iş yeri adı (xitam verildikdə <code>"İşləmir"</code>)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Response (Aktiv əmək müqaviləsi olan şəxs üzrə - Status: A)</h2>
+        <pre>{
+  "muqavileNo": "MQ-2024-009812",
+  "pin": "5ABC123",
+  "muqavileStatus": "A",
+  "isYeri": "Caspian Logistics Group MMC"
+}</pre>
+
+        <h2>Response (Müqaviləsinə xitam verilmiş şəxs üzrə - Status: C)</h2>
+        <pre>{
+  "muqavileNo": "MQ-2023-004521",
+  "pin": "6DEF456",
+  "muqavileStatus": "C",
+  "isYeri": "İşləmir"
+}</pre>
+      </div>
+
+    </main>
+
+    <!-- =========================================================
+         SRS TAB PANE 2: USE CASE
+         ========================================================= -->
+    <main class="srs-pane" id="mainPane-usecase">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+        <button class="btn-print" onclick="window.print()" title="Use Case bölməsini çap et / PDF kimi saxla">
+          PDF kimi saxla / Çap et
+        </button>
+      </div>
+
+      <h2 class="doc-header-title">Use Case Spesifikasiyası - Vahid Reyestr və Məlumat Portalı</h2>
+
+      <table class="uc-table">
+        <tr>
+          <th class="col-header">Use Case ID</th>
+          <td class="col-data"><strong>UC-001</strong></td>
+        </tr>
+        <tr>
+          <th class="col-header">Use Case Name</th>
+          <td class="col-data"><strong>Məlumatların Axtarışı və Reyestri</strong></td>
+        </tr>
+        <tr>
+          <th class="col-header">Actor</th>
+          <td class="col-data">Portal İstifadəçisi</td>
+        </tr>
+        <tr>
+          <th class="col-header">Preconditions</th>
+          <td class="col-data">
+            <ul class="flow-list">
+              <li>1. İstifadəçi internet brauzeri vasitəsilə portala daxil olub.</li>
+              <li>2. Verilənlər bazası və axtarış sistemi işlək vəziyyətdədir.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="col-header">Main Flow</th>
+          <td class="col-data">
+            <ol class="flow-list">
+              <li>İstifadəçi Əsas Səhifədə (Qarşılama ekranında) "Qabaqcıl Axtarış və Reyestr" modulunda "Daxil ol" düyməsini seçir.</li>
+              <li>Sistem "Məlumatların Axtarışı və Reyestri" ekranına keçid edir, yuxarı paneldə "Əsas Səhifə" düyməsini aktivləşdirir və Axtarış və Filtrləmə Panelini göstərir.</li>
+              <li>İstifadəçi tələb olunan axtarış və filter parametrlərini daxil edir:
+                <ul class="nested-list">
+                  <li>Ad, soyad, ata adı / Şirkət adı (yazarkən interaktiv avtotamamlama / autocomplete təklif siyahısı açılır)</li>
+                  <li>Şəxs növü - Hamısı / Fiziki şəxs / Hüquqi şəxs</li>
+                  <li>Hüquqi şəxsin təşkilati-hüquqi forması - Hamısı / MMC / ASC / QSC</li>
+                  <li>Tarix aralığı - Başlanğıc tarixi və Bitmə tarixi</li>
+                  <li>Əmlak növü - Hamısı / Daşınar / Daşınmaz</li>
+                  <li>VÖEN (daxil edərkən interaktiv VÖEN avtotamamlama siyahısı açılır)</li>
+                  <li>FİN</li>
+                </ul>
+              </li>
+              <li>İstifadəçi "Axtar" düyməsini seçir.</li>
+              <li>Sistem daxil edilmiş filter parametrlərinə uyğun məlumatları bazadan sorğulayır və əldə edir.</li>
+              <li>Sistem axtarış nəticələrini səhifələmə (pagination - hər səhifədə maksimum 30 qeyd) tətbiq olunmaqla cədvəl şəklində göstərir (№, Ad, Soyad / Şirkət Adı, Şəxs Növü, Təşkilati Forma, VÖEN, Əmlak Növü, Qeydiyyat Tarixi, Əməliyyat).</li>
+              <li>İstifadəçi axtarış nəticələri cədvəlində müvafiq sətrin qarşısındakı "Bax" düyməsini klikləyir.</li>
+              <li>Sistem "Qeydiyyat Detalları" adlı modal pəncərəni açır və seçilmiş qeydə aid məlumatları göstərir:
+                <ul class="nested-list">
+                  <li>Ad / Şirkət</li>
+                  <li>Şəxs Növü</li>
+                  <li>Təşkilati Forma</li>
+                  <li>VÖEN</li>
+                  <li>Əmlak Növü</li>
+                  <li>Qeydiyyat Tarixi</li>
+                </ul>
+              </li>
+              <li>İstifadəçi modal pəncərədə "Çıxarış Yüklə" düyməsini sıxaraq rəsmi sənədi əldə edir və ya "Bağla" düyməsi ilə pəncərəni bağlayır.</li>
+            </ol>
+          </td>
+        </tr>
+        <tr>
+          <th class="col-header">Alternative Flow</th>
+          <td class="col-data">
+            <div class="subflow-block">
+              <div class="subflow-title">AF-1 - Əsas Səhifəyə qayıdış naviqasiyası</div>
+              <p class="subflow-desc">İstifadəçi naviqasiya panelində "Əsas Səhifə" düyməsinə və ya portalın loqotipinə kliklədikdə sistem axtarış ekranından ilkin Qarşılama səhifəsinə qayıdır, "Əsas Səhifə" düyməsi gizlənir və ümumi statistik modullar göstərilir.</p>
+            </div>
+            <div class="subflow-block">
+              <div class="subflow-title">AF-2 - Cəld tarixlərin seçilməsi</div>
+              <p class="subflow-desc">İstifadəçi təqvimləri əllə doldurmaq əvəzinə "Bugün", "Son 30 gün", "Bu il" və ya "Hamısı" cəld seçim düymələrindən istifadə edərək tarix aralığını avtomatik təyin edir və axtarışı icra edir.</p>
+            </div>
+            <div class="subflow-block">
+              <div class="subflow-title">AF-3 - Avtotamamlama (Autocomplete) vasitəsilə seçim</div>
+              <p class="subflow-desc">İstifadəçi Ad və ya VÖEN sahəsinə yazarkən açılan təklif siyahısından istədiyi şəxsi/şirkəti klikləyərək seçir və axtarış parametrlərini avtomatik tamamlayır.</p>
+            </div>
+            <div class="subflow-block">
+              <div class="subflow-title">AF-4 - Filterlərin təmizlənməsi</div>
+              <p class="subflow-desc">İstifadəçi "Filteri təmizlə" düyməsini seçdikdə bütün daxil edilmiş parametrlər və aktiv filter etiketləri sıfırlanır, axtarış xanaları təmizlənir.</p>
+            </div>
+            <div class="subflow-block">
+              <div class="subflow-title">AF-5 - Səhifələmə (Pagination) üzrə naviqasiya</div>
+              <p class="subflow-desc">Axtarış nəticələri 30-dan çox olduqda istifadəçi cədvəlin altında yerləşən "Əvvəlki", "Növbəti" və ya səhifə nömrələri düymələrindən istifadə edərək səhifələr arasında rahat keçid edir.</p>
+            </div>
+            <div class="subflow-block">
+              <div class="subflow-title">AF-6 - Nəticələrin ixracı və çapı</div>
+              <p class="subflow-desc">İstifadəçi axtarış nəticəsində əldə edilmiş siyahını "CSV İxrac" düyməsi ilə .csv faylı kimi endirir və ya "Çap et" düyməsi ilə sənədi birbaşa çap edir.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th class="col-header">Exception Flow</th>
+          <td class="col-data">
+            <div class="subflow-block">
+              <div class="subflow-title">EF-1 - Məlumat tapılmadı</div>
+              <p class="subflow-desc">Seçilmiş filter parametrlərinə uyğun heç bir qeydiyyat aşkar edilmədikdə sistem cədvəli gizlədir, "Məlumat tapılmadı" xəbərdarlıq blokunu və "Filtrləri sıfırla" düyməsini göstərir.</p>
+            </div>
+            <div class="subflow-block">
+              <div class="subflow-title">EF-2 - Server/Baza xətası</div>
+              <p class="subflow-desc">Verilənlər bazasına və ya sistem komponentlərinə qoşulmaq mümkün olmadıqda sistem istifadəçiyə <em>"Məlumat bazası ilə əlaqə qurulmadı. Zəhmət olmasa bir az sonra yenidən cəhd edin."</em> xəta mesajını göstərir.</p>
+            </div>
+            <div class="subflow-block">
+              <div class="subflow-title">EF-3 - Yanlış filter məlumatı</div>
+              <p class="subflow-desc">İstifadəçi sahələrə yanlış formatda məlumat daxil etdikdə sistem axtarışın icrasına icazə vermir və müvafiq xəta mesajlarını göstərir:</p>
+              <ul class="nested-list" style="margin-top: 4px; margin-bottom: 0;">
+                <li>VÖEN yanlış daxil edildikdə: <em>"VÖEN 10 rəqəmdən ibarət olmalıdır."</em></li>
+                <li>FİN yanlış daxil edildikdə: <em>"FİN kod 5, 6 və ya 7 simvoldan ibarət olmalıdır."</em></li>
+                <li>Tarix aralığı yanlış daxil edildikdə: <em>"Başlanğıc tarixi bitmə tarixindən böyük ola bilməz."</em></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th class="col-header">Postconditions</th>
+          <td class="col-data">
+            <ul class="flow-list">
+              <li>1. İstifadəçiyə seçilmiş kriteriyalara uyğun fiziki və ya hüquqi şəxslərin mövcud reyestr və əmlak məlumatları təqdim olunur.</li>
+              <li>2. Seçilmiş qeydin "Qeydiyyat Detalları" məlumat kartı görüntülənir və çıxarış generasiya edilə bilər.</li>
+              <li>3. Məlumatlar yalnız oxuma məqsədilə təqdim olunur və bu Use Case çərçivəsində baza məlumatlarında dəyişiklik edilmir.</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </main>
+
+    <!-- =========================================================
+         SRS TAB PANE 3: INPUT VALIDATION SPECIFICATION
+         ========================================================= -->
+    <main class="srs-pane" id="mainPane-validation">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+        <button class="btn-print" onclick="window.print()" title="Validasiya cədvəlini çap et / PDF kimi saxla">
+          PDF kimi saxla / Çap et
+        </button>
+      </div>
+
+      <h2 class="doc-header-title">Input Validation Specification</h2>
+
+      <table class="uc-table">
+        <thead>
+          <tr style="background-color: var(--th);">
+            <th style="width: 22%; text-align: left;">Field Name</th>
+            <th style="width: 14%; text-align: left;">Data Type</th>
+            <th style="width: 12%; text-align: left;">Requirement</th>
+            <th style="width: 26%; text-align: left;">Validation Rules</th>
+            <th style="width: 26%; text-align: left;">Error Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ad, soyad, ata adı / Şirkət adı</strong></td>
+            <td>String</td>
+            <td>Optional</td>
+            <td>Maksimum 250 simvol. Hərf, rəqəm, defis və boşluq simvollarına icazə verilir. Autocomplete təklif siyahısı dəstəklənir.</td>
+            <td><em>"Məlumat maksimum 250 simvol ola bilər."</em></td>
+          </tr>
+          <tr>
+            <td><strong>Şəxs növü</strong></td>
+            <td>Dropdown</td>
+            <td>Optional</td>
+            <td>Yalnız sistem tərəfindən təyin edilmiş dəyərlər seçilə bilər: Hamısı, Fiziki şəxs, Hüquqi şəxs.</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><strong>Hüquqi şəxsin təşkilati-hüquqi forması</strong></td>
+            <td>Dropdown</td>
+            <td>Optional</td>
+            <td>Yalnız sistem tərəfindən təyin edilmiş dəyərlər seçilə bilər: Hamısı, MMC, ASC, QSC.</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><strong>VÖEN</strong></td>
+            <td>String</td>
+            <td>Optional</td>
+            <td>Yalnız rəqəmlərdən ibarət olmalıdır. Dəqiq 10 simvol uzunluğunda olmalıdır. Autocomplete dəstəklənir.</td>
+            <td><em>"VÖEN 10 rəqəmdən ibarət olmalıdır."</em></td>
+          <tr>
+            <td><strong>FİN</strong></td>
+            <td>String</td>
+            <td>Optional</td>
+            <td>5, 6 və ya 7 simvol uzunluğunda olmalıdır. Yalnız latın hərfləri və rəqəmlər qəbul edilir. Boşluq və xüsusi simvollar qadağandır.</td>
+            <td><em>"FİN kod 5, 6 və ya 7 simvoldan ibarət olmalıdır."</em></td>
+          </tr>
+          <tr>
+            <td><strong>Əmlak növü</strong></td>
+            <td>Dropdown</td>
+            <td>Optional</td>
+            <td>Yalnız sistem tərəfindən təyin edilmiş dəyərlər seçilə bilər: Hamısı, Daşınar, Daşınmaz.</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><strong>Başlanğıc tarixi</strong></td>
+            <td>Date (YYYY-MM-DD)</td>
+            <td>Optional</td>
+            <td>Təqvim formatına uyğun olmalıdır. Bitmə tarixi seçildikdə, başlanğıc tarixi bitmə tarixindən əvvəlki və ya eyni tarix olmalıdır.</td>
+            <td><em>"Başlanğıc tarixi bitmə tarixindən böyük ola bilməz."</em></td>
+          </tr>
+          <tr>
+            <td><strong>Bitmə tarixi</strong></td>
+            <td>Date (YYYY-MM-DD)</td>
+            <td>Optional</td>
+            <td>Təqvim formatına uyğun olmalıdır. Başlanğıc tarixi seçildikdə, bitmə tarixi başlanğıc tarixindən sonrakı və ya eyni tarix olmalıdır.</td>
+            <td><em>"Bitmə tarixi başlanğıc tarixindən kiçik ola bilməz."</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+    <!-- =========================================================
+         SRS TAB PANE 4: WORKFLOW (ACCURATE CLEAN FLOWCHARTS)
+         ========================================================= -->
+    <main class="srs-pane" id="mainPane-workflow">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+        <button class="btn-print" onclick="window.print()" title="Workflow sxemlərini çap et / PDF kimi saxla">
+          PDF kimi saxla / Çap et
+        </button>
+      </div>
+
+      <h2 class="doc-header-title">Proseslərin İş Axını Sxemləri (Workflows)</h2>
+
+      <!-- WORKFLOW 1: DUMP -->
+      <section class="workflow-block">
+        <div class="workflow-title-box">İlkin məlumatların hazırlanması və yüklənməsi - DUMP</div>
+        
+        <div class="workflow-svg-wrap">
+          <svg class="workflow-svg" viewBox="0 0 1080 540" width="100%" height="540" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="wf1-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#1e293b" />
+              </marker>
+            </defs>
+
+            <!-- Row 1: Start to Validation check -->
+            <!-- Node 1: Oval (Start) -->
+            <rect x="20" y="32" width="115" height="46" rx="23" ry="23" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="77" y="51" font-family="Inter, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#0f172a">
+              <tspan x="77" dy="0">Tam məlumat</tspan>
+              <tspan x="77" dy="13">bazasının hazırlanması</tspan>
+            </text>
+
+            <line x1="135" y1="55" x2="160" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 2: Rect -->
+            <rect x="160" y="28" width="150" height="54" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="235" y="46" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="235" dy="0">DUMP faylının formalaşdırılması</tspan>
+              <tspan x="235" dy="13" font-size="8.5" fill="#475569">(XML / CSV / JSON / Parquet /</tspan>
+              <tspan x="235" dy="11" font-size="8.5" fill="#475569">SQL Dump)</tspan>
+            </text>
+
+            <line x1="310" y1="55" x2="335" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 3: Rect -->
+            <rect x="335" y="30" width="150" height="50" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="410" y="49" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="410" dy="0">DUMP faylının Vahid Reyestr</tspan>
+              <tspan x="410" dy="13">və Məlumat Portalına ötürülməsi</tspan>
+            </text>
+
+            <line x1="485" y1="55" x2="510" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 4: Rect (Loopback Target) -->
+            <rect x="510" y="32" width="115" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="567" y="51" font-family="Inter, sans-serif" font-size="10" text-anchor="middle" fill="#0f172a">
+              <tspan x="567" dy="0">DUMP faylının qəbul</tspan>
+              <tspan x="567" dy="13">edilməsi</tspan>
+            </text>
+
+            <line x1="625" y1="55" x2="650" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 5: Rect -->
+            <rect x="650" y="32" width="120" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="710" y="51" font-family="Inter, sans-serif" font-size="10" text-anchor="middle" fill="#0f172a">
+              <tspan x="710" dy="0">Faylın format və</tspan>
+              <tspan x="710" dy="13">strukturunun yoxlanılması</tspan>
+            </text>
+
+            <line x1="770" y1="55" x2="795" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 6: Rect -->
+            <rect x="795" y="32" width="110" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="850" y="51" font-family="Inter, sans-serif" font-size="10" text-anchor="middle" fill="#0f172a">
+              <tspan x="850" dy="0">Məlumatların</tspan>
+              <tspan x="850" dy="13">validasiyası yoxlanılır</tspan>
+            </text>
+
+            <!-- Connector down from Node 6 into Diamond -->
+            <path d="M850,78 L850,105 L567,105 L567,122" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 7: Decision Diamond (Romb) -->
+            <polygon points="567,122 652,160 567,198 482,160" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="567" y="156" font-family="Inter, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">
+              <tspan x="567" dy="0">Validation</tspan>
+              <tspan x="567" dy="13">uğurludur?</tspan>
+            </text>
+
+            <!-- Symmetrical Stem exiting bottom of Diamond -->
+            <line x1="567" y1="198" x2="567" y2="230" stroke="#1e293b" stroke-width="1.3"/>
+
+            <!-- Symmetrical Horizontal Fork at y=230 -->
+            <!-- Left Branch (Bəli) -->
+            <path d="M567,230 L410,230 L410,260" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+            <text x="488" y="223" font-family="Inter, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#16a34a">Bəli</text>
+
+            <!-- Right Branch (Xeyr) -->
+            <path d="M567,230 L725,230 L725,260" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+            <text x="646" y="223" font-family="Inter, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#dc2626">Xeyr</text>
+
+            <!-- Left Box: Məlumatların lokal DB-yə yüklənməsi prosesi başladılır -->
+            <rect x="310" y="260" width="200" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="410" y="278" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="410" dy="0">Məlumatların lokal DB-yə</tspan>
+              <tspan x="410" dy="13">yüklənməsi prosesi başladılır</tspan>
+            </text>
+
+            <!-- Right Box: Xəta qeydə alınır və dump yenidən təqdim edilir -->
+            <rect x="625" y="260" width="200" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="725" y="278" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="725" dy="0">Xəta qeydə alınır və</tspan>
+              <tspan x="725" dy="13">dump yenidən təqdim edilir</tspan>
+            </text>
+
+            <!-- Right Loopback Path from Error Box back to top of Node 4 -->
+            <path d="M725,306 L725,330 L1050,330 L1050,10 L567,10 L567,28" fill="none" stroke="#64748b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Left Path continues straight down -->
+            <line x1="410" y1="306" x2="410" y2="330" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 9: Rect -->
+            <rect x="325" y="330" width="170" height="44" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="410" y="348" font-family="Inter, sans-serif" font-size="10" text-anchor="middle" fill="#0f172a">
+              <tspan x="410" dy="0">Məlumatların yüklənməsinin</tspan>
+              <tspan x="410" dy="13">yoxlanılması</tspan>
+            </text>
+
+            <line x1="410" y1="374" x2="410" y2="395" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 10: Rect -->
+            <rect x="335" y="395" width="150" height="38" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="410" y="419" font-family="Inter, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#0f172a">İlkin məlumat bazası hazırdır</text>
+
+            <line x1="410" y1="433" x2="410" y2="455" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf1-arr)"/>
+
+            <!-- Node 11: Oval (End) - Generously sized 270px width -->
+            <rect x="275" y="455" width="270" height="44" rx="22" ry="22" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="410" y="482" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f172a">Gündəlik sinxronizasiya üçün baza hazırdır</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- WORKFLOW 2: DVX SYNC -->
+      <section class="workflow-block">
+        <div class="workflow-title-box">Yeni və dəyişmiş VÖEN-lərin əldə edilməsi və məlumatların sinxronizasiyası</div>
+
+        <div class="workflow-svg-wrap">
+          <svg class="workflow-svg" viewBox="0 0 1080 700" width="100%" height="700" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="wf2-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#1e293b" />
+              </marker>
+            </defs>
+
+            <!-- Row 1: Horizontal Sequence -->
+            <!-- Node 1: Oval (Start) -->
+            <rect x="15" y="32" width="100" height="46" rx="23" ry="23" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="65" y="51" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle" fill="#0f172a">
+              <tspan x="65" dy="0">İlkin məlumat</tspan>
+              <tspan x="65" dy="13">bazası hazırdır</tspan>
+            </text>
+
+            <line x1="115" y1="55" x2="135" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <rect x="135" y="32" width="100" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="185" y="51" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="185" dy="0">Gündəlik sinxronizasiya</tspan>
+              <tspan x="185" dy="13">prosesi başlayır</tspan>
+            </text>
+
+            <line x1="235" y1="55" x2="255" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <rect x="255" y="32" width="115" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="312" y="51" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="312" dy="0">Service 01 çağırılır:</tspan>
+              <tspan x="312" dy="13" font-weight="600">GET /taxpayers/changed</tspan>
+            </text>
+
+            <line x1="370" y1="55" x2="390" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <rect x="390" y="32" width="105" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="442" y="51" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="442" dy="0">fromDate və toDate</tspan>
+              <tspan x="442" dy="13">göndərilir</tspan>
+            </text>
+
+            <line x1="495" y1="55" x2="515" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <rect x="515" y="32" width="125" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="577" y="51" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="577" dy="0">DVX yeni və dəyişmiş</tspan>
+              <tspan x="577" dy="13">VÖEN siyahısını qaytarır</tspan>
+            </text>
+
+            <line x1="640" y1="55" x2="660" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <rect x="660" y="32" width="90" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="705" y="51" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="705" dy="0">VÖEN siyahısı</tspan>
+              <tspan x="705" dy="13">qəbul edilir</tspan>
+            </text>
+
+            <line x1="750" y1="55" x2="770" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <!-- Node 7: Service 02 Call (Loopback Target) -->
+            <rect x="770" y="30" width="135" height="50" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="837" y="49" font-family="Inter, sans-serif" font-size="8.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="837" dy="0">Hər VÖEN üzrə Service 02 çağırılır:</tspan>
+              <tspan x="837" dy="13" font-weight="600">GET /taxpayers/{voen}</tspan>
+            </text>
+
+            <line x1="905" y1="55" x2="925" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <rect x="925" y="32" width="110" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="980" y="51" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="980" dy="0">VÖEN üzrə cari</tspan>
+              <tspan x="980" dy="12">məlumatlar əldə edilir</tspan>
+            </text>
+
+            <!-- Connector Down to Row 2 -->
+            <line x1="980" y1="78" x2="980" y2="105" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <rect x="910" y="105" width="140" height="44" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="980" y="123" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="980" dy="0">Məlumatların validasiyası</tspan>
+              <tspan x="980" dy="13">yoxlanılır</tspan>
+            </text>
+
+            <line x1="910" y1="127" x2="770" y2="127" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <!-- Diamond 1: Validasiya ugurludurmu? (Romb) -->
+            <polygon points="700,92 770,127 700,162 630,127" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="700" y="123" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f172a">
+              <tspan x="700" dy="0">Validation</tspan>
+              <tspan x="700" dy="13">uğurludur?</tspan>
+            </text>
+
+            <!-- Diamond 1 Stem exiting bottom -->
+            <line x1="700" y1="162" x2="700" y2="185" stroke="#1e293b" stroke-width="1.3"/>
+
+            <!-- Symmetrical Fork 1 at y=185 -->
+            <!-- Right Branch (Xeyr) -->
+            <path d="M700,185 L850,185 L850,205" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+            <text x="775" y="178" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#dc2626">Xeyr</text>
+
+            <rect x="790" y="205" width="120" height="36" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="850" y="228" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">Xəta qeydə alınır</text>
+
+            <!-- Left Branch (Bəli) -->
+            <path d="M700,185 L550,185 L550,205" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+            <text x="625" y="178" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#16a34a">Bəli</text>
+
+            <!-- Diamond 2: Lokalda və ya bazada mövcuddur? (Romb) -->
+            <polygon points="550,205 625,240 550,275 475,240" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="550" y="236" font-family="Inter, sans-serif" font-size="9" font-weight="700" text-anchor="middle" fill="#0f172a">
+              <tspan x="550" dy="0">Lokalda və ya</tspan>
+              <tspan x="550" dy="13">bazada mövcuddur?</tspan>
+            </text>
+
+            <!-- Diamond 2 Stem exiting bottom -->
+            <line x1="550" y1="275" x2="550" y2="300" stroke="#1e293b" stroke-width="1.3"/>
+
+            <!-- Symmetrical Fork 2 at y=300 -->
+            <!-- Left Branch (Bəli: UPDATE) -->
+            <path d="M550,300 L400,300 L400,320" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+            <text x="475" y="293" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#16a34a">Bəli</text>
+
+            <rect x="345" y="320" width="110" height="36" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="400" y="343" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle" fill="#0f172a">UPDATE edilir</text>
+
+            <!-- Right Branch (Xeyr: INSERT) -->
+            <path d="M550,300 L700,300 L700,320" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+            <text x="625" y="293" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#dc2626">Xeyr</text>
+
+            <rect x="645" y="320" width="110" height="36" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="700" y="343" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle" fill="#0f172a">INSERT edilir</text>
+
+            <!-- Symmetrical Merge from UPDATE and INSERT -->
+            <path d="M400,356 L400,380 L550,380" fill="none" stroke="#1e293b" stroke-width="1.3"/>
+            <path d="M700,356 L700,380 L550,380 L550,400" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <!-- Node 11: Lokal DB yenilənir -->
+            <rect x="480" y="400" width="140" height="38" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="550" y="423" font-family="Inter, sans-serif" font-size="10" text-anchor="middle" fill="#0f172a">Lokal DB yenilənir</text>
+
+            <line x1="550" y1="438" x2="550" y2="458" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <!-- Node 12: Növbəti VÖEN qəbul edilir -->
+            <rect x="475" y="458" width="150" height="38" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="550" y="481" font-family="Inter, sans-serif" font-size="10" text-anchor="middle" fill="#0f172a">Növbəti VÖEN qəbul edilir</text>
+
+            <line x1="550" y1="496" x2="550" y2="515" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <!-- Diamond 3: Bütün VÖEN-lər emal olundu? (Romb) -->
+            <polygon points="550,515 625,545 550,575 475,545" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="550" y="541" font-family="Inter, sans-serif" font-size="9" font-weight="700" text-anchor="middle" fill="#0f172a">
+              <tspan x="550" dy="0">Bütün VÖEN-lər</tspan>
+              <tspan x="550" dy="13">emal olundu?</tspan>
+            </text>
+
+            <!-- Diamond 3 Stem exiting bottom -->
+            <line x1="550" y1="575" x2="550" y2="595" stroke="#1e293b" stroke-width="1.3"/>
+
+            <!-- Symmetrical Fork 3 at y=595 -->
+            <!-- Left Branch (Xeyr: Növbəti VÖEN + Outer Loopback to Node 7) -->
+            <path d="M550,595 L390,595 L390,612" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+            <text x="470" y="588" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#dc2626">Xeyr</text>
+
+            <rect x="335" y="612" width="110" height="38" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="390" y="635" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">Növbəti VÖEN</text>
+
+            <!-- Loopback around the entire outer left perimeter back into Node 7 -->
+            <path d="M335,631 L8,631 L8,10 L837,10 L837,26" fill="none" stroke="#64748b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+
+            <!-- Right Branch (Bəli: Sinxronizasiya tamamlanır) -->
+            <path d="M550,595 L710,595 L710,612" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf2-arr)"/>
+            <text x="630" y="588" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#16a34a">Bəli</text>
+
+            <rect x="610" y="612" width="200" height="42" rx="21" ry="21" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="710" y="637" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f172a">Sinxronizasiya tamamlanır</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- WORKFLOW 3: EMAS INITIAL LOAD -->
+      <section class="workflow-block">
+        <div class="workflow-title-box">FİN məlumatlarına əsasən məlumatların ƏMAS-dan əldə edilməsi və bazaya yüklənməsi</div>
+
+        <div class="workflow-svg-wrap">
+          <svg class="workflow-svg" viewBox="0 0 1080 540" width="100%" height="540" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="wf3-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#1e293b" />
+              </marker>
+            </defs>
+
+            <!-- Row 1 -->
+            <!-- Node 1: Oval (Start) -->
+            <rect x="15" y="30" width="125" height="48" rx="24" ry="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="77" y="49" font-family="Inter, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a">
+              <tspan x="77" dy="0">Lokal bazadan</tspan>
+              <tspan x="77" dy="12">fiziki şəxslərin FİN-ləri</tspan>
+              <tspan x="77" dy="12">əldə edilir</tspan>
+            </text>
+
+            <line x1="140" y1="54" x2="160" y2="54" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <rect x="160" y="32" width="115" height="44" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="217" y="51" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="217" dy="0">FİN-lər üzrə ƏMAS-a</tspan>
+              <tspan x="217" dy="13">sorğu edilir</tspan>
+            </text>
+
+            <line x1="275" y1="54" x2="295" y2="54" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <rect x="295" y="28" width="155" height="52" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="372" y="47" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="372" dy="0">ƏMAS təqdim edilmiş FİN-lər üzrə</tspan>
+              <tspan x="372" dy="13">əmək münasibətləri məlumatlarını</tspan>
+              <tspan x="372" dy="12">hazırlayır</tspan>
+            </text>
+
+            <line x1="450" y1="54" x2="470" y2="54" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <rect x="470" y="30" width="150" height="48" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="545" y="49" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="545" dy="0">Məlumat faylı Vahid Reyestr</tspan>
+              <tspan x="545" dy="13">və Məlumat Portalına təqdim edilir</tspan>
+            </text>
+
+            <line x1="620" y1="54" x2="640" y2="54" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <!-- Node 5: Rect (Loopback Target) -->
+            <rect x="640" y="32" width="100" height="44" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="690" y="58" font-family="Inter, sans-serif" font-size="10" text-anchor="middle" fill="#0f172a">Fayl qəbul edilir</text>
+
+            <line x1="740" y1="54" x2="760" y2="54" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <rect x="760" y="30" width="115" height="48" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="817" y="49" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="817" dy="0">Fayl format və</tspan>
+              <tspan x="817" dy="13">strukturunun yoxlanılması</tspan>
+            </text>
+
+            <line x1="875" y1="54" x2="895" y2="54" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <rect x="895" y="32" width="110" height="44" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="950" y="51" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="950" dy="0">Məlumatların</tspan>
+              <tspan x="950" dy="13">validasiyası yoxlanılır</tspan>
+            </text>
+
+            <!-- Connector Down from Node 7 to Diamond 1 -->
+            <path d="M950,76 L950,105 L690,105 L690,122" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <!-- Diamond: Validasiya ugurludurmu? (Romb) -->
+            <polygon points="690,122 770,160 690,198 610,160" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="690" y="156" font-family="Inter, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">
+              <tspan x="690" dy="0">Validation</tspan>
+              <tspan x="690" dy="13">uğurludur?</tspan>
+            </text>
+
+            <!-- Diamond Stem exiting bottom -->
+            <line x1="690" y1="198" x2="690" y2="230" stroke="#1e293b" stroke-width="1.3"/>
+
+            <!-- Symmetrical Fork at y=230 -->
+            <!-- Left Branch (Bəli) -->
+            <path d="M690,230 L535,230 L535,260" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+            <text x="612" y="223" font-family="Inter, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#16a34a">Bəli</text>
+
+            <!-- Right Branch (Xeyr) -->
+            <path d="M690,230 L845,230 L845,260" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+            <text x="768" y="223" font-family="Inter, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#dc2626">Xeyr</text>
+
+            <!-- Left Box: ƏMAS məlumatları lokal DB-yə yüklənir -->
+            <rect x="440" y="260" width="190" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="535" y="278" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="535" dy="0">ƏMAS məlumatları</tspan>
+              <tspan x="535" dy="13">lokal DB-yə yüklənir</tspan>
+            </text>
+
+            <!-- Right Box: Xəta qeydə alınır və yenidən təqdim edilir -->
+            <rect x="750" y="260" width="190" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="845" y="278" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="845" dy="0">Xəta qeydə alınır və</tspan>
+              <tspan x="845" dy="13">yenidən təqdim edilir</tspan>
+            </text>
+
+            <!-- Loopback line back to Node 5 (clear of right boundary at x=1050) -->
+            <path d="M845,306 L845,330 L1050,330 L1050,10 L690,10 L690,28" fill="none" stroke="#64748b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <!-- Left Path continues straight down -->
+            <line x1="535" y1="306" x2="535" y2="330" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <rect x="455" y="330" width="160" height="44" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="535" y="348" font-family="Inter, sans-serif" font-size="10" text-anchor="middle" fill="#0f172a">
+              <tspan x="535" dy="0">Yüklənmiş məlumatların</tspan>
+              <tspan x="535" dy="13">yoxlanılması</tspan>
+            </text>
+
+            <line x1="535" y1="374" x2="535" y2="395" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <!-- Node 11: Rect -->
+            <rect x="465" y="395" width="140" height="38" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="535" y="419" font-family="Inter, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#0f172a">İlkin məlumat bazası hazırdır</text>
+
+            <line x1="535" y1="433" x2="535" y2="455" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf3-arr)"/>
+
+            <!-- Node 12: Oval (End) - Generously sized 270px width -->
+            <rect x="400" y="455" width="270" height="44" rx="22" ry="22" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="535" y="482" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f172a">Gündəlik sinxronizasiya üçün baza hazırdır</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- WORKFLOW 4: EMAS DAILY CONTRACT SYNC -->
+      <section class="workflow-block">
+        <div class="workflow-title-box">ƏMAS - Dəyişmiş əmək müqavilələrinin sinxronizasiyası</div>
+
+        <div class="workflow-svg-wrap">
+          <svg class="workflow-svg" viewBox="0 0 1080 640" width="100%" height="640" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="wf4-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#1e293b" />
+              </marker>
+            </defs>
+
+            <!-- Row 1: Horizontal Sequence -->
+            <!-- Node 1: Oval (Start) -->
+            <rect x="15" y="32" width="95" height="46" rx="23" ry="23" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="62" y="51" font-family="Inter, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a">
+              <tspan x="62" dy="0">Gündəlik əmək</tspan>
+              <tspan x="62" dy="13">sinxronizasiyası başlayır</tspan>
+            </text>
+
+            <line x1="110" y1="55" x2="130" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <rect x="130" y="32" width="90" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="175" y="51" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="175" dy="0">Tarix aralığı</tspan>
+              <tspan x="175" dy="13">müəyyən edilir</tspan>
+            </text>
+
+            <line x1="220" y1="55" x2="240" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <rect x="240" y="32" width="115" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="297" y="51" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="297" dy="0">Service 01 çağırılır:</tspan>
+              <tspan x="297" dy="13" font-weight="600">GET /contracts/changed</tspan>
+            </text>
+
+            <line x1="355" y1="55" x2="375" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <rect x="375" y="32" width="115" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="432" y="51" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="432" dy="0">Tarix aralığı ƏMAS-a</tspan>
+              <tspan x="432" dy="13">göndərilir (fromDate/toDate)</tspan>
+            </text>
+
+            <line x1="490" y1="55" x2="510" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <rect x="510" y="32" width="125" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="572" y="51" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="572" dy="0">Məlumatları dəyişmiş</tspan>
+              <tspan x="572" dy="13">müqavilə nömrələri alınır</tspan>
+            </text>
+
+            <line x1="635" y1="55" x2="655" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <rect x="655" y="32" width="90" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="700" y="51" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="700" dy="0">Müqavilə nömrələri</tspan>
+              <tspan x="700" dy="13">qəbul edilir</tspan>
+            </text>
+
+            <line x1="745" y1="55" x2="765" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <!-- Node 7: Service 02 Call (Loopback Target) -->
+            <rect x="765" y="30" width="130" height="50" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="830" y="49" font-family="Inter, sans-serif" font-size="8.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="830" dy="0">Hər nömrə üzrə Service 02 çağırılır:</tspan>
+              <tspan x="830" dy="13" font-weight="600">GET /contracts/{no}</tspan>
+            </text>
+
+            <line x1="895" y1="55" x2="915" y2="55" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <!-- Node 8: Compact width (105px, right edge = 1020) with wide gap to loopback line at 1060 -->
+            <rect x="915" y="32" width="105" height="46" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="967" y="51" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="967" dy="0">Nömrə üzrə müqavilə</tspan>
+              <tspan x="967" dy="13">ƏMAS-da axtarılır</tspan>
+            </text>
+
+            <!-- Connector Down to Row 2 -->
+            <line x1="967" y1="78" x2="967" y2="105" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <!-- Node 9: Compact width (125px, right edge = 1020) so loopback at 1060 never touches -->
+            <rect x="895" y="105" width="125" height="44" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="957" y="123" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="957" dy="0">ƏMAS cari əmək müqaviləsi</tspan>
+              <tspan x="957" dy="13">məlumatlarını qaytarır</tspan>
+            </text>
+
+            <line x1="895" y1="127" x2="855" y2="127" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <rect x="725" y="105" width="130" height="44" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="790" y="123" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="790" dy="0">Məlumatların validasiyası</tspan>
+              <tspan x="790" dy="13">yoxlanılır</tspan>
+            </text>
+
+            <line x1="725" y1="127" x2="665" y2="127" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <!-- Diamond 1: Validasiya ugurludurmu? (Romb) -->
+            <polygon points="595,92 665,127 595,162 525,127" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="595" y="123" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f172a">
+              <tspan x="595" dy="0">Validation</tspan>
+              <tspan x="595" dy="13">uğurludur?</tspan>
+            </text>
+
+            <!-- Diamond 1 Stem exiting bottom -->
+            <line x1="595" y1="162" x2="595" y2="185" stroke="#1e293b" stroke-width="1.3"/>
+
+            <!-- Symmetrical Fork 1 at y=185 -->
+            <!-- Right Branch (Xeyr) -->
+            <path d="M595,185 L760,185 L760,205" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+            <text x="677" y="178" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#dc2626">Xeyr</text>
+
+            <rect x="685" y="205" width="150" height="36" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="760" y="222" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="760" dy="0">Xəta qeydə alınır və</tspan>
+              <tspan x="760" dy="12">yenidən göndərilir</tspan>
+            </text>
+
+            <!-- Left Branch (Bəli: FİN üzrə məlumat müqayisə edilir) -->
+            <path d="M595,185 L430,185 L430,205" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+            <text x="512" y="178" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#16a34a">Bəli</text>
+
+            <rect x="360" y="205" width="140" height="38" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="430" y="224" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">
+              <tspan x="430" dy="0">FİN üzrə məlumat</tspan>
+              <tspan x="430" dy="13">müqayisə edilir</tspan>
+            </text>
+
+            <!-- Connector Down to Diamond 2 -->
+            <line x1="430" y1="243" x2="430" y2="265" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <!-- Diamond 2: Məlumat bazada mövcuddur? (Romb) -->
+            <polygon points="430,265 505,295 430,325 355,295" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="430" y="291" font-family="Inter, sans-serif" font-size="9" font-weight="700" text-anchor="middle" fill="#0f172a">
+              <tspan x="430" dy="0">Məlumat bazada</tspan>
+              <tspan x="430" dy="13">mövcuddur?</tspan>
+            </text>
+
+            <!-- Diamond 2 Stem exiting bottom -->
+            <line x1="430" y1="325" x2="430" y2="345" stroke="#1e293b" stroke-width="1.3"/>
+
+            <!-- Symmetrical Fork 2 at y=345 -->
+            <!-- Left Branch (Bəli: UPDATE) -->
+            <path d="M430,345 L280,345 L280,365" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+            <text x="355" y="338" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#16a34a">Bəli</text>
+
+            <rect x="185" y="365" width="190" height="34" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="280" y="382" font-family="Inter, sans-serif" font-size="9" text-anchor="middle" fill="#0f172a">
+              <tspan x="280" dy="0">Mövcud məlumatlar ilə</tspan>
+              <tspan x="280" dy="12">müqayisə edilir və UPDATE</tspan>
+            </text>
+
+            <!-- Right Branch (Xeyr: Xəta qeydə alınır) -->
+            <path d="M430,345 L580,345 L580,365" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+            <text x="505" y="338" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#dc2626">Xeyr</text>
+
+            <rect x="525" y="365" width="110" height="34" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="580" y="386" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">Xəta qeydə alınır</text>
+
+            <!-- Symmetrical Merge paths down to Diamond 3 -->
+            <path d="M280,399 L280,420 L430,420" fill="none" stroke="#1e293b" stroke-width="1.3"/>
+            <path d="M580,399 L580,420 L430,420 L430,440" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+
+            <!-- Diamond 3: Bütün müqavilələr emal olundu? (Romb) -->
+            <polygon points="430,440 505,470 430,500 355,470" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="430" y="466" font-family="Inter, sans-serif" font-size="9" font-weight="700" text-anchor="middle" fill="#0f172a">
+              <tspan x="430" dy="0">Bütün müqavilələr</tspan>
+              <tspan x="430" dy="13">emal olundu?</tspan>
+            </text>
+
+            <!-- Diamond 3 Stem exiting bottom -->
+            <line x1="430" y1="500" x2="430" y2="520" stroke="#1e293b" stroke-width="1.3"/>
+
+            <!-- Symmetrical Fork 3 at y=520 -->
+            <!-- Left Branch (Bəli: Sinxronizasiya tamamlanır) -->
+            <path d="M430,520 L270,520 L270,538" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+            <text x="350" y="513" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#16a34a">Bəli</text>
+
+            <rect x="170" y="538" width="200" height="42" rx="21" ry="21" fill="#ffffff" stroke="#1e293b" stroke-width="1.4"/>
+            <text x="270" y="563" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f172a">Sinxronizasiya tamamlanır</text>
+
+            <!-- Right Branch (Xeyr: Növbəti müqavilə + Loopback) -->
+            <path d="M430,520 L580,520 L580,538" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+            <text x="505" y="513" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#dc2626">Xeyr</text>
+
+            <rect x="525" y="538" width="110" height="38" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1.3"/>
+            <text x="580" y="561" font-family="Inter, sans-serif" font-size="9.5" text-anchor="middle" fill="#0f172a">Növbəti müqavilə</text>
+
+            <!-- Loopback with 40px outer clearance at x=1060 (boxes end at x=1020) -->
+            <path d="M635,557 L1060,557 L1060,10 L830,10 L830,26" fill="none" stroke="#64748b" stroke-width="1.3" marker-end="url(#wf4-arr)"/>
+          </svg>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- =========================================================
+         SRS TAB PANE 5: UI / MOCKUPS (TAM İNTERAKTİV DAXİLİ PROTOTİP)
+         ========================================================= -->
+    <main class="srs-pane" id="mainPane-mockup">
+      <!-- Mockup Top Toolbar with Open in New Window Button -->
+      <div class="mockup-top-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding: 10px 16px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px;">
+        <span style="font-size: 14px; font-weight: 700; color: #0369a1;">İnteraktiv Axtarış və Reyestr Prototipi (Mockup)</span>
+        <a href="search_mockup.html" target="_blank" class="btn-print" style="text-decoration: none; padding: 6px 14px; font-size: 13px;">
+          Ayrı pəncərədə tam ekran aç ↗
+        </a>
+      </div>
+
+      <!-- Top Navigation Bar for Mockup -->
+      <nav class="navbar">
+        <div class="navbar-container">
+          <div class="brand-group" onclick="showMockupScreen('welcome')">
+            <div class="brand-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </div>
+            <div class="brand-text">
+              <h1 style="font-size: 1.05rem; font-weight: 700; color: #0369a1; margin: 0; border: none; padding: 0; background: none;">Vahid Reyestr və Məlumat Portalı</h1>
+            </div>
+          </div>
+          
+          <div class="nav-actions">
+            <div class="nav-stats">
+              <div class="stat-item">Fiziki Şəxslər: <strong id="statPhysicalCount">250</strong></div>
+              <div class="stat-item">Hüquqi Şəxslər: <strong id="statLegalCount">250</strong></div>
+              <div class="stat-item">Ümumi: <strong id="statTotalCount">500</strong></div>
+            </div>
+            <button id="navBackBtn" class="btn-nav-back" style="display: none;" onclick="showMockupScreen('welcome')">
+              Əsas Səhifə
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- SCREEN 1: WELCOME & ENTRANCE PORTAL -->
+      <div id="screenWelcome" class="screen-view active">
+        <div class="mockup-main-layout">
+          
+          <!-- Hero Banner -->
+          <section class="portal-hero">
+            <h2>Vahid Reyestr və Məlumat Portalı</h2>
+            <p>Fiziki və hüquqi şəxslərin vahid dövlət reyestri, təşkilati-hüquqi formaları, əmlak uçotu və vergi qeydiyyatı məlumatlarının axtarışı.</p>
+          </section>
+
+          <!-- Services & Modules -->
+          <section class="portal-modules-grid">
+            <!-- Module 1: Search & Filter -->
+            <div class="module-card featured">
+              <div class="module-header">
+                <span class="module-tag">Əsas Xidmət</span>
+                <h3 class="module-title">Qabaqcıl Axtarış və Reyestr</h3>
+                <p class="module-desc">Ad, soyad, VÖEN, şəxs növü, təşkilati forma (MMC, ASC, QSC), əmlak növü və tarixlər üzrə filtrləmə.</p>
+              </div>
+              <div class="module-footer">
+                <span class="module-stat">Baza: <strong>500 qeyd</strong></span>
+                <button class="btn btn-primary" onclick="showMockupScreen('search')">Daxil ol</button>
+              </div>
+            </div>
+
+            <!-- Module 2: Legal Entities (Disabled) -->
+            <div class="module-card disabled">
+              <div class="module-header">
+                <span class="module-tag" style="background: #e2e8f0; color: #64748b;">Hüquqi Şəxslər • Deaktiv</span>
+                <h3 class="module-title" style="color: #64748b;">Hüquqi Şəxslərin Uçotu</h3>
+                <p class="module-desc">MMC, ASC və QSC təşkilati-hüquqi formasına malik kommersiya və qeyri-kommersiya təşkilatları.</p>
+              </div>
+              <div class="module-footer">
+                <span class="module-stat">Qeydiyyat: <strong>250 şirkət</strong></span>
+                <button class="btn btn-clear" disabled style="opacity: 0.5; cursor: not-allowed;">Deaktiv</button>
+              </div>
+            </div>
+
+            <!-- Module 3: Physical Persons (Disabled) -->
+            <div class="module-card disabled">
+              <div class="module-header">
+                <span class="module-tag" style="background: #e2e8f0; color: #64748b;">Fiziki Şəxslər • Deaktiv</span>
+                <h3 class="module-title" style="color: #64748b;">Fiziki Şəxslərin Reyestri</h3>
+                <p class="module-desc">Fərdi sahibkarlar, fiziki şəxslər və onların mülkiyyətində olan daşınar/daşınmaz əmlak məlumatları.</p>
+              </div>
+              <div class="module-footer">
+                <span class="module-stat">Qeydiyyat: <strong>250 şəxs</strong></span>
+                <button class="btn btn-clear" disabled style="opacity: 0.5; cursor: not-allowed;">Deaktiv</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- System Stats Banner -->
+          <section class="portal-stats-banner">
+            <div class="stat-box">
+              <div class="num" id="portalStatTotal">500</div>
+              <div class="lbl">Ümumi Reyestr Qeydi</div>
+            </div>
+            <div class="stat-box">
+              <div class="num" id="portalStatLegal">250</div>
+              <div class="lbl">Hüquqi Şəxs (MMC/ASC/QSC)</div>
+            </div>
+            <div class="stat-box">
+              <div class="num" id="portalStatPhysical">250</div>
+              <div class="lbl">Fiziki Şəxs</div>
+            </div>
+            <div class="stat-box">
+              <div class="num" id="portalStatImmovable">250</div>
+              <div class="lbl">Daşınmaz Əmlak</div>
+            </div>
+            <div class="stat-box">
+              <div class="num" id="portalStatMovable">250</div>
+              <div class="lbl">Daşınar Əmlak</div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- SCREEN 2: SEARCH & FILTER SYSTEM -->
+      <div id="screenSearch" class="screen-view">
+        <div class="mockup-main-layout">
+          
+          <!-- Page Header -->
+          <header class="mockup-page-header">
+            <h2>Məlumatların Axtarışı və Reyestri</h2>
+            <p>Fiziki və hüquqi şəxslərin əmlak və qeydiyyat məlumatları üzrə axtarış</p>
+          </header>
+
+          <!-- Search & Filter Card -->
+          <section class="filter-card">
+            <div class="filter-card-header">
+              <div class="filter-card-title">Axtarış və Filtrləmə Paneli</div>
+            </div>
+
+            <div class="filter-card-body">
+              <form id="searchFilterForm" onsubmit="event.preventDefault(); applySearchFilters();">
+                <div class="filter-grid">
+
+                  <!-- Ad, soyad, ata adı (Text input + Autocomplete) -->
+                  <div class="form-group">
+                    <label class="form-label" for="fullNameInput">Ad, soyad, ata adı</label>
+                    <input 
+                      type="text" 
+                      id="fullNameInput" 
+                      class="form-control" 
+                      placeholder="Yazmağa başlayın..."
+                      autocomplete="off"
+                      oninput="handleNameAutocomplete(this.value)"
+                    />
+                    <div id="autocompleteList" class="autocomplete-list"></div>
+                  </div>
+
+                  <!-- Şəxs növü (Dropdown: Fiziki şəxs / Hüquqi şəxs) -->
+                  <div class="form-group">
+                    <label class="form-label" for="personTypeSelect">Şəxs növü</label>
+                    <select id="personTypeSelect" class="form-control">
+                      <option value="">Hamısı</option>
+                      <option value="Hüquqi şəxs">Hüquqi şəxs</option>
+                      <option value="Fiziki şəxs">Fiziki şəxs</option>
+                    </select>
+                  </div>
+
+                  <!-- Hüquqi şəxsin təşkilati-hüquqi forması (Enabled Dropdown: MMC, ASC, QSC) -->
+                  <div class="form-group" id="legalFormGroup">
+                    <label class="form-label" for="legalFormSelect">Hüquqi şəxsin təşkilati-hüquqi forması</label>
+                    <select id="legalFormSelect" class="form-control">
+                      <option value="">Hamısı</option>
+                      <option value="MMC">MMC - Məhdud Məsuliyyətli Cəmiyyət</option>
+                      <option value="ASC">ASC - Açıq Səhmdar Cəmiyyəti</option>
+                      <option value="QSC">QSC - Qapalı Səhmdar Cəmiyyəti</option>
+                    </select>
+                  </div>
+
+                  <!-- Tarix aralığı (Başlanğıc və Bitmə tarixi) -->
+                  <div class="form-group">
+                    <label class="form-label">Tarix aralığı</label>
+                    <div class="date-range-group">
+                      <input 
+                        type="date" 
+                        id="startDateInput" 
+                        class="form-control" 
+                        title="Başlanğıc tarixi" 
+                        onfocus="syncDateConstraints()"
+                        onclick="syncDateConstraints()"
+                        onchange="handleStartDateChange(this.value)" 
+                        oninput="handleStartDateChange(this.value)" 
+                      />
+                      <input 
+                        type="date" 
+                        id="endDateInput" 
+                        class="form-control" 
+                        title="Bitmə tarixi" 
+                        onfocus="syncDateConstraints()"
+                        onclick="syncDateConstraints()"
+                        onchange="handleEndDateChange(this.value)" 
+                        oninput="handleEndDateChange(this.value)" 
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Əmlak növü (Dropdown: Daşınar / Daşınmaz) -->
+                  <div class="form-group">
+                    <label class="form-label" for="propertyTypeSelect">Əmlak növü</label>
+                    <select id="propertyTypeSelect" class="form-control">
+                      <option value="">Hamısı</option>
+                      <option value="Daşınar">Daşınar</option>
+                      <option value="Daşınmaz">Daşınmaz</option>
+                    </select>
+                  </div>
+
+                  <!-- VÖEN (Text input + Autocomplete) -->
+                  <div class="form-group">
+                    <label class="form-label" for="voenInput">VÖEN</label>
+                    <input 
+                      type="text" 
+                      id="voenInput" 
+                      class="form-control" 
+                      placeholder="VÖEN daxil edin və ya seçin..." 
+                      maxlength="12"
+                      autocomplete="off"
+                      oninput="handleVoenAutocomplete(this.value)"
+                    />
+                    <div id="voenAutocompleteList" class="autocomplete-list"></div>
+                  </div>
+
+                </div>
+
+                <!-- Buttons & Quick Dates -->
+                <div class="filter-actions-bar">
+                  <div class="quick-dates">
+                    <span class="quick-date-label">Cəld tarixlər:</span>
+                    <button type="button" class="quick-pill" onclick="setQuickDate('today')">Bugün</button>
+                    <button type="button" class="quick-pill" onclick="setQuickDate('month')">Son 30 gün</button>
+                    <button type="button" class="quick-pill" onclick="setQuickDate('year')">Bu il</button>
+                    <button type="button" class="quick-pill" onclick="setQuickDate('all')">Hamısı</button>
+                  </div>
+
+                  <div class="action-buttons">
+                    <button type="button" class="btn btn-clear" onclick="clearAllFilters()">Filteri təmizlə</button>
+                    <button type="submit" class="btn btn-primary">Axtar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Active Filter Badges -->
+          <div id="activeFiltersContainer" class="active-filters-container" style="display: none;">
+            <span style="font-weight: 700; color: #0369a1;">Aktiv filtrlər:</span>
+            <div id="activeFilterBadges" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+          </div>
+
+          <!-- Results Section -->
+          <section class="results-card">
+            <div class="results-header">
+              <div class="results-count-title">
+                <span>Tapılan məlumatlar</span>
+                <span class="count-badge" id="resultsCounter">500 nəticə</span>
+              </div>
+
+              <div class="results-tools">
+                <button class="tool-btn" onclick="exportData('csv')">CSV İxrac</button>
+                <button class="tool-btn" onclick="window.print()">Çap et</button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="custom-table" id="resultsTable">
+                <thead>
+                  <tr>
+                    <th>№</th>
+                    <th>Ad, Soyad / Şirkət Adı</th>
+                    <th>Şəxs Növü</th>
+                    <th>Təşkilati Forma</th>
+                    <th>VÖEN</th>
+                    <th>Əmlak Növü</th>
+                    <th>Qeydiyyat Tarixi</th>
+                    <th style="text-align: center;">Əməliyyat</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div id="paginationContainer" class="pagination-container" style="display: none;">
+              <div class="pagination-info" id="paginationInfo">
+                Göstərilir: <strong id="pageRangeText">1-30</strong> / <span id="pageTotalText">0 nəticə</span>
+              </div>
+              <div class="pagination-nav" id="paginationNav">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+
+            <!-- Initial Prompt State (Before searching) -->
+            <div id="initialState" class="empty-state" style="display: block;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem; color: #0284c7;">🔍</div>
+              <h3 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">Axtarış aparmaq üçün filterləri daxil edin</h3>
+              <p style="font-size: 0.85rem; color: #64748b; max-width: 520px; margin: 0 auto;">
+                Məlumatları əldə etmək üçün yuxarıdakı parametrləri daxil edin və <strong>"Axtar"</strong> düyməsini sıxın.
+              </p>
+            </div>
+
+            <!-- Empty State (No records found after search) -->
+            <div id="emptyState" class="empty-state">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem; color: #f59e0b;">⚠️</div>
+              <h3>Məlumat tapılmadı</h3>
+              <p>Daxil edilmiş filter parametrlərinə uyğun heç bir qeydiyyat aşkar edilmədi.</p>
+              <button class="btn btn-clear" onclick="clearAllFilters()">Filtrləri sıfırla</button>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- Detail Modal -->
+      <div id="detailModal" class="modal-backdrop" onclick="closeDetailModal(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Qeydiyyat Detalları</h3>
+            <button class="modal-close-btn" onclick="closeDetailModal()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-grid">
+              <div class="detail-item">
+                <span class="detail-label">Ad / Şirkət</span>
+                <span class="detail-value" id="modalName">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Şəxs Növü</span>
+                <span class="detail-value" id="modalType">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Təşkilati Forma</span>
+                <span class="detail-value" id="modalLegalForm">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">VÖEN</span>
+                <span class="detail-value" id="modalVoen">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Əmlak Növü</span>
+                <span class="detail-value" id="modalPropertyType">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Qeydiyyat Tarixi</span>
+                <span class="detail-value" id="modalDate">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-clear" onclick="closeDetailModal()">Bağla</button>
+            <button class="btn btn-primary" onclick="alert('Çıxarış generasiya edilir...');">Çıxarış Yüklə</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function switchMainTab(mainTabId) {
+      document.querySelectorAll('.srs-main-tab').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.srs-pane').forEach(pane => pane.classList.remove('active'));
+      
+      const selectedBtn = document.getElementById('mainTabBtn-' + mainTabId);
+      const selectedPane = document.getElementById('mainPane-' + mainTabId);
+      if (selectedBtn && selectedPane) {
+        selectedBtn.classList.add('active');
+        selectedPane.classList.add('active');
+      }
+    }
+
+    function switchApiSubTab(subTabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(pane => pane.classList.remove('active'));
+      
+      const selectedBtn = document.getElementById('tabBtn-' + subTabId);
+      const selectedPane = document.getElementById('tabPane-' + subTabId);
+      if (selectedBtn && selectedPane) {
+        selectedBtn.classList.add('active');
+        selectedPane.classList.add('active');
+      }
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function highlightJson(text) {
+      return text.replace(
+        /("(?:\\.|[^"\\])*")(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g,
+        function (match, str, colon, kw) {
+          if (str) {
+            if (colon) {
+              return '<span class="json-key">' + str + "</span>" + colon;
+            }
+            return '<span class="json-val">' + str + "</span>";
+          }
+          if (kw) {
+            return '<span class="json-val">' + kw + "</span>";
+          }
+          return '<span class="json-val">' + match + "</span>";
+        }
+      );
+    }
+
+    function highlightQuery(text) {
+      return text.replace(/([^?&=\s]+)=([^&\s]+)/g, function (_, key, value) {
+        return '<span class="json-key">' + key + "</span>=<span class=\"json-val\">" + value + "</span>";
+      });
+    }
+
+    document.querySelectorAll("pre").forEach(function (block) {
+      var raw = block.textContent;
+      var trimmed = raw.trim();
+      if (trimmed.charAt(0) === "{" || trimmed.charAt(0) === "[") {
+        block.innerHTML = highlightJson(escapeHtml(raw));
+      } else if (trimmed.indexOf("=") !== -1) {
+        block.innerHTML = highlightQuery(escapeHtml(raw));
+      }
+    });
+
+    // =========================================================
+    // MOCKUP CLIENT-SIDE LOGIC & 500-RECORD DATABASE GENERATOR
+    // =========================================================
+    function generate500Database() {
+      const db = [];
+
+      db.push({
+        id: 1,
+        fullName: "SetClapp MMC",
+        personType: "Hüquqi şəxs",
+        legalForm: "MMC",
+        voen: "1405629181",
+        propertyType: "Daşınar",
+        propertyDesc: "İT və proqram təminatı infrastrukturu, server avadanlıqları parkı, Bakı şəh., Binəqədi r-nu",
+        regDate: "2023-04-12"
+      });
+
+      const lastNames = [
+        "Əliyev", "Məmmədov", "Həsənov", "Hüseynov", "Quliyev", "İsmayılov", "Əhmədov", "Rzayev", 
+        "Babayev", "Süleymanov", "Qasımov", "Məhərrəmov", "Cəfərov", "Rüstəmov", "Zeynalov", 
+        "Paşayev", "Ələkbərov", "Vəliyev", "Kərimov", "Məlikov", "Namazov", "Tağıyev", "Səmədova", 
+        "Orucov", "Əsədov", "Bayramov", "Muradov", "Xəlilov", "Abbasov", "Nəbiyev", "Kazımov",
+        "Novruzov", "Mustafayev", "Fərəcov", "Seyidov", "Qəhrəmanov", "Dadaşov", "Qocayev"
+      ];
+
+      const firstNames = [
+        "Rəşad", "Elvin", "Samir", "Tural", "Fərid", "Fuad", "Cavid", "Orxan", "Murad", "Nicat", 
+        "Toğrul", "Anar", "Vüqar", "Rauf", "Emil", "İlqar", "Kamran", "Zaur", "Pərviz", "Eldar",
+        "Aygün", "Leyla", "Nərgiz", "Sevinc", "Zərifə", "Günay", "Dilarə", "Könül", "Nigar", "Aysel",
+        "Fidan", "Şəbnəm", "Gülşən", "Lalə", "Səbinə", "Rəna", "Samirə", "Xədicə"
+      ];
+
+      const patronymics = [
+        "İlham", "Eldar", "Rasim", "Vaqif", "Namiq", "Kamal", "Natiq", "Akif", "Vahid", "Şahin", 
+        "Rauf", "Mehman", "İsmayıl", "Zakir", "Əli", "Həsən", "Əhməd", "Məsud", "Yaqub", "Tahir", 
+        "Nizami", "Səlim", "Cəmil", "Qadir", "Bəxtiyar", "Yusif", "Hafiz", "Sabir", "Mövsüm"
+      ];
+
+      const companyBases = [
+        "Caspian Logistics", "Bakı İnşaat", "Araz Holdinq", "AzərTech Solutions", "Kapital Trans", 
+        "Qarabağ Aqro Sənaye", "Xəzər Enerji", "Global Food Trading", "Şirvan Neft Avadanlıqları", 
+        "İnter Qrup Tikinti", "Nordic Express Logistics", "AzLogistics Solutions", "Gəncə Tekstil Fabriki", 
+        "Silk Way Sky Catering", "Caspian Agrochem", "Baku Steel Construction", "Prime Retail", 
+        "Xəzər Beynəlxalq Sığorta", "AzərMed Pharmaceuticals", "Smart Building Solutions", 
+        "Sumqayıt Polimer Sənaye", "Caspian Sea Shipping", "Qafqaz Mineral Suları", "Azərqaz Layihə Tikinti", 
+        "Delta Logistics Hub", "AvtoServis Qrup", "Silk Road Agro", "Baku Electronics Distribution", 
+        "SOCAR Green Energy Projects", "Azərişıq Podrat Tikinti", "Paşa Trans Logistika", 
+        "Bravo Retail Distribution", "TexnoHub Innovation", "AgroVətən Fermer Təsərrüfatı", 
+        "Abşeron Logistika Mərkəzi", "Mingəçevir İşıq Cihazları", "Naxçıvan Sənaye Kompleksi", 
+        "Şəki İpək və Tekstil", "Lənkəran Çay və Aqro", "Quba Meyvəçilik və Emal", 
+        "Göyçay Şirə və Konserv", "Qarabağ Yenidənqurma İnşaat", "Şuşa Turizm və Otelçilik", 
+        "Füzuli Aqropark Layihəsi", "Zəngilan Ağıllı Şəhər Texnologiyaları", "Kəlbəcər Mineral Sənaye", 
+        "Xocavənd İstehsalat Qrupu", "Qazax Sement və Beton", "Tovuz Aqro İxrac", "Salyan Balıqçılıq Kompleksi"
+      ];
+
+      const legalForms = ["MMC", "ASC", "QSC"];
+
+      const movableAssets = [
+        "Yük avtonəqliyyat parkı (MAN və Mercedes-Benz TIR)",
+        "Minik avtomobili (Mercedes-Benz E-Class, 2024)",
+        "Data mərkəzi server və şəbəkə avadanlıqları",
+        "Kənd təsərrüfatı texnikası (Claas kombayn və traktorlar)",
+        "Dəmiryolu yük sisternləri və vaqonları",
+        "Soyuducu refrijerator nəqliyyat vasitələri",
+        "Tikinti ekskavator və xüsusi yükləyici texnikası",
+        "Kuryer və şəhərdaxili çatdırılma mikroavtobusları",
+        "Dəniz xidmət kateri və naviqasiya vasitəsi",
+        "Elektromobil (Tesla Model Y, 2024)",
+        "Avtomatlaşdırılmış istehsal və qablaşdırma xətti",
+        "Xüsusi tikinti kranı (Liebherr 50t)",
+        "Anbar avtoyükləyici texnikaları (Jungheinrich forklift)",
+        "Tibbi laboratoriya və diaqnostika avadanlıqları"
+      ];
+
+      const immovableAssets = [
+        "Fərdi yaşayış evi və həyətyanı sahə, Bakı şəh., Nəsimi r-nu",
+        "İnzibati ofis binası (4 mərtəbə), Heydər Əliyev pr.",
+        "Logistika və müasir anbar kompleksi (15,000 kv.m), Qaradağ r-nu",
+        "Kənd təsərrüfatı təyinatlı torpaq sahəsi (0.15 ha), Abşeron r-nu",
+        "Qeyri-yaşayış ticarət və kommersiya sahəsi (180 kv.m), Nizami küç.",
+        "Aqropark və istixana kompleksi (5 ha), Ağdam r-nu",
+        "İstehsalat korpusu və laboratoriya binası, Sumqayıt Kimya Sənaye Parkı",
+        "Mənzil (120 kv.m), Port Baku Residence, Səbail r-nu",
+        "Ticarət və supermarket obyekti (2,200 kv.m), Binəqədi r-nu",
+        "Bağ evi və istirahət sahəsi (800 kv.m), Mərdəkan qəs.",
+        "Mühəndislik və layihələndirmə mərkəzi, Bakı Ağ Şəhər",
+        "Restoran və ictimai iaşə kompleksi (350 kv.m), Sahil bağı",
+        "Günəş panelləri stansiyası yardımçı tikililəri, Qobustan r-nu",
+        "Otel və turizm istirahət mərkəzi, Şuşa şəhəri"
+      ];
+
+      function generateRealisticDate(i) {
+        const today = new Date();
+        const formatDate = (d) => d.toISOString().split("T")[0];
+
+        if (i <= 8) return formatDate(today);
+        if (i <= 60) {
+          const daysAgo = 1 + (i % 29);
+          const d = new Date(today);
+          d.setDate(today.getDate() - daysAgo);
+          return formatDate(d);
+        }
+        if (i <= 200) {
+          const daysAgo = 31 + ((i * 3) % 190);
+          const d = new Date(today);
+          d.setDate(today.getDate() - daysAgo);
+          return formatDate(d);
+        }
+        if (i <= 330) {
+          const month = String(1 + (i % 12)).padStart(2, '0');
+          const day = String(1 + ((i * 7) % 28)).padStart(2, '0');
+          return `2025-${month}-${day}`;
+        }
+        if (i <= 430) {
+          const month = String(1 + (i % 12)).padStart(2, '0');
+          const day = String(1 + ((i * 5) % 28)).padStart(2, '0');
+          return `2024-${month}-${day}`;
+        }
+        const year = 2021 + (i % 3);
+        const month = String(1 + (i % 12)).padStart(2, '0');
+        const day = String(1 + ((i * 11) % 28)).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      for (let i = 2; i <= 500; i++) {
+        const isLegal = (i % 2 === 0);
+        let fullName, personType, legalForm, voen, propertyType, propertyDesc, regDate;
+
+        if (isLegal) {
+          personType = "Hüquqi şəxs";
+          legalForm = legalForms[(i % legalForms.length)];
+          const baseName = companyBases[(i % companyBases.length)];
+          const suffixIndex = Math.floor(i / companyBases.length);
+          fullName = suffixIndex > 0 ? `${baseName} ${suffixIndex + 1} ${legalForm}` : `${baseName} ${legalForm}`;
+          
+          const prefix = 10 + (i % 18);
+          const middle = String(100000 + ((i * 739) % 899999));
+          voen = `${prefix}${middle}1`;
+
+          propertyType = (i % 3 === 0) ? "Daşınar" : "Daşınmaz";
+          propertyDesc = propertyType === "Daşınar" 
+            ? movableAssets[i % movableAssets.length] 
+            : immovableAssets[i % immovableAssets.length];
+        } else {
+          personType = "Fiziki şəxs";
+          legalForm = "-";
+          const lName = lastNames[(i * 3) % lastNames.length];
+          const fName = firstNames[(i * 7) % firstNames.length];
+          const pName = patronymics[(i * 5) % patronymics.length];
+          const isFemale = fName.endsWith("a") || fName.endsWith("ə") || fName.endsWith("c") || fName.endsWith("gül") || fName.endsWith("naz");
+          fullName = `${lName} ${fName} ${pName} ${isFemale ? 'qızı' : 'oğlu'}`;
+
+          const prefix = 25 + (i % 20);
+          const middle = String(100000 + ((i * 853) % 899999));
+          voen = `${prefix}${middle}1`;
+
+          propertyType = (i % 2 === 0) ? "Daşınmaz" : "Daşınar";
+          propertyDesc = propertyType === "Daşınmaz" 
+            ? immovableAssets[i % immovableAssets.length] 
+            : movableAssets[i % movableAssets.length];
+        }
+
+        regDate = generateRealisticDate(i);
+
+        db.push({
+          id: i,
+          fullName,
+          personType,
+          legalForm,
+          voen,
+          propertyType,
+          propertyDesc,
+          regDate
+        });
+      }
+
+      return db;
+    }
+
+    const mockDatabase = generate500Database();
+    let currentFilteredData = [];
+    const PAGE_SIZE = 30;
+    let currentPage = 1;
+
+    function showMockupScreen(screenId) {
+      document.querySelectorAll('#mainPane-mockup .screen-view').forEach(el => el.classList.remove('active'));
+      const navBackBtn = document.getElementById('navBackBtn');
+
+      if (screenId === 'search') {
+        document.getElementById('screenSearch').classList.add('active');
+        if (navBackBtn) navBackBtn.style.display = 'inline-flex';
+      } else {
+        document.getElementById('screenWelcome').classList.add('active');
+        if (navBackBtn) navBackBtn.style.display = 'none';
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderTable([], true);
+      updateNavbarStats();
+
+      document.addEventListener("click", (e) => {
+        const autocompleteList = document.getElementById("autocompleteList");
+        const fullNameInput = document.getElementById("fullNameInput");
+        if (autocompleteList && !autocompleteList.contains(e.target) && e.target !== fullNameInput) {
+          autocompleteList.classList.remove("show");
+        }
+
+        const voenAutocompleteList = document.getElementById("voenAutocompleteList");
+        const voenInput = document.getElementById("voenInput");
+        if (voenAutocompleteList && !voenAutocompleteList.contains(e.target) && e.target !== voenInput) {
+          voenAutocompleteList.classList.remove("show");
+        }
+      });
+    });
+
+    function handleNameAutocomplete(query) {
+      const listContainer = document.getElementById("autocompleteList");
+      if (!listContainer) return;
+      const cleanQuery = query.trim().toLowerCase();
+
+      if (!cleanQuery) {
+        listContainer.innerHTML = "";
+        listContainer.classList.remove("show");
+        return;
+      }
+
+      const matches = mockDatabase.filter(item => 
+        item.fullName.toLowerCase().includes(cleanQuery) ||
+        item.voen.includes(cleanQuery)
+      );
+
+      if (matches.length === 0) {
+        listContainer.innerHTML = `
+          <div style="padding: 8px 12px; font-size: 0.8rem; color: #64748b;">
+            Məlumat tapılmadı
+          </div>
+        `;
+        listContainer.classList.add("show");
+        return;
+      }
+
+      listContainer.innerHTML = matches.slice(0, 8).map(item => {
+        const regex = new RegExp(`(${cleanQuery})`, 'gi');
+        const highlightedName = item.fullName.replace(regex, '<mark>$1</mark>');
+
+        return `
+          <div class="autocomplete-item" onclick="selectAutocompleteItem('${escapeJsString(item.fullName)}', '${item.personType}', '${item.legalForm}')">
+            <span class="person-name">${highlightedName}</span>
+            <span class="badge-type">${item.personType}</span>
+          </div>
+        `;
+      }).join('');
+
+      listContainer.classList.add("show");
+    }
+
+    function escapeJsString(str) {
+      return str.replace(/'/g, "\\'");
+    }
+
+    function selectAutocompleteItem(fullName, personType, legalForm) {
+      document.getElementById("fullNameInput").value = fullName;
+      document.getElementById("autocompleteList").classList.remove("show");
+
+      const personTypeSelect = document.getElementById("personTypeSelect");
+      personTypeSelect.value = personType;
+
+      if (legalForm && legalForm !== "-") {
+        document.getElementById("legalFormSelect").value = legalForm;
+      }
+
+      applySearchFilters();
+    }
+
+    function handleVoenAutocomplete(query) {
+      const listContainer = document.getElementById("voenAutocompleteList");
+      if (!listContainer) return;
+      const cleanQuery = query.trim();
+
+      if (!cleanQuery) {
+        listContainer.innerHTML = "";
+        listContainer.classList.remove("show");
+        return;
+      }
+
+      const matches = mockDatabase.filter(item => item.voen.includes(cleanQuery));
+
+      if (matches.length === 0) {
+        listContainer.innerHTML = `
+          <div style="padding: 8px 12px; font-size: 0.8rem; color: #64748b;">
+            VÖEN tapılmadı
+          </div>
+        `;
+        listContainer.classList.add("show");
+        return;
+      }
+
+      listContainer.innerHTML = matches.slice(0, 8).map(item => {
+        const regex = new RegExp(`(${cleanQuery})`, 'gi');
+        const highlightedVoen = item.voen.replace(regex, '<mark>$1</mark>');
+
+        return `
+          <div class="autocomplete-item" onclick="selectVoenAutocompleteItem('${item.voen}')">
+            <div style="display: flex; flex-direction: column;">
+              <span class="person-name" style="font-family: monospace; font-size: 0.875rem;">${highlightedVoen}</span>
+              <span style="font-size: 0.75rem; color: #64748b;">${item.fullName}</span>
+            </div>
+            <span class="badge-type">${item.personType}</span>
+          </div>
+        `;
+      }).join('');
+
+      listContainer.classList.add("show");
+    }
+
+    function selectVoenAutocompleteItem(voen) {
+      document.getElementById("voenInput").value = voen;
+      document.getElementById("voenAutocompleteList").classList.remove("show");
+      applySearchFilters();
+    }
+
+    function syncDateConstraints() {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (!startDateInput || !endDateInput) return;
+
+      if (startDateInput.value) {
+        endDateInput.min = startDateInput.value;
+      } else {
+        endDateInput.removeAttribute("min");
+      }
+
+      if (endDateInput.value) {
+        startDateInput.max = endDateInput.value;
+      } else {
+        startDateInput.removeAttribute("max");
+      }
+    }
+
+    function handleStartDateChange(val) {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (!startDateInput || !endDateInput) return;
+
+      if (val) {
+        endDateInput.min = val;
+        if (endDateInput.value && endDateInput.value < val) {
+          endDateInput.value = val;
+        }
+      } else {
+        endDateInput.removeAttribute("min");
+      }
+    }
+
+    function handleEndDateChange(val) {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (!startDateInput || !endDateInput) return;
+
+      if (val) {
+        if (startDateInput.value && val < startDateInput.value) {
+          endDateInput.value = startDateInput.value;
+          val = startDateInput.value;
+        }
+        startDateInput.max = val;
+      } else {
+        startDateInput.removeAttribute("max");
+      }
+    }
+
+    function setQuickDate(type) {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (!startDateInput || !endDateInput) return;
+      const today = new Date();
+      const formatDate = (d) => d.toISOString().split("T")[0];
+
+      if (type === "today") {
+        const todayStr = formatDate(today);
+        startDateInput.value = todayStr;
+        endDateInput.value = todayStr;
+        endDateInput.min = todayStr;
+        startDateInput.max = todayStr;
+      } else if (type === "month") {
+        const lastMonth = new Date();
+        lastMonth.setDate(today.getDate() - 30);
+        const lastMonthStr = formatDate(lastMonth);
+        const todayStr = formatDate(today);
+        startDateInput.value = lastMonthStr;
+        endDateInput.value = todayStr;
+        endDateInput.min = lastMonthStr;
+        startDateInput.max = todayStr;
+      } else if (type === "year") {
+        const currentYear = today.getFullYear();
+        const startOfYear = `${currentYear}-01-01`;
+        const endOfYear = `${currentYear}-12-31`;
+        startDateInput.value = startOfYear;
+        endDateInput.value = endOfYear;
+        endDateInput.min = startOfYear;
+        startDateInput.max = endOfYear;
+      } else if (type === "all") {
+        startDateInput.value = "";
+        endDateInput.value = "";
+        startDateInput.removeAttribute("max");
+        endDateInput.removeAttribute("min");
+      }
+    }
+
+    function applySearchFilters() {
+      const nameQuery = document.getElementById("fullNameInput").value.trim().toLowerCase();
+      const personType = document.getElementById("personTypeSelect").value;
+      const legalForm = document.getElementById("legalFormSelect").value;
+      const startDate = document.getElementById("startDateInput").value;
+      const endDate = document.getElementById("endDateInput").value;
+      const propertyType = document.getElementById("propertyTypeSelect").value;
+      const voenQuery = document.getElementById("voenInput").value.trim();
+
+      currentFilteredData = mockDatabase.filter(item => {
+        if (nameQuery && !item.fullName.toLowerCase().includes(nameQuery)) {
+          return false;
+        }
+        if (personType && item.personType !== personType) {
+          return false;
+        }
+        if (legalForm && item.legalForm !== legalForm) {
+          return false;
+        }
+        if (voenQuery && !item.voen.includes(voenQuery)) {
+          return false;
+        }
+        if (propertyType && item.propertyType !== propertyType) {
+          return false;
+        }
+        if (startDate && item.regDate < startDate) {
+          return false;
+        }
+        if (endDate && item.regDate > endDate) {
+          return false;
+        }
+        return true;
+      });
+
+      currentPage = 1;
+      renderTable(currentFilteredData);
+      renderActiveFilterBadges({
+        nameQuery,
+        personType,
+        legalForm,
+        startDate,
+        endDate,
+        propertyType,
+        voenQuery
+      });
+    }
+
+    function clearAllFilters() {
+      const form = document.getElementById("searchFilterForm");
+      if (form) form.reset();
+      
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+      if (startDateInput) startDateInput.removeAttribute("max");
+      if (endDateInput) endDateInput.removeAttribute("min");
+
+      const autocompleteList = document.getElementById("autocompleteList");
+      if (autocompleteList) autocompleteList.classList.remove("show");
+      
+      const voenAutocompleteList = document.getElementById("voenAutocompleteList");
+      if (voenAutocompleteList) voenAutocompleteList.classList.remove("show");
+
+      const activeFiltersContainer = document.getElementById("activeFiltersContainer");
+      if (activeFiltersContainer) activeFiltersContainer.style.display = "none";
+      
+      currentPage = 1;
+      currentFilteredData = [];
+      renderTable([], true);
+    }
+
+    function renderTable(data, isInitial = false) {
+      const tbody = document.getElementById("resultsTableBody");
+      const emptyState = document.getElementById("emptyState");
+      const initialState = document.getElementById("initialState");
+      const table = document.getElementById("resultsTable");
+      const counter = document.getElementById("resultsCounter");
+      const paginationContainer = document.getElementById("paginationContainer");
+      const pageRangeText = document.getElementById("pageRangeText");
+      const pageTotalText = document.getElementById("pageTotalText");
+      const paginationNav = document.getElementById("paginationNav");
+
+      if (!tbody || !table || !counter) return;
+
+      if (isInitial) {
+        tbody.innerHTML = "";
+        table.style.display = "none";
+        if (paginationContainer) paginationContainer.style.display = "none";
+        if (initialState) initialState.style.display = "block";
+        if (emptyState) emptyState.classList.remove("show");
+        counter.textContent = "Axtarış gözlənilir";
+        return;
+      }
+
+      if (initialState) initialState.style.display = "none";
+      counter.textContent = `${data.length} nəticə`;
+
+      if (data.length === 0) {
+        tbody.innerHTML = "";
+        table.style.display = "none";
+        if (paginationContainer) paginationContainer.style.display = "none";
+        if (emptyState) emptyState.classList.add("show");
+        return;
+      }
+
+      table.style.display = "table";
+      if (emptyState) emptyState.classList.remove("show");
+
+      const totalPages = Math.ceil(data.length / PAGE_SIZE);
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const endIndex = Math.min(startIndex + PAGE_SIZE, data.length);
+      const pageData = data.slice(startIndex, endIndex);
+
+      tbody.innerHTML = pageData.map((item, index) => {
+        const isLegal = item.personType === "Hüquqi şəxs";
+        const rowNumber = startIndex + index + 1;
+        return `
+          <tr>
+            <td style="color: #64748b;">${rowNumber}</td>
+            <td>
+              <div class="entity-title">${item.fullName}</div>
+            </td>
+            <td>
+              <span class="${isLegal ? 'badge-legal' : 'badge-physical'}">
+                ${item.personType}
+              </span>
+            </td>
+            <td>
+              ${item.legalForm !== '-' 
+                ? `<span style="font-weight: 600; color: #0369a1;">${item.legalForm}</span>` 
+                : `<span style="color: #94a3b8;">-</span>`}
+            </td>
+            <td>
+              <span class="voen-code">${item.voen}</span>
+            </td>
+            <td>
+              <span class="badge-property">${item.propertyType}</span>
+            </td>
+            <td>
+              <span style="color: #334155;">${item.regDate}</span>
+            </td>
+            <td style="text-align: center;">
+              <button class="btn-action-view" onclick="openDetailModal(${item.id})">Bax</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (paginationContainer && pageRangeText && pageTotalText && paginationNav) {
+        if (totalPages > 1) {
+          paginationContainer.style.display = "flex";
+          pageRangeText.textContent = `${startIndex + 1} - ${endIndex}`;
+          pageTotalText.textContent = `${data.length} nəticə (Səhifə ${currentPage} / ${totalPages})`;
+
+          let navHtml = `
+            <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
+              Əvvəlki
+            </button>
+          `;
+
+          for (let p = 1; p <= totalPages; p++) {
+            if (p === 1 || p === totalPages || (p >= currentPage - 1 && p <= currentPage + 1)) {
+              navHtml += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+            } else if (p === currentPage - 2 || p === currentPage + 2) {
+              navHtml += `<span class="page-ellipsis">...</span>`;
+            }
+          }
+
+          navHtml += `
+            <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
+              Növbəti
+            </button>
+          `;
+
+          paginationNav.innerHTML = navHtml;
+        } else {
+          paginationContainer.style.display = "none";
+        }
+      }
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderTable(currentFilteredData);
+      const resultsCard = document.querySelector('.results-card');
+      if (resultsCard) {
+        resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function renderActiveFilterBadges(filters) {
+      const container = document.getElementById("activeFiltersContainer");
+      const badgesWrapper = document.getElementById("activeFilterBadges");
+      if (!container || !badgesWrapper) return;
+      const badges = [];
+
+      if (filters.nameQuery) {
+        badges.push(`<span>Ad: <strong>${filters.nameQuery}</strong></span>`);
+      }
+      if (filters.personType) {
+        badges.push(`<span>Şəxs növü: <strong>${filters.personType}</strong></span>`);
+      }
+      if (filters.legalForm) {
+        badges.push(`<span>Forma: <strong>${filters.legalForm}</strong></span>`);
+      }
+      if (filters.voenQuery) {
+        badges.push(`<span>VÖEN: <strong>${filters.voenQuery}</strong></span>`);
+      }
+      if (filters.propertyType) {
+        badges.push(`<span>Əmlak: <strong>${filters.propertyType}</strong></span>`);
+      }
+      if (filters.startDate || filters.endDate) {
+        badges.push(`<span>Tarix: <strong>${filters.startDate || '...'} - ${filters.endDate || '...'}</strong></span>`);
+      }
+
+      if (badges.length > 0) {
+        badgesWrapper.innerHTML = badges.map(b => `
+          <span class="active-filter-badge">
+            ${b}
+          </span>
+        `).join('');
+        container.style.display = "flex";
+      } else {
+        container.style.display = "none";
+      }
+    }
+
+    function updateNavbarStats() {
+      const phys = mockDatabase.filter(d => d.personType === "Fiziki şəxs").length;
+      const leg = mockDatabase.filter(d => d.personType === "Hüquqi şəxs").length;
+      const immovable = mockDatabase.filter(d => d.propertyType === "Daşınmaz").length;
+      const movable = mockDatabase.filter(d => d.propertyType === "Daşınar").length;
+
+      const sp = document.getElementById("statPhysicalCount");
+      const sl = document.getElementById("statLegalCount");
+      const st = document.getElementById("statTotalCount");
+      if (sp) sp.textContent = phys;
+      if (sl) sl.textContent = leg;
+      if (st) st.textContent = mockDatabase.length;
+
+      if (document.getElementById("portalStatTotal")) {
+        document.getElementById("portalStatTotal").textContent = mockDatabase.length;
+        document.getElementById("portalStatLegal").textContent = leg;
+        document.getElementById("portalStatPhysical").textContent = phys;
+        document.getElementById("portalStatImmovable").textContent = immovable;
+        document.getElementById("portalStatMovable").textContent = movable;
+      }
+    }
+
+    function openDetailModal(id) {
+      const item = mockDatabase.find(d => d.id === id);
+      if (!item) return;
+
+      document.getElementById("modalName").textContent = item.fullName;
+      document.getElementById("modalType").textContent = item.personType;
+      document.getElementById("modalLegalForm").textContent = item.legalForm;
+      document.getElementById("modalVoen").textContent = item.voen;
+      document.getElementById("modalPropertyType").textContent = item.propertyType;
+      document.getElementById("modalDate").textContent = item.regDate;
+
+      const detailModal = document.getElementById("detailModal");
+      if (detailModal) detailModal.classList.add("show");
+    }
+
+    function closeDetailModal(e) {
+      const detailModal = document.getElementById("detailModal");
+      if (!detailModal) return;
+      if (e && e.target !== detailModal && !e.target.classList.contains("modal-close-btn")) {
+        return;
+      }
+      detailModal.classList.remove("show");
+    }
+
+    function exportData(format) {
+      if (currentFilteredData.length === 0) {
+        alert("İxrac ediləcək heç bir məlumat yoxdur!");
+        return;
+      }
+
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "ID,Ad / Şirkət,Şəxs Növü,Təşkilati Forma,VÖEN,Əmlak Növü,Qeydiyyat Tarixi\n";
+
+      currentFilteredData.forEach(row => {
+        csvContent += `"${row.id}","${row.fullName}","${row.personType}","${row.legalForm}","${row.voen}","${row.propertyType}","${row.regDate}"\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `reyestr_ixrac_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
